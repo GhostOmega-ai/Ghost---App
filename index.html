@@ -74,7 +74,7 @@ let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
-state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'All'; let selectedPhotos=[]; let selectMode=false; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'All'; let selectedPhotos=[]; let selectMode=false;
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'All'; let selectedPhotos=[]; let selectMode=false;
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
