@@ -48,17 +48,28 @@ button,input,textarea{font:inherit}
 <script>
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
-let state=JSON.parse(localStorage.ghostStateV0311||'{}');
+let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
 state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[];
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1;
-function save(){localStorage.ghostStateV0311=JSON.stringify(state)}
+function save(){localStorage.ghostStateV03=JSON.stringify(state)}
+function flash(t){
+  let el=document.querySelector('#flashMsg');
+  if(!el){
+    el=document.createElement('div');
+    el.id='flashMsg';
+    el.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#171126;border:1px solid #8b3cff;color:#fff;border-radius:14px;padding:12px 18px;box-shadow:0 0 18px #873cff;z-index:999;font-weight:800;text-align:center';
+    document.body.appendChild(el);
+  }
+  el.textContent=t;
+  setTimeout(()=>{if(el)el.remove()},1500);
+}
 function shell(inner){app.innerHTML=`<div class="screen"><div class="status"><span>9:41</span><span class="icons">▮▮▮ ᯤ ▭</span></div>${inner}</div>`}
 function ghost(cls=''){return `<img class="ghost ${cls}" src="${ghostSVG}">`}
 function hideNow(){viewer.classList.add('hidden'); calcVal=''; weatherSeq=[]; calendarSeq=[]; current='disguise'; disguiseApp()}
-function resetApp(){if(confirm('Reset Ghost setup?')){localStorage.removeItem('ghostStateV031');location.reload()}}
+function resetApp(){if(confirm('Reset Ghost setup?')){localStorage.removeItem('ghostStateV03');location.reload()}}
 function welcome(){current='welcome';shell(`${ghost()}<h1 class="title">Welcome to<br><span class="grad">GHOST</span></h1><p class="sub">Create your private vault, then Ghost will only open as your chosen disguise.</p><div class="card"><p>First launch only:</p><p>1. Choose disguise</p><p>2. Set secret unlock</p><p>3. Create vault</p></div><button class="btn" onclick="chooseDisguise()">Get Started →</button>`)}
 function chooseDisguise(){current='setup';const opts=[['calculator','🧮','Calculator','Unlock with a secret calculation'],['weather','🌤️','Weather','Unlock with a secret weather sequence'],['calendar','📅','Calendar','Unlock with a secret date'],['notes','🗒️','Notes','Unlock with a hidden word'],['files','📁','Files','Unlock with a secret folder']];shell(`<div class="topbar"><button class="back" onclick="welcome()">←</button></div>${ghost('small')}<h1 class="title">Choose your<br><span class="grad">disguise</span></h1><p class="sub">This becomes the front page after setup.</p>${opts.map(o=>`<div class="option ${state.disguise==o[0]?'selected':''}" onclick="state.disguise='${o[0]}';save();chooseDisguise()"><div class="miniIcon">${o[1]}</div><div><h3>${o[2]}</h3><p>${o[3]}</p></div><div class="radio"></div></div>`).join('')}<button class="btn" onclick="unlockSetup()">Continue →</button>`)}
 function unlockSetup(){current='setup';let d=state.disguise;let content='';if(d==='calculator')content=`<h1 class="title">Calculator<br><span class="grad">unlock</span></h1><p class="sub">Example: 7777= or 1234+</p><input id="unlockInput" class="input" value="${state.unlock.calculator}" placeholder="Secret calculator code">`;if(d==='weather')content=`<h1 class="title">Weather<br><span class="grad">sequence</span></h1><p class="sub">Type a sequence using sun, cloud, rain, storm.</p><input id="unlockInput" class="input" value="${state.unlock.weather.join(',')}" placeholder="sun,cloud,rain">`;if(d==='calendar')content=`<h1 class="title">Calendar<br><span class="grad">date</span></h1><p class="sub">Choose one date or sequence.</p><input id="unlockInput" class="input" value="${state.unlock.calendar.join(',')}" placeholder="28 or 7,14,21">`;if(d==='notes')content=`<h1 class="title">Notes<br><span class="grad">secret word</span></h1><p class="sub">Typing this word in the decoy notes unlocks Ghost.</p><input id="unlockInput" class="input" value="${state.unlock.notes}" placeholder="ghostmode">`;if(d==='files')content=`<h1 class="title">Files<br><span class="grad">secret folder</span></h1><p class="sub">Opening this fake folder unlocks Ghost.</p><input id="unlockInput" class="input" value="${state.unlock.files}" placeholder="Invoices 2026">`;shell(`<div class="topbar"><button class="back" onclick="chooseDisguise()">←</button></div>${ghost('small')}${content}<button class="btn" onclick="saveUnlock()">Create Vault →</button>`)}
@@ -77,21 +88,37 @@ function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','I
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
 function vault(){current='vault';shell(`<div class="appHead"><img src="${ghostSVG}"><h2>Ghost Vault</h2><button class="back spacer" onclick="hideNow()">×</button></div><div class="grid"><div class="vaultBtn" onclick="photos()"><div class="big">▧</div>Photos</div><div class="vaultBtn" onclick="filesVault()"><div class="big">▤</div>Files</div><div class="vaultBtn" onclick="browserVault()"><div class="big">◎</div>Browser</div><div class="vaultBtn" onclick="notesVault()"><div class="big">☷</div>Notes</div><div class="vaultBtn" onclick="contactsVault()"><div class="big">♙</div>Contacts</div><div class="vaultBtn" onclick="settings()"><div class="big">⚙️</div>Settings</div></div>${nav()}`)}
 function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI">⌂</span>Home</button><button onclick="browserVault()"><span class="nI">◎</span>Browser</button><button onclick="photos()"><span class="nI">▧</span>Photos</button><button onclick="notesVault()"><span class="nI">☷</span>Notes</button><button onclick="hideNow()"><span class="nI">◌</span>Hide</button></div>`}
-function photos(){current='photos';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Photos</h2></div><label class="btn" style="margin-top:0"><input type="file" accept="image/*" multiple onchange="addPhotos(this.files)" style="display:none">Upload Photos</label><div class="picGrid" style="margin-top:18px">${state.photos.map((p,i)=>`<img src="${p}" onclick="openViewer(${i})">`).join('')}</div>${nav()}`)}
+function photos(){current='photos';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Photos</h2></div><input type="file" accept="image/*" multiple onchange="addPhotos(this.files)" class="input"><p class="privacyNote">Choose one or more photos. They should appear below after upload.</p><div class="picGrid" style="margin-top:18px">${state.photos.map((p,i)=>`<img src="${p}" onclick="openViewer(${i})">`).join('')}</div>${nav()}`)}
 function addPhotos(files){
-  const list=[...files];
-  if(!list.length)return;
-  showMsg('Uploading '+list.length+' photo'+(list.length>1?'s':'')+'...');
-  Promise.all(list.map(f=>new Promise(resolve=>{
-    let r=new FileReader();
-    r.onload=e=>resolve(e.target.result);
-    r.onerror=()=>resolve(null);
-    r.readAsDataURL(f);
-  }))).then(results=>{
-    state.photos.push(...results.filter(Boolean));
-    save();
-    showMsg('Photos added');
-    setTimeout(()=>photos(),250);
+  const selected=Array.from(files||[]);
+  if(!selected.length){flash('No photos selected');return;}
+  flash('Uploading '+selected.length+' photo'+(selected.length>1?'s':'')+'...');
+  let loaded=[];
+  let done=0;
+  selected.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(e){
+      if(e.target && e.target.result) loaded.push(e.target.result);
+      done++;
+      if(done===selected.length){
+        state.photos = state.photos || [];
+        state.photos = state.photos.concat(loaded);
+        save();
+        flash(loaded.length+' photo'+(loaded.length!==1?'s':'')+' added');
+        photos();
+      }
+    };
+    reader.onerror=function(){
+      done++;
+      if(done===selected.length){
+        state.photos = state.photos || [];
+        state.photos = state.photos.concat(loaded);
+        save();
+        flash(loaded.length+' photo'+(loaded.length!==1?'s':'')+' added');
+        photos();
+      }
+    };
+    reader.readAsDataURL(file);
   });
 }
 function openViewer(i){currentPhoto=i;imgScale=1;drawViewer()}
@@ -100,23 +127,24 @@ function closeViewer(){viewer.className='hidden';photos()}function prevPhoto(){i
 function filesVault(){current='filesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Files</h2></div><input type="file" multiple onchange="addFiles(this.files)" class="input"><div class="fileList">${state.files.map(f=>`<button>📄 ${f.name}<span style="margin-left:auto;color:#aaa">${Math.round(f.size/1024)}kb</span></button>`).join('')||'<p class="sub">No files yet.</p>'}</div>${nav()}`)}
 function addFiles(files){[...files].forEach(f=>state.files.push({name:f.name,size:f.size,type:f.type}));save();filesVault()}
 function notesVault(){current='notesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Notes</h2></div><textarea id="newNote" class="noteArea" placeholder="Write a private note..."></textarea><button class="btn" onclick="state.notes.unshift(document.querySelector('#newNote').value);save();notesVault()">Save Note</button>${state.notes.map((n,i)=>`<div class="card" style="margin-top:12px">${n}<button class="btn danger" onclick="state.notes.splice(${i},1);save();notesVault()">Delete</button></div>`).join('')}${nav()}`)}
-function contactsVault(){current='contacts';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Contacts</h2></div><input id="cName" class="input" placeholder="Name"><input id="cNum" class="input" style="margin-top:10px" placeholder="Number"><button class="btn" onclick="addContact()">Save Contact</button><div class="contactList">${state.contacts.map(c=>`<button>👤 ${c.name}<span style="margin-left:auto;color:#aaa">${c.num}</span></button>`).join('')}</div><p class="privacyNote">This web version stores contacts inside Ghost only.</p>${nav()}`)}
+function contactsVault(){current='contacts';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Contacts</h2></div><input id="cName" class="input" placeholder="Name"><input id="cNum" class="input" style="margin-top:10px" placeholder="Number"><button class="btn" onclick="addContact()">Save Contact</button><h3 style="margin-top:18px">Saved Contacts</h3><div class="contactList">${state.contacts.map((c,i)=>`<button onclick="if(confirm('Delete contact?')){state.contacts.splice(${i},1);save();contactsVault()}">👤 ${c.name}<span style="margin-left:auto;color:#aaa">${c.num}</span></button>`).join('')||'<p class="sub">No contacts saved yet.</p>'}</div><p class="privacyNote">This web version stores contacts inside Ghost only.</p>${nav()}`)}
 function addContact(){
-  let name=document.querySelector('#cName').value.trim(),num=document.querySelector('#cNum').value.trim();
-  if(!name||!num)return alert('Add name and number');
-  showMsg('Saving contact...');
-  state.contacts.push({name,num});
+  const nameEl=document.querySelector('#cName');
+  const numEl=document.querySelector('#cNum');
+  const name=(nameEl.value||'').trim();
+  const num=(numEl.value||'').trim();
+  if(!name || !num){alert('Add name and number');return;}
+  state.contacts = state.contacts || [];
+  state.contacts.push({name:name,num:num});
   save();
-  document.querySelector('#cName').value='';
-  document.querySelector('#cNum').value='';
-  showMsg('Contact added');
-  setTimeout(()=>contactsVault(),250);
+  flash('Contact added');
+  contactsVault();
 }
-function browserVault(){current='browser';let hist=JSON.parse(localStorage.ghostBrowserHistoryV031||'[]');shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Browser</h2></div><div class="browserBar"><input id="url" placeholder="Search Google or type URL"><button onclick="searchWeb()" class="btn" style="width:auto;margin:0;padding:12px 16px;border-radius:16px">Go</button></div><div class="webFrame"><div class="google">Google</div><div class="searchPill">Search opens in Chrome in this web version</div><h3>Ghost search history</h3>${hist.map(h=>`<p>↗ ${h}</p>`).join('')||'<p class="hint">No Ghost browser history yet.</p>'}</div><button class="btn danger" onclick="burnBrowser()">Burn Ghost Browser History</button><p class="privacyNote">Important: this cannot delete Chrome, Google account, phone provider, or other app history.</p>${nav()}`)}
-function searchWeb(){let q=document.querySelector('#url').value.trim();if(!q)return;let hist=JSON.parse(localStorage.ghostBrowserHistoryV031||'[]');hist.unshift(q);localStorage.ghostBrowserHistoryV031=JSON.stringify(hist.slice(0,20));window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank')}
-function burnBrowser(){if(confirm('Delete Ghost browser history only?')){localStorage.removeItem('ghostBrowserHistoryV031');browserVault()}}
+function browserVault(){current='browser';let hist=JSON.parse(localStorage.ghostBrowserHistoryV03||'[]');shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Browser</h2></div><div class="browserBar"><input id="url" placeholder="Search Google or type URL"><button onclick="searchWeb()" class="btn" style="width:auto;margin:0;padding:12px 16px;border-radius:16px">Go</button></div><div class="webFrame"><div class="google">Google</div><div class="searchPill">Search opens in Chrome in this web version</div><h3>Ghost search history</h3>${hist.map(h=>`<p>↗ ${h}</p>`).join('')||'<p class="hint">No Ghost browser history yet.</p>'}</div><button class="btn danger" onclick="burnBrowser()">Burn Ghost Browser History</button><p class="privacyNote">Important: this cannot delete Chrome, Google account, phone provider, or other app history.</p>${nav()}`)}
+function searchWeb(){let q=document.querySelector('#url').value.trim();if(!q)return;let hist=JSON.parse(localStorage.ghostBrowserHistoryV03||'[]');hist.unshift(q);localStorage.ghostBrowserHistoryV03=JSON.stringify(hist.slice(0,20));window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank')}
+function burnBrowser(){if(confirm('Delete Ghost browser history only?')){localStorage.removeItem('ghostBrowserHistoryV03');browserVault()}}
 function settings(){current='settings';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Settings</h2></div><div class="card"><p>Disguise: <b>${state.disguise}</b></p><p>Emergency hide: <b style="color:#8dffb1">On</b></p></div><button class="btn dark" onclick="chooseDisguise()">Change Disguise</button><button class="btn dark" onclick="unlockSetup()">Change Unlock</button><button class="btn danger" onclick="resetApp()">Reset Setup</button>${nav()}`)}
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&current!=='disguise'){setTimeout(()=>hideNow(),100)}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&current!=='disguise'&&current!=='photos'){setTimeout(()=>hideNow(),100)}});
 window.addEventListener('pagehide',()=>{if(current!=='disguise')hideNow()});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 if(state.setupDone)disguiseApp();else welcome();
