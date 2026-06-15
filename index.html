@@ -50,6 +50,15 @@ button,input,textarea{font:inherit}
 .multiActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
 .multiActions button{border:0;border-radius:15px;padding:13px;color:white;background:#171126;border:1px solid #5a2799}
 
+
+.modalBack{position:fixed;inset:0;background:#000b;z-index:80;display:grid;place-items:center;padding:22px}
+.modalCard{width:100%;max-width:390px;background:#11101c;border:1px solid #8b3cff;border-radius:22px;padding:18px;box-shadow:0 0 30px #873cff88}
+.modalCard h2{margin:0 0 12px}
+.modalGrid{display:grid;gap:10px}
+.modalGrid button{border:1px solid #5a2799;background:#171126;color:white;border-radius:16px;padding:14px;text-align:left}
+.modalGrid button.active{background:linear-gradient(180deg,#a75bff,#6620ed)}
+.viewerImgWrap img{transform-origin:0 0}
+
 </style>
 </head>
 <body>
@@ -63,7 +72,7 @@ state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
 state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.albums=state.albums||['Default']; state.activeAlbum=state.activeAlbum||'Default'; let selectedPhotos=[]; let selectMode=false;
-let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1;
+let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
   let el=document.querySelector('#flashMsg');
@@ -105,7 +114,7 @@ selectMode=false;
 drawPhotos();
 }
 function albumChips(){
-  return `<div class="albumBar">${state.albums.map(a=>`<button class="albumChip ${state.activeAlbum===a?'active':''}" onclick="state.activeAlbum='${a}';save();drawPhotos()">${a}</button>`).join('')}<button class="albumChip" onclick="createAlbum()">＋ Album</button></div>`;
+  return `<div class="albumBar">${state.albums.map(a=>`<button class="albumChip ${state.activeAlbum===a?'active':''}" onclick="state.activeAlbum='${a}';save();drawPhotos()">${a}</button>`).join('')}<button class="albumChip" onclick="createAlbum()">＋ Album</button><button class="albumChip" onclick="deleteAlbum()">Delete Album</button></div>`;
 }
 function filteredPhotoIndexes(){
   return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Default')===state.activeAlbum).map(x=>x.i);
@@ -135,6 +144,36 @@ function createAlbum(){
   save();
   drawPhotos();
 }
+function deleteAlbum(){
+  const album=state.activeAlbum;
+  if(album==='Default')return alert('Default album cannot be deleted');
+  showAlbumDeleteOptions(album);
+}
+function showAlbumDeleteOptions(album){
+  const modal=document.createElement('div');
+  modal.className='modalBack';
+  modal.innerHTML=`<div class="modalCard"><h2>Delete ${album}?</h2><p class="privacyNote">Choose what happens to photos inside this album.</p><div class="modalGrid"><button onclick="confirmDeleteAlbum('${album}','delete')">Delete album and everything inside</button><button onclick="confirmDeleteAlbum('${album}','default')">Delete album and move photos to Default</button><button onclick="closeModal()">Cancel</button></div></div>`;
+  document.body.appendChild(modal);
+}
+function confirmDeleteAlbum(album,mode){
+  if(mode==='delete'){
+    if(!confirm('Delete album and all photos inside?'))return;
+    state.photos=state.photos.filter(p=>getPhotoAlbum(p)!==album);
+  }else{
+    state.photos.forEach((p,i)=>{
+      if(getPhotoAlbum(p)===album){
+        if(typeof p==='string')state.photos[i]={src:p,album:'Default'};
+        else p.album='Default';
+      }
+    });
+  }
+  state.albums=state.albums.filter(a=>a!==album);
+  state.activeAlbum='Default';
+  save();
+  closeModal();
+  drawPhotos();
+}
+function closeModal(){document.querySelectorAll('.modalBack').forEach(m=>m.remove())}
 function toggleSelectMode(){selectMode=!selectMode;selectedPhotos=[];drawPhotos()}
 function togglePhotoSelect(i){
   if(selectedPhotos.includes(i))selectedPhotos=selectedPhotos.filter(x=>x!==i);
@@ -151,22 +190,35 @@ function deleteSelectedPhotos(){
 }
 function moveSelectedPhotos(){
   if(!selectedPhotos.length)return alert('Select photos first');
-  const album=chooseAlbumPrompt();
-  if(!album)return;
-  selectedPhotos.forEach(i=>{
-    if(typeof state.photos[i]==='string')state.photos[i]={src:state.photos[i],album};
-    else state.photos[i].album=album;
-  });
-  selectedPhotos=[];
+  showAlbumPicker('selected');
+}
+function showAlbumPicker(mode){
+  const modal=document.createElement('div');
+  modal.className='modalBack';
+  modal.innerHTML=`<div class="modalCard"><h2>Move to album</h2><div class="modalGrid">${state.albums.map(a=>`<button class="${a===state.activeAlbum?'active':''}" onclick="finishAlbumMove('${mode}','${a}')">${a}</button>`).join('')}<button onclick="createAlbumFromPicker('${mode}')">＋ Create New Album</button><button onclick="closeModal()">Cancel</button></div></div>`;
+  document.body.appendChild(modal);
+}
+function createAlbumFromPicker(mode){
+  const name=prompt('New album name?');
+  if(!name)return;
+  if(!state.albums.includes(name))state.albums.push(name);
+  finishAlbumMove(mode,name);
+}
+function finishAlbumMove(mode,album){
+  if(mode==='selected'){
+    selectedPhotos.forEach(i=>{
+      if(typeof state.photos[i]==='string')state.photos[i]={src:state.photos[i],album};
+      else state.photos[i].album=album;
+    });
+    selectedPhotos=[];
+  }else{
+    if(typeof state.photos[currentPhoto]==='string')state.photos[currentPhoto]={src:state.photos[currentPhoto],album};
+    else state.photos[currentPhoto].album=album;
+  }
   state.activeAlbum=album;
   save();
-  drawPhotos();
-}
-function chooseAlbumPrompt(){
-  let name=prompt('Move to album. Existing albums: '+state.albums.join(', '));
-  if(!name)return null;
-  if(!state.albums.includes(name))state.albums.push(name);
-  return name;
+  closeModal();
+  if(mode==='selected')drawPhotos();else drawViewer();
 }
 function addPhotos(files){
   const selected=Array.from(files||[]);
@@ -208,8 +260,58 @@ function openViewerByAlbumIndex(albumIndex){
 function openViewer(i){currentPhoto=i;imgScale=1;drawViewer()}
 function getPhotoSrc(p){return typeof p==='string'?p:p.src}
 function getPhotoAlbum(p){return typeof p==='string'?'Default':(p.album||'Default')}
-function drawViewer(){let p=state.photos[currentPhoto];let src=getPhotoSrc(p);let album=getPhotoAlbum(p);let idxs=filteredPhotoIndexes();let countPos=idxs.indexOf(currentPhoto)+1;if(countPos<1)countPos=currentPhoto+1;viewer.className='viewer';viewer.innerHTML=`<div class="viewerTop"><button onclick="closeViewer()">Close</button><div style="flex:1;text-align:center">${countPos} / ${idxs.length||state.photos.length}<br><small>${album}</small></div><button onclick="hideNow()">Hide</button></div><div class="viewerImgWrap" id="viewerWrap"><img id="viewerImg" src="${src}" style="transform:scale(${imgScale})"></div><div class="viewerActions"><button onclick="prevPhoto()">← Previous</button><button onclick="nextPhoto()">Next →</button><button onclick="zoomPhoto()">Zoom</button><button onclick="moveCurrentPhoto()">Move Album</button><button class="release" onclick="releasePhoto()">Release</button><button class="danger" onclick="deletePhoto()">Delete</button></div>`;let startX=0;let startDist=0;viewer.ontouchstart=e=>{startX=e.touches[0].clientX;if(e.touches.length===2){let dx=e.touches[0].clientX-e.touches[1].clientX;let dy=e.touches[0].clientY-e.touches[1].clientY;startDist=Math.sqrt(dx*dx+dy*dy)}};viewer.ontouchmove=e=>{if(e.touches.length===2&&startDist){let dx=e.touches[0].clientX-e.touches[1].clientX;let dy=e.touches[0].clientY-e.touches[1].clientY;let dist=Math.sqrt(dx*dx+dy*dy);imgScale=Math.max(1,Math.min(3,dist/startDist));let img=document.querySelector('#viewerImg');if(img)img.style.transform='scale('+imgScale+')'}};viewer.ontouchend=e=>{if(e.changedTouches&&e.changedTouches.length){let dx=e.changedTouches[0].clientX-startX;if(dx>50)prevPhoto();if(dx<-50)nextPhoto()}}}
-function closeViewer(){viewer.className='hidden';drawPhotos()}function prevPhoto(){const idxs=filteredPhotoIndexes();if(idxs.length){let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos-1+idxs.length)%idxs.length];drawViewer()}}function nextPhoto(){const idxs=filteredPhotoIndexes();if(idxs.length){let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos+1)%idxs.length];drawViewer()}}function zoomPhoto(){imgScale=imgScale>=2.5?1:imgScale+.5;drawViewer()}function moveCurrentPhoto(){const album=chooseAlbumPrompt();if(!album)return;if(typeof state.photos[currentPhoto]==='string')state.photos[currentPhoto]={src:state.photos[currentPhoto],album};else state.photos[currentPhoto].album=album;state.activeAlbum=album;save();drawViewer()}function deletePhoto(){if(confirm('Delete this photo?')){state.photos.splice(currentPhoto,1);save();if(!state.photos.length){viewer.className='hidden';drawPhotos()}else{currentPhoto=Math.min(currentPhoto,state.photos.length-1);drawViewer()}}}function releasePhoto(){if(confirm('Release this photo from Ghost vault? This removes it from Ghost only.'))deletePhoto()}
+function drawViewer(){
+let p=state.photos[currentPhoto];let src=getPhotoSrc(p);let album=getPhotoAlbum(p);let idxs=filteredPhotoIndexes();let countPos=idxs.indexOf(currentPhoto)+1;if(countPos<1)countPos=currentPhoto+1;panX=0;panY=0;imgScale=1;
+viewer.className='viewer';
+viewer.innerHTML=`<div class="viewerTop"><button onclick="closeViewer()">Close</button><div style="flex:1;text-align:center">${countPos} / ${idxs.length||state.photos.length}<br><small>${album}</small></div><button onclick="hideNow()">Hide</button></div><div class="viewerImgWrap" id="viewerWrap"><img id="viewerImg" src="${src}"></div><div class="viewerActions"><button onclick="prevPhoto()">← Previous</button><button onclick="nextPhoto()">Next →</button><button onclick="zoomPhoto()">Zoom</button><button onclick="moveCurrentPhoto()">Move Album</button><button class="release" onclick="releasePhoto()">Release</button><button class="danger" onclick="deletePhoto()">Delete</button></div>`;
+applyImageTransform();
+let startX=0,startY=0,lastX=0,lastY=0,startDist=0,startScale=1,startPanX=0,startPanY=0,midX=0,midY=0;
+viewer.ontouchstart=e=>{
+  if(e.touches.length===1){
+    startX=e.touches[0].clientX;startY=e.touches[0].clientY;lastX=startX;lastY=startY;startPanX=panX;startPanY=panY;
+  }
+  if(e.touches.length===2){
+    let a=e.touches[0],b=e.touches[1];
+    let dx=a.clientX-b.clientX,dy=a.clientY-b.clientY;
+    startDist=Math.sqrt(dx*dx+dy*dy);
+    startScale=imgScale;startPanX=panX;startPanY=panY;
+    midX=(a.clientX+b.clientX)/2;midY=(a.clientY+b.clientY)/2;
+  }
+};
+viewer.ontouchmove=e=>{
+  e.preventDefault();
+  if(e.touches.length===1&&imgScale>1){
+    let t=e.touches[0];
+    panX=startPanX+(t.clientX-startX);
+    panY=startPanY+(t.clientY-startY);
+    applyImageTransform();
+  }
+  if(e.touches.length===2&&startDist){
+    let a=e.touches[0],b=e.touches[1];
+    let dx=a.clientX-b.clientX,dy=a.clientY-b.clientY;
+    let dist=Math.sqrt(dx*dx+dy*dy);
+    let newScale=Math.max(1,Math.min(4,startScale*(dist/startDist)));
+    let newMidX=(a.clientX+b.clientX)/2,newMidY=(a.clientY+b.clientY)/2;
+    panX=startPanX+(newMidX-midX);
+    panY=startPanY+(newMidY-midY);
+    imgScale=newScale;
+    applyImageTransform();
+  }
+};
+viewer.ontouchend=e=>{
+  if(imgScale<=1&&e.changedTouches&&e.changedTouches.length){
+    let dx=e.changedTouches[0].clientX-startX;
+    if(dx>60)prevPhoto();
+    if(dx<-60)nextPhoto();
+  }
+};
+}
+function applyImageTransform(){
+  const img=document.querySelector('#viewerImg');
+  if(!img)return;
+  img.style.transform=`translate(${panX}px,${panY}px) scale(${imgScale})`;
+}
+function closeViewer(){viewer.className='hidden';drawPhotos()}function prevPhoto(){const idxs=filteredPhotoIndexes();if(idxs.length){let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos-1+idxs.length)%idxs.length];drawViewer()}}function nextPhoto(){const idxs=filteredPhotoIndexes();if(idxs.length){let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos+1)%idxs.length];drawViewer()}}function zoomPhoto(){imgScale=imgScale>=2.5?1:imgScale+.5;panX=0;panY=0;applyImageTransform()}function moveCurrentPhoto(){showAlbumPicker('current')}function deletePhoto(){if(confirm('Delete this photo?')){state.photos.splice(currentPhoto,1);save();if(!state.photos.length){viewer.className='hidden';drawPhotos()}else{currentPhoto=Math.min(currentPhoto,state.photos.length-1);drawViewer()}}}function releasePhoto(){if(confirm('Release this photo from Ghost vault? This removes it from Ghost only.'))deletePhoto()}
 function filesVault(){current='filesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Files</h2></div><input type="file" multiple onchange="addFiles(this.files)" class="input"><div class="fileList">${state.files.map(f=>`<button>📄 ${f.name}<span style="margin-left:auto;color:#aaa">${Math.round(f.size/1024)}kb</span></button>`).join('')||'<p class="sub">No files yet.</p>'}</div>${nav()}`)}
 function addFiles(files){[...files].forEach(f=>state.files.push({name:f.name,size:f.size,type:f.type}));save();filesVault()}
 function notesVault(){current='notesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Notes</h2></div><textarea id="newNote" class="noteArea" placeholder="Write a private note..."></textarea><button class="btn" onclick="state.notes.unshift(document.querySelector('#newNote').value);save();notesVault()">Save Note</button>${state.notes.map((n,i)=>`<div class="card" style="margin-top:12px">${n}<button class="btn danger" onclick="state.notes.splice(${i},1);save();notesVault()">Delete</button></div>`).join('')}${nav()}`)}
