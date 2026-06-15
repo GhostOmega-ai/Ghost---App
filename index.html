@@ -40,6 +40,16 @@ button,input,textarea{font:inherit}
 .viewerTop{display:flex;align-items:center;gap:10px}.viewerTop button{background:#171126;border:1px solid #6d35b8;color:white;border-radius:14px;padding:10px 14px}.viewerImgWrap{flex:1;display:grid;place-items:center;overflow:auto}.viewerImgWrap img{max-width:100%;max-height:76vh;border-radius:18px;box-shadow:0 0 30px #873cff88;transition:transform .15s}.viewerActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.viewerActions button{border:0;border-radius:16px;padding:15px;color:white;background:#171126}.viewerActions .danger{background:#ff514f}.viewerActions .release{background:#26381f}
 .browserBar{display:flex;gap:8px;margin:12px 0}.browserBar input{flex:1;background:#15151e;border:1px solid #3b235c;border-radius:16px;color:white;padding:13px}.webFrame{height:380px;border-radius:18px;background:#0e0e16;border:1px solid #2c164c;overflow:auto;padding:20px}.google{text-align:center;font-size:44px;font-weight:800;margin:35px 0 20px}.searchPill{background:#20202b;border-radius:24px;padding:15px;color:#a8a2b5;text-align:left;margin:12px 0}.privacyNote{font-size:13px;color:#958aa6;text-align:center;margin-top:12px}
 .screen{animation:fade .16s}@keyframes fade{from{opacity:.55;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+.albumBar{display:flex;gap:8px;overflow:auto;margin:12px 0 14px;padding-bottom:4px}
+.albumChip{white-space:nowrap;border:1px solid #5a2799;background:#11101c;color:#ddd;border-radius:999px;padding:10px 13px}
+.albumChip.active{background:linear-gradient(180deg,#a75bff,#6620ed);color:#fff;box-shadow:0 0 14px #873cff88}
+.photoWrap{position:relative}
+.photoWrap.selected img{outline:4px solid #a75bff;filter:brightness(.7)}
+.selBadge{position:absolute;top:6px;right:6px;background:#a75bff;color:white;border-radius:999px;width:25px;height:25px;display:grid;place-items:center;font-weight:900}
+.multiActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.multiActions button{border:0;border-radius:15px;padding:13px;color:white;background:#171126;border:1px solid #5a2799}
+
 </style>
 </head>
 <body>
@@ -52,7 +62,7 @@ let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
-state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[];
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.albums=state.albums||['Default']; state.activeAlbum=state.activeAlbum||'Default'; let selectedPhotos=[]; let selectMode=false;
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
@@ -88,7 +98,76 @@ function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','I
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
 function vault(){current='vault';shell(`<div class="appHead"><img src="${ghostSVG}"><h2>Ghost Vault</h2><button class="back spacer" onclick="hideNow()">×</button></div><div class="grid"><div class="vaultBtn" onclick="photos()"><div class="big">▧</div>Photos</div><div class="vaultBtn" onclick="filesVault()"><div class="big">▤</div>Files</div><div class="vaultBtn" onclick="browserVault()"><div class="big">◎</div>Browser</div><div class="vaultBtn" onclick="notesVault()"><div class="big">☷</div>Notes</div><div class="vaultBtn" onclick="contactsVault()"><div class="big">♙</div>Contacts</div><div class="vaultBtn" onclick="settings()"><div class="big">⚙️</div>Settings</div></div>${nav()}`)}
 function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI">⌂</span>Home</button><button onclick="browserVault()"><span class="nI">◎</span>Browser</button><button onclick="photos()"><span class="nI">▧</span>Photos</button><button onclick="notesVault()"><span class="nI">☷</span>Notes</button><button onclick="hideNow()"><span class="nI">◌</span>Hide</button></div>`}
-function photos(){current='photos';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Photos</h2></div><input type="file" accept="image/*" multiple onchange="addPhotos(this.files)" class="input"><p class="privacyNote">Choose one or more photos. They should appear below after upload.</p><div class="picGrid" style="margin-top:18px">${state.photos.map((p,i)=>`<img src="${p}" onclick="openViewer(${i})">`).join('')}</div>${nav()}`)}
+function photos(){
+current='photos';
+selectedPhotos=[];
+selectMode=false;
+drawPhotos();
+}
+function albumChips(){
+  return `<div class="albumBar">${state.albums.map(a=>`<button class="albumChip ${state.activeAlbum===a?'active':''}" onclick="state.activeAlbum='${a}';save();drawPhotos()">${a}</button>`).join('')}<button class="albumChip" onclick="createAlbum()">＋ Album</button></div>`;
+}
+function filteredPhotoIndexes(){
+  return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Default')===state.activeAlbum).map(x=>x.i);
+}
+function drawPhotos(){
+  const idxs=filteredPhotoIndexes();
+  shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Photos</h2></div>
+  ${albumChips()}
+  <input type="file" accept="image/*" multiple onchange="addPhotos(this.files)" class="input">
+  <p class="privacyNote">Uploads go into: <b>${state.activeAlbum}</b></p>
+  <div class="multiActions">
+    <button onclick="toggleSelectMode()">${selectMode?'Cancel Select':'Select Multiple'}</button>
+    <button onclick="createAlbum()">Create Album</button>
+  </div>
+  ${selectMode?`<div class="multiActions"><button onclick="moveSelectedPhotos()">Move Selected</button><button onclick="deleteSelectedPhotos()">Delete Selected</button></div><p class="privacyNote">${selectedPhotos.length} selected</p>`:''}
+  <div class="picGrid" style="margin-top:18px">${idxs.map(i=>{
+    const p=state.photos[i];
+    const selected=selectedPhotos.includes(i);
+    return `<div class="photoWrap ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByAlbumIndex(${idxs.indexOf(i)})`}"><img src="${p.src||p}">${selected?'<div class="selBadge">✓</div>':''}</div>`;
+  }).join('')||'<p class="sub">No photos in this album yet.</p>'}</div>${nav()}`);
+}
+function createAlbum(){
+  const name=prompt('Album name?');
+  if(!name)return;
+  if(!state.albums.includes(name))state.albums.push(name);
+  state.activeAlbum=name;
+  save();
+  drawPhotos();
+}
+function toggleSelectMode(){selectMode=!selectMode;selectedPhotos=[];drawPhotos()}
+function togglePhotoSelect(i){
+  if(selectedPhotos.includes(i))selectedPhotos=selectedPhotos.filter(x=>x!==i);
+  else selectedPhotos.push(i);
+  drawPhotos();
+}
+function deleteSelectedPhotos(){
+  if(!selectedPhotos.length)return alert('Select photos first');
+  if(!confirm('Delete selected photos?'))return;
+  state.photos=state.photos.filter((_,i)=>!selectedPhotos.includes(i));
+  selectedPhotos=[];
+  save();
+  drawPhotos();
+}
+function moveSelectedPhotos(){
+  if(!selectedPhotos.length)return alert('Select photos first');
+  const album=chooseAlbumPrompt();
+  if(!album)return;
+  selectedPhotos.forEach(i=>{
+    if(typeof state.photos[i]==='string')state.photos[i]={src:state.photos[i],album};
+    else state.photos[i].album=album;
+  });
+  selectedPhotos=[];
+  state.activeAlbum=album;
+  save();
+  drawPhotos();
+}
+function chooseAlbumPrompt(){
+  let name=prompt('Move to album. Existing albums: '+state.albums.join(', '));
+  if(!name)return null;
+  if(!state.albums.includes(name))state.albums.push(name);
+  return name;
+}
 function addPhotos(files){
   const selected=Array.from(files||[]);
   if(!selected.length){flash('No photos selected');return;}
@@ -98,32 +177,39 @@ function addPhotos(files){
   selected.forEach(file=>{
     const reader=new FileReader();
     reader.onload=function(e){
-      if(e.target && e.target.result) loaded.push(e.target.result);
+      if(e.target&&e.target.result)loaded.push({src:e.target.result,album:state.activeAlbum||'Default'});
       done++;
       if(done===selected.length){
-        state.photos = state.photos || [];
-        state.photos = state.photos.concat(loaded);
+        state.photos=state.photos||[];
+        state.photos=state.photos.concat(loaded);
         save();
         flash(loaded.length+' photo'+(loaded.length!==1?'s':'')+' added');
-        photos();
+        drawPhotos();
       }
     };
     reader.onerror=function(){
       done++;
       if(done===selected.length){
-        state.photos = state.photos || [];
-        state.photos = state.photos.concat(loaded);
+        state.photos=state.photos.concat(loaded);
         save();
         flash(loaded.length+' photo'+(loaded.length!==1?'s':'')+' added');
-        photos();
+        drawPhotos();
       }
     };
     reader.readAsDataURL(file);
   });
 }
+function openViewerByAlbumIndex(albumIndex){
+  const idxs=filteredPhotoIndexes();
+  currentPhoto=idxs[albumIndex]||0;
+  imgScale=1;
+  drawViewer();
+}
 function openViewer(i){currentPhoto=i;imgScale=1;drawViewer()}
-function drawViewer(){let p=state.photos[currentPhoto];viewer.className='viewer';viewer.innerHTML=`<div class="viewerTop"><button onclick="closeViewer()">Close</button><div style="flex:1;text-align:center">${currentPhoto+1} / ${state.photos.length}</div><button onclick="hideNow()">Hide</button></div><div class="viewerImgWrap" id="viewerWrap"><img id="viewerImg" src="${p}" style="transform:scale(${imgScale})"></div><div class="viewerActions"><button onclick="prevPhoto()">← Swipe Left</button><button onclick="nextPhoto()">Swipe Right →</button><button onclick="zoomPhoto()">Zoom</button><button class="release" onclick="releasePhoto()">Release</button><button class="danger" onclick="deletePhoto()">Delete</button><button onclick="imgScale=1;drawViewer()">Reset</button></div>`;let startX=0;viewer.ontouchstart=e=>{startX=e.touches[0].clientX};viewer.ontouchend=e=>{let dx=e.changedTouches[0].clientX-startX;if(dx>50)prevPhoto();if(dx<-50)nextPhoto()}}
-function closeViewer(){viewer.className='hidden';photos()}function prevPhoto(){if(state.photos.length){currentPhoto=(currentPhoto-1+state.photos.length)%state.photos.length;drawViewer()}}function nextPhoto(){if(state.photos.length){currentPhoto=(currentPhoto+1)%state.photos.length;drawViewer()}}function zoomPhoto(){imgScale=imgScale>=2.5?1:imgScale+.5;drawViewer()}function deletePhoto(){if(confirm('Delete this photo?')){state.photos.splice(currentPhoto,1);save();if(!state.photos.length){viewer.className='hidden';photos()}else{currentPhoto=Math.min(currentPhoto,state.photos.length-1);drawViewer()}}}function releasePhoto(){if(confirm('Release this photo from Ghost vault? This removes it from Ghost only.'))deletePhoto()}
+function getPhotoSrc(p){return typeof p==='string'?p:p.src}
+function getPhotoAlbum(p){return typeof p==='string'?'Default':(p.album||'Default')}
+function drawViewer(){let p=state.photos[currentPhoto];let src=getPhotoSrc(p);let album=getPhotoAlbum(p);let idxs=filteredPhotoIndexes();let countPos=idxs.indexOf(currentPhoto)+1;if(countPos<1)countPos=currentPhoto+1;viewer.className='viewer';viewer.innerHTML=`<div class="viewerTop"><button onclick="closeViewer()">Close</button><div style="flex:1;text-align:center">${countPos} / ${idxs.length||state.photos.length}<br><small>${album}</small></div><button onclick="hideNow()">Hide</button></div><div class="viewerImgWrap" id="viewerWrap"><img id="viewerImg" src="${src}" style="transform:scale(${imgScale})"></div><div class="viewerActions"><button onclick="prevPhoto()">← Previous</button><button onclick="nextPhoto()">Next →</button><button onclick="zoomPhoto()">Zoom</button><button onclick="moveCurrentPhoto()">Move Album</button><button class="release" onclick="releasePhoto()">Release</button><button class="danger" onclick="deletePhoto()">Delete</button></div>`;let startX=0;let startDist=0;viewer.ontouchstart=e=>{startX=e.touches[0].clientX;if(e.touches.length===2){let dx=e.touches[0].clientX-e.touches[1].clientX;let dy=e.touches[0].clientY-e.touches[1].clientY;startDist=Math.sqrt(dx*dx+dy*dy)}};viewer.ontouchmove=e=>{if(e.touches.length===2&&startDist){let dx=e.touches[0].clientX-e.touches[1].clientX;let dy=e.touches[0].clientY-e.touches[1].clientY;let dist=Math.sqrt(dx*dx+dy*dy);imgScale=Math.max(1,Math.min(3,dist/startDist));let img=document.querySelector('#viewerImg');if(img)img.style.transform='scale('+imgScale+')'}};viewer.ontouchend=e=>{if(e.changedTouches&&e.changedTouches.length){let dx=e.changedTouches[0].clientX-startX;if(dx>50)prevPhoto();if(dx<-50)nextPhoto()}}}
+function closeViewer(){viewer.className='hidden';drawPhotos()}function prevPhoto(){const idxs=filteredPhotoIndexes();if(idxs.length){let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos-1+idxs.length)%idxs.length];drawViewer()}}function nextPhoto(){const idxs=filteredPhotoIndexes();if(idxs.length){let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos+1)%idxs.length];drawViewer()}}function zoomPhoto(){imgScale=imgScale>=2.5?1:imgScale+.5;drawViewer()}function moveCurrentPhoto(){const album=chooseAlbumPrompt();if(!album)return;if(typeof state.photos[currentPhoto]==='string')state.photos[currentPhoto]={src:state.photos[currentPhoto],album};else state.photos[currentPhoto].album=album;state.activeAlbum=album;save();drawViewer()}function deletePhoto(){if(confirm('Delete this photo?')){state.photos.splice(currentPhoto,1);save();if(!state.photos.length){viewer.className='hidden';drawPhotos()}else{currentPhoto=Math.min(currentPhoto,state.photos.length-1);drawViewer()}}}function releasePhoto(){if(confirm('Release this photo from Ghost vault? This removes it from Ghost only.'))deletePhoto()}
 function filesVault(){current='filesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Files</h2></div><input type="file" multiple onchange="addFiles(this.files)" class="input"><div class="fileList">${state.files.map(f=>`<button>📄 ${f.name}<span style="margin-left:auto;color:#aaa">${Math.round(f.size/1024)}kb</span></button>`).join('')||'<p class="sub">No files yet.</p>'}</div>${nav()}`)}
 function addFiles(files){[...files].forEach(f=>state.files.push({name:f.name,size:f.size,type:f.type}));save();filesVault()}
 function notesVault(){current='notesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Notes</h2></div><textarea id="newNote" class="noteArea" placeholder="Write a private note..."></textarea><button class="btn" onclick="state.notes.unshift(document.querySelector('#newNote').value);save();notesVault()">Save Note</button>${state.notes.map((n,i)=>`<div class="card" style="margin-top:12px">${n}<button class="btn danger" onclick="state.notes.splice(${i},1);save();notesVault()">Delete</button></div>`).join('')}${nav()}`)}
