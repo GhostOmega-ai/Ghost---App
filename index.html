@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v0.7C</title>
+<title>Ghost v0.8</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -116,6 +116,20 @@ button,input,textarea{font:inherit}
   filter:drop-shadow(0 0 8px #873cff) drop-shadow(0 0 18px #873cff) drop-shadow(0 0 28px #873cff);
 }
 
+
+
+/* Ghost v0.8 Premium Dashboard Branding */
+.vaultPage{padding-top:0}
+.vaultClose{position:absolute;right:22px;top:92px;width:42px;height:42px;border:0;background:transparent;color:#a65cff;font-size:38px;line-height:1;z-index:5;text-shadow:0 0 14px #873cff}
+.vaultHero{margin:-6px auto 22px;text-align:center;display:grid;place-items:center}
+.vaultHeroLogo{width:min(330px,92vw);max-width:100%;display:block;margin:0 auto;filter:drop-shadow(0 0 12px #873cff) drop-shadow(0 0 30px #873cff66)}
+.vaultDashGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.vaultDashGrid .vaultBtn{min-height:118px;padding:18px 8px;background:linear-gradient(145deg,#15131fdd,#090713dd);border:1px solid #38205d;box-shadow:inset 0 0 0 1px #ffffff06,0 10px 24px #0006}
+.vaultDashGrid .vaultBtn .big{font-size:40px;line-height:1;margin-bottom:14px;color:#a65cff;text-shadow:0 0 10px #873cff,0 0 24px #873cff88;filter:drop-shadow(0 0 7px #873cff)}
+.vaultDashGrid .vaultBtn span{display:block;font-size:18px;font-weight:750;color:#fff;text-shadow:0 2px 8px #000}
+.vaultMiniLogo{position:absolute;left:22px;top:94px;width:34px;height:34px;border-radius:10px;object-fit:cover;filter:drop-shadow(0 0 9px #873cff)}
+@media(max-width:390px){.vaultHeroLogo{width:min(292px,90vw)}.vaultDashGrid .vaultBtn{min-height:105px}.vaultDashGrid .vaultBtn .big{font-size:34px}.vaultDashGrid .vaultBtn span{font-size:16px}}
+
 </style>
 </head>
 <body>
@@ -162,7 +176,7 @@ function notesDecoy(){shell(`<div class="fakeTitle">Notes</div><textarea id="dno
 function checkNote(){let v=document.querySelector('#dnote').value;if(v.includes(state.unlock.notes))vault();else alert('Note saved')}
 function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','Invoices 2026','Receipts'];shell(`<div class="fakeTitle">Files</div><div class="fileList">${folders.map(f=>`<button onclick="fileOpen('${f}')">📁 ${f}</button>`).join('')}</div>`)}
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
-function vault(){current='vault';shell(`<div class="appHead"><img src="${ghostSVG}"><h2>Ghost Vault</h2><button class="back spacer" onclick="hideNow()">×</button></div><div class="grid"><div class="vaultBtn" onclick="photos()"><div class="big">▧</div>Photos</div><div class="vaultBtn" onclick="filesVault()"><div class="big">▤</div>Files</div><div class="vaultBtn" onclick="browserVault()"><div class="big">◎</div>Browser</div><div class="vaultBtn" onclick="notesVault()"><div class="big">☷</div>Notes</div><div class="vaultBtn" onclick="contactsVault()"><div class="big">♙</div>Contacts</div><div class="vaultBtn" onclick="settings()"><div class="big">⚙️</div>Settings</div></div>${nav()}`)}
+function vault(){current='vault';shell(`<div class="vaultPage"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><div class="vaultHero"><img class="vaultHeroLogo" src="ghost-main-logo.png" alt="Ghost Secret Vault"></div><div class="vaultDashGrid"><div class="vaultBtn" onclick="photos()"><div class="big">▧</div><span>Photos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big">▤</div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big">◎</div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big">☷</div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big">♙</div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big">⚙</div><span>Settings</span></div></div>${nav()}</div>`)}
 function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI">⌂</span>Home</button><button onclick="browserVault()"><span class="nI">◎</span>Browser</button><button onclick="photos()"><span class="nI">▧</span>Photos</button><button onclick="notesVault()"><span class="nI">☷</span>Notes</button><button onclick="hideNow()"><span class="nI">◌</span>Hide</button></div>`}
 
 
