@@ -240,6 +240,52 @@ function photoInfo(){const p=state.photos[currentPhoto];const d=p.created?new Da
 function photoSettings(){storageBytes().then(bytes=>alert('Ghost Photos v0.7B Gallery Essentials\nPhotos: '+state.photos.length+'\nAlbums: '+state.albums.length+'\nFavourites: '+rawAlbumIndexes('Favourites').length+'\nStorage used: '+formatBytes(bytes)))}
 function addPhotos(files){isPickingPhotos=false;const selected=Array.from(files||[]);if(!selected.length){flash('No photos selected');return}const uploadAlbum=((state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos'||state.activeAlbum==='Favourites')?'Default':state.activeAlbum);flash('Uploading '+selected.length+' photo'+(selected.length>1?'s':'')+' to '+uploadAlbum+'...');let done=0,metas=[];selected.forEach(file=>{const reader=new FileReader();reader.onload=async e=>{if(e.target&&e.target.result){const id=photoId();await dbPutPhoto(id,e.target.result);metas.push({id,album:uploadAlbum,created:Date.now(),fav:false,name:file.name||'',size:file.size||0,type:file.type||''});if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id}done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.onerror=()=>{done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.readAsDataURL(file)})}
 
+
+/* Ghost v0.7B.1 Stability + Rename Photo patch */
+function escHtml(v){return String(v||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function photoDisplayName(i){const p=state.photos[i]||{};return photoName(p,i)}
+function photoMetaText(i){const p=state.photos[i]||{};return escHtml(photoDisplayName(i))+'<br><small>'+escHtml(p.album||'Default')+'</small>'}
+async function renderPhotoGridOnly(){
+  const grid=document.querySelector('#photoGridBody');
+  const empty=document.querySelector('#photoEmptyState');
+  if(!grid)return drawAlbumPhotos(state.activeAlbum||'Library');
+  const idxs=filteredPhotoIndexes();
+  const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));
+  grid.innerHTML=idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${photoMetaText(i)}</div></div>`}).join('');
+  if(empty) empty.innerHTML=!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:'';
+  grid.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})});
+}
+function setPhotoSearch(v){state.photoSearch=v;save();renderPhotoGridOnly()}
+function setPhotoSort(v){state.photoSort=v;save();renderPhotoGridOnly()}
+async function drawAlbumPhotos(active){
+  await cleanupAlbumCovers();
+  active=active||state.activeAlbum||'Library';
+  if(state.activeAlbum!==active){state.activeAlbum=active;save()}
+  const idxs=filteredPhotoIndexes();
+  const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));
+  shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${escHtml(state.photoSearch||'')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search by photo name"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.7B.1: stable search, favourites and rename enabled.</p><div id="photoGridBody" class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${photoMetaText(i)}</div></div>`}).join('')}</div><div id="photoEmptyState">${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}</div>${nav()}</div>`);
+  document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})});
+}
+function toggleFav(i){state.photos[i].fav=!state.photos[i].fav;save();flash(state.photos[i].fav?'Added to favourites':'Removed from favourites');renderPhotoGridOnly()}
+function toggleViewerFav(){state.photos[currentPhoto].fav=!state.photos[currentPhoto].fav;save();drawViewer()}
+function renamePhoto(i){
+  closeAlbumModal();
+  const p=state.photos[i];
+  if(!p)return;
+  const current=photoName(p,i);
+  const name=prompt('Rename photo',current);
+  if(name===null)return;
+  const clean=name.trim();
+  if(!clean)return alert('Photo name cannot be blank');
+  p.name=clean;
+  save();
+  flash('Photo renamed');
+  if(!viewer.classList.contains('hidden')&&i===currentPhoto)drawViewer();else renderPhotoGridOnly();
+}
+async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${escHtml(photoName(p,currentPhoto))}</small></div><button onclick="viewerMenu()">⋮</button></div><button class="viewerFav ${p.fav?'on':''}" onclick="toggleViewerFav()">${p.fav?'⭐':'☆'}</button><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
+function viewerMenu(){closeAlbumModal();const dismiss=document.createElement('div');dismiss.className='menuDismiss';dismiss.onclick=closeAlbumModal;const menu=document.createElement('div');menu.className='cleanMenu';menu.onclick=e=>e.stopPropagation();const fav=state.photos[currentPhoto]&&state.photos[currentPhoto].fav;menu.innerHTML=`<button onclick="toggleViewerFav();closeAlbumModal()">${fav?'⭐ Remove Favourite':'⭐ Add Favourite'}</button><button onclick="renamePhoto(${currentPhoto})">✏️ Rename Photo</button><button onclick="showAlbumPicker('current')">📁 Move Photo</button><button onclick="setCurrentAsCover()">⭐ Set Album Cover</button><button onclick="deletePhoto()">🗑 Delete Photo</button><button onclick="photoInfo()">ℹ Photo Info</button>`;document.body.appendChild(dismiss);document.body.appendChild(menu)}
+function photoInfo(){const p=state.photos[currentPhoto];const d=p.created?new Date(p.created).toLocaleString():'Unknown';alert('Name: '+photoName(p,currentPhoto)+'\nAlbum: '+(p.album||'Default')+'\nFavourite: '+(p.fav?'Yes':'No')+'\nAdded: '+d+'\nPhoto '+(currentPhoto+1)+' of '+state.photos.length+'\nStorage: device database')}
+
 function filesVault(){current='filesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Files</h2></div><input type="file" multiple onchange="addFiles(this.files)" class="input"><div class="fileList">${state.files.map(f=>`<button>📄 ${f.name}<span style="margin-left:auto;color:#aaa">${Math.round(f.size/1024)}kb</span></button>`).join('')||'<p class="sub">No files yet.</p>'}</div>${nav()}`)}
 function addFiles(files){[...files].forEach(f=>state.files.push({name:f.name,size:f.size,type:f.type}));save();filesVault()}
 function notesVault(){current='notesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Notes</h2></div><textarea id="newNote" class="noteArea" placeholder="Write a private note..."></textarea><button class="btn" onclick="state.notes.unshift(document.querySelector('#newNote').value);save();notesVault()">Save Note</button>${state.notes.map((n,i)=>`<div class="card" style="margin-top:12px">${n}<button class="btn danger" onclick="state.notes.splice(${i},1);save();notesVault()">Delete</button></div>`).join('')}${nav()}`)}
