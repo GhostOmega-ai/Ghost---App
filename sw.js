@@ -1,1 +1,1 @@
-const CACHE='ghost-v0.7B.1';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(clients.claim()));
+const CACHE='ghost-v0.7C';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(clients.claim()));
