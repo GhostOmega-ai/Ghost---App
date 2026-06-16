@@ -1,16 +1,11 @@
-Ghost v0.7A = Viewer Core
+Ghost v0.7B Gallery Essentials
 
-Included:
-- Full-screen photo viewer
-- Swipe left/right navigation
-- Tap image to hide/show top bar
-- Three-dot menu
-- Tap outside menu closes it
-- Set album cover
-- First added photo becomes album cover automatically
-- Move photo between albums
-- Delete photo with confirmation
-- Photo info panel
-- PWA manifest + service worker
+Built from Joe's real Ghost v0.7A index.html.
 
-Open index.html in a browser or upload the folder to your static web host/GitHub Pages.
+Adds:
+- Favourites + Favourites album
+- Search photos by filename/album
+- Sort photos: newest, oldest, A-Z, Z-A
+- Storage stats on Albums and Settings
+- Automatic album cover cleanup after delete
+- Favourite toggle in grid and viewer
