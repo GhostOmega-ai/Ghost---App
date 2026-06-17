@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v0.8D</title>
+<title>Ghost v0.8B</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -131,7 +131,7 @@ button,input,textarea{font:inherit}
 @media(max-width:390px){.vaultHeroLogo{width:min(292px,90vw)}.vaultDashGrid .vaultBtn{min-height:105px}.vaultDashGrid .vaultBtn .big{font-size:34px}.vaultDashGrid .vaultBtn span{font-size:16px}}
 
 
-/* Ghost v0.8D Hero Rework + Neon Icon Pack */
+/* Ghost v0.8B Hero Rework + Neon Icon Pack */
 .vaultHero{
   margin:-18px auto 14px;
   text-align:center;
@@ -255,154 +255,22 @@ button,input,textarea{font:inherit}
   .vaultDashGrid .vaultBtn span{font-size:15px}
 }
 
+</style>
 
-/* Ghost v0.8D - Dashboard Match Pass */
-.vaultPage{
-  padding-top:0;
-}
-.vaultHero{
-  margin:-18px auto 22px !important;
-  text-align:center;
-  display:grid;
-  place-items:center;
-}
-.vaultHeroLogo{
-  width:min(235px,66vw) !important;
-  max-width:100%;
-  display:block;
-  margin:0 auto -10px !important;
-  object-fit:contain;
-  filter:
-    drop-shadow(0 0 10px #a64dff)
-    drop-shadow(0 0 24px #873cff99)
-    drop-shadow(0 0 42px #873cff55) !important;
-}
+<style id="v08d2-polish">
 .vaultBrandTitle{
-  margin-top:0 !important;
-  font-size:50px !important;
-  line-height:.9 !important;
-  font-weight:950 !important;
-  letter-spacing:10px !important;
-  color:transparent !important;
-  background:linear-gradient(180deg,#fff1ff 0%,#dca8ff 22%,#9a48ff 58%,#5b17df 100%) !important;
-  -webkit-background-clip:text !important;
-  background-clip:text !important;
-  text-shadow:
-    0 0 5px #ffffff44,
-    0 0 10px #a64dff,
-    0 0 18px #873cffaa !important;
+ text-shadow:0 0 4px #fff3,0 0 8px #a64dff,0 0 14px #873cff88 !important;
+ filter:none !important;
 }
-.vaultBrandSub{
-  margin-top:9px !important;
-  font-size:13px !important;
-  font-weight:850 !important;
-  letter-spacing:8px !important;
-  color:#d8b5ff !important;
-  text-shadow:0 0 8px #873cff,0 0 16px #873cff99 !important;
-}
-.vaultDashGrid{
-  gap:13px !important;
-  margin-top:18px !important;
+.vaultDashGrid .vaultBtn .big img,
+.nav .nI img{
+ filter:drop-shadow(0 0 3px #a64dff) drop-shadow(0 0 8px #873cff88) !important;
 }
 .vaultDashGrid .vaultBtn{
-  min-height:124px !important;
-  padding:19px 8px 16px !important;
-  border:1px solid #6b32ad88 !important;
-  border-radius:20px !important;
-  background:
-    linear-gradient(180deg,rgba(31,20,47,.92),rgba(9,7,19,.94)) !important;
-  box-shadow:
-    inset 0 0 0 1px #ffffff06,
-    inset 0 0 22px #873cff0f,
-    0 0 0 1px #13081f,
-    0 0 24px #873cff18,
-    0 14px 32px #0009 !important;
+ border-color:#8d52d6 !important;
 }
-.vaultDashGrid .vaultBtn:active{
-  transform:scale(.96);
-  border-color:#bb72ff !important;
-  box-shadow:
-    inset 0 0 0 1px #ffffff10,
-    inset 0 0 26px #873cff22,
-    0 0 26px #873cff66,
-    0 14px 32px #0009 !important;
-}
-.vaultDashGrid .vaultBtn .big{
-  width:56px !important;
-  height:56px !important;
-  margin:0 auto 13px !important;
-  border-radius:0 !important;
-  display:grid !important;
-  place-items:center !important;
-  background:transparent !important;
-  border:0 !important;
-  box-shadow:none !important;
-  font-size:0!important;
-}
-.vaultDashGrid .vaultBtn .big img{
-  width:50px !important;
-  height:50px !important;
-  display:block;
-  object-fit:contain;
-  filter:
-    drop-shadow(0 0 6px #fff2)
-    drop-shadow(0 0 10px #a64dff)
-    drop-shadow(0 0 22px #873cff) !important;
-}
-.vaultDashGrid .vaultBtn span{
-  font-size:16px !important;
-  font-weight:850 !important;
-  letter-spacing:.2px;
-  color:#fff !important;
-  text-shadow:0 2px 8px #000,0 0 10px #873cff44 !important;
-}
-.nav{
-  margin:22px -8px -8px !important;
-  padding:12px 10px !important;
-  border-radius:24px !important;
-  background:rgba(8,5,17,.74) !important;
-  border:1px solid #6b32ad66 !important;
-  box-shadow:
-    inset 0 0 18px #873cff10,
-    0 0 24px #873cff18,
-    0 10px 28px #0008 !important;
-}
-.nav button{
-  font-size:12px !important;
-  color:#d6cfe3 !important;
-}
-.nav .nI{
-  height:29px !important;
-  display:grid!important;
-  place-items:center!important;
-}
-.nav .nI img{
-  width:27px !important;
-  height:27px !important;
-  object-fit:contain;
-  filter:
-    drop-shadow(0 0 8px #a64dff)
-    drop-shadow(0 0 16px #873cff) !important;
-}
-.vaultMiniLogo{
-  top:91px !important;
-  width:34px !important;
-  height:34px !important;
-  border-radius:10px !important;
-  opacity:.9;
-}
-@media(max-width:390px){
-  .vaultHeroLogo{width:min(215px,64vw)!important}
-  .vaultBrandTitle{font-size:45px!important;letter-spacing:8px!important}
-  .vaultBrandSub{font-size:12px!important;letter-spacing:6.5px!important}
-  .vaultDashGrid{gap:10px!important;margin-top:16px!important}
-  .vaultDashGrid .vaultBtn{min-height:112px!important;padding:16px 6px 13px!important}
-  .vaultDashGrid .vaultBtn .big{width:48px!important;height:48px!important;margin-bottom:10px!important}
-  .vaultDashGrid .vaultBtn .big img{width:44px!important;height:44px!important}
-  .vaultDashGrid .vaultBtn span{font-size:15px!important}
-}
-
 </style>
+
 </head>
 <body>
 <div id="app" class="phone"></div>
