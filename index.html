@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v0.8H</title>
+<title>Ghost v0.8J</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -131,7 +131,7 @@ button,input,textarea{font:inherit}
 @media(max-width:390px){.vaultHeroLogo{width:min(292px,90vw)}.vaultDashGrid .vaultBtn{min-height:105px}.vaultDashGrid .vaultBtn .big{font-size:34px}.vaultDashGrid .vaultBtn span{font-size:16px}}
 
 
-/* Ghost v0.8H Hero Rework + Neon Icon Pack */
+/* Ghost v0.8J Hero Rework + Neon Icon Pack */
 .vaultHero{
   margin:-18px auto 14px;
   text-align:center;
@@ -256,16 +256,94 @@ button,input,textarea{font:inherit}
 }
 
 
-/* Ghost v0.8H - Exact Dashboard Look Pass */
-.phone{max-width:430px!important;padding:22px 22px 30px!important}
-.status{margin-bottom:12px!important}
+/* Ghost v0.8J - Retina SVG Asset Pass */
 .vaultPage{padding-top:0!important}
-.vaultClose{
-  top:92px!important;
-  right:24px!important;
-  color:#a957ff!important;
-  font-size:40px!important;
-  text-shadow:none!important;
+.vaultHero{margin:-10px auto 22px!important;text-align:center!important;display:grid!important;place-items:center!important}
+.vaultHeroLogo{
+  width:min(238px,70vw)!important;
+  display:block!important;
+  margin:0 auto -10px!important;
+  object-fit:contain!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  filter:drop-shadow(0 0 6px #873cff77) drop-shadow(0 0 14px #873cff44)!important;
+}
+.vaultBrandTitle{
+  margin:0!important;
+  font-size:48px!important;
+  line-height:.92!important;
+  font-weight:320!important;
+  letter-spacing:14px!important;
+  color:transparent!important;
+  background:linear-gradient(180deg,#fff4ff 0%,#cf8dff 42%,#8030ff 100%)!important;
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+  text-shadow:0 0 4px #ffffff33,0 0 8px #873cff88!important;
+}
+.vaultBrandSub{
+  margin-top:10px!important;
+  font-size:13px!important;
+  font-weight:420!important;
+  letter-spacing:7px!important;
+  color:#bd78ff!important;
+  text-shadow:0 0 5px #873cff66!important;
+}
+.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:24px!important}
+.vaultDashGrid .vaultBtn{
+  min-height:132px!important;
+  padding:21px 8px 16px!important;
+  border-radius:19px!important;
+  border:1px solid #642ba599!important;
+  background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;
+  box-shadow:inset 0 0 0 1px #ffffff03,0 8px 20px #0009!important;
+}
+.vaultDashGrid .vaultBtn .big{
+  width:72px!important;
+  height:72px!important;
+  margin:0 auto 12px!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  display:grid!important;
+  place-items:center!important;
+}
+.vaultDashGrid .vaultBtn .big img{
+  width:72px!important;
+  height:72px!important;
+  object-fit:contain!important;
+  image-rendering:auto!important;
+  filter:none!important;
+}
+.vaultDashGrid .vaultBtn span{
+  font-size:19px!important;
+  font-weight:330!important;
+  color:#fff!important;
+  text-shadow:0 1px 5px #000!important;
+}
+.nav{
+  margin:24px -2px -8px!important;
+  padding:13px 10px 12px!important;
+  border-radius:32px!important;
+  background:rgba(5,4,12,.86)!important;
+  border:1px solid #5b279088!important;
+  box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important;
+}
+.nav button{
+  font-size:13px!important;
+  font-weight:330!important;
+  color:#ded7e9!important;
+  display:grid!important;
+  gap:4px!important;
+}
+.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
+.nav .nI img{
+  width:32px!important;
+  height:32px!important;
+  object-fit:contain!important;
+  image-rendering:auto!important;
+  filter:none!important;
 }
 .vaultMiniLogo{
   left:28px!important;
@@ -276,118 +354,17 @@ button,input,textarea{font:inherit}
   object-fit:cover!important;
   filter:drop-shadow(0 0 8px #873cff88)!important;
 }
-.vaultHero{
-  margin:-10px auto 24px!important;
-  text-align:center!important;
-  display:grid!important;
-  place-items:center!important;
-}
-.vaultHeroLogo{
-  width:min(270px,78vw)!important;
-  max-width:100%!important;
-  display:block!important;
-  margin:0 auto -8px!important;
-  object-fit:contain!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  filter:drop-shadow(0 0 8px #873cff77) drop-shadow(0 0 18px #873cff44)!important;
-}
-.vaultBrandTitle{
-  margin:0!important;
-  font-size:52px!important;
-  line-height:.92!important;
-  font-weight:300!important;
-  letter-spacing:15px!important;
-  color:transparent!important;
-  background:linear-gradient(180deg,#fff0ff 0%,#c579ff 45%,#7f2fff 100%)!important;
-  -webkit-background-clip:text!important;
-  background-clip:text!important;
-  text-shadow:0 0 5px #ffffff44,0 0 10px #873cff99,0 0 20px #873cff55!important;
-  filter:none!important;
-}
-.vaultBrandSub{
-  margin-top:12px!important;
-  font-size:14px!important;
-  font-weight:400!important;
-  letter-spacing:8px!important;
-  color:#b75dff!important;
-  text-shadow:0 0 6px #873cff77!important;
-}
-.vaultDashGrid{
-  display:grid!important;
-  grid-template-columns:repeat(3,1fr)!important;
-  gap:14px!important;
-  margin-top:24px!important;
-}
-.vaultDashGrid .vaultBtn{
-  min-height:142px!important;
-  padding:22px 8px 18px!important;
-  border-radius:19px!important;
-  border:1px solid #6a2ab488!important;
-  background:linear-gradient(180deg,rgba(12,10,22,.88),rgba(4,3,10,.94))!important;
-  box-shadow:inset 0 0 0 1px #ffffff03,0 8px 20px #0008!important;
-}
-.vaultDashGrid .vaultBtn .big{
-  width:70px!important;
-  height:70px!important;
-  margin:0 auto 15px!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  display:grid!important;
-  place-items:center!important;
-}
-.vaultDashGrid .vaultBtn .big img{
-  width:68px!important;
-  height:68px!important;
-  object-fit:contain!important;
-  filter:none!important;
-}
-.vaultDashGrid .vaultBtn span{
-  font-size:20px!important;
-  font-weight:300!important;
-  color:#fff!important;
-  text-shadow:0 1px 5px #000!important;
-}
-.nav{
-  margin:26px -2px -8px!important;
-  padding:13px 10px 12px!important;
-  border-radius:32px!important;
-  background:rgba(5,4,12,.86)!important;
-  border:1px solid #642ba588!important;
-  box-shadow:inset 0 0 12px #873cff10,0 8px 22px #0009!important;
-}
-.nav button{
-  font-size:14px!important;
-  font-weight:300!important;
-  color:#ddd6e8!important;
-  display:grid!important;
-  gap:4px!important;
-}
-.nav .nI{
-  height:32px!important;
-  display:grid!important;
-  place-items:center!important;
-}
-.nav .nI img{
-  width:31px!important;
-  height:31px!important;
-  object-fit:contain!important;
-  filter:none!important;
-}
 @media(max-width:390px){
-  .vaultHeroLogo{width:min(238px,72vw)!important}
-  .vaultBrandTitle{font-size:44px!important;letter-spacing:12px!important}
-  .vaultBrandSub{font-size:12px!important;letter-spacing:6px!important}
+  .vaultHeroLogo{width:min(216px,66vw)!important;margin-bottom:-8px!important}
+  .vaultBrandTitle{font-size:43px!important;letter-spacing:11px!important}
+  .vaultBrandSub{font-size:11px!important;letter-spacing:5.8px!important}
   .vaultDashGrid{gap:10px!important;margin-top:20px!important}
-  .vaultDashGrid .vaultBtn{min-height:122px!important;padding:18px 6px 14px!important}
-  .vaultDashGrid .vaultBtn .big{width:58px!important;height:58px!important;margin-bottom:12px!important}
-  .vaultDashGrid .vaultBtn .big img{width:56px!important;height:56px!important}
+  .vaultDashGrid .vaultBtn{min-height:118px!important;padding:17px 6px 14px!important}
+  .vaultDashGrid .vaultBtn .big{width:60px!important;height:60px!important;margin-bottom:10px!important}
+  .vaultDashGrid .vaultBtn .big img{width:60px!important;height:60px!important}
   .vaultDashGrid .vaultBtn span{font-size:17px!important}
   .nav button{font-size:12px!important}
+  .nav .nI img{width:28px!important;height:28px!important}
 }
 
 </style>
@@ -405,16 +382,94 @@ button,input,textarea{font:inherit}
  border-color:#8d52d6 !important;
 }
 
-/* Ghost v0.8H - Exact Dashboard Look Pass */
-.phone{max-width:430px!important;padding:22px 22px 30px!important}
-.status{margin-bottom:12px!important}
+/* Ghost v0.8J - Retina SVG Asset Pass */
 .vaultPage{padding-top:0!important}
-.vaultClose{
-  top:92px!important;
-  right:24px!important;
-  color:#a957ff!important;
-  font-size:40px!important;
-  text-shadow:none!important;
+.vaultHero{margin:-10px auto 22px!important;text-align:center!important;display:grid!important;place-items:center!important}
+.vaultHeroLogo{
+  width:min(238px,70vw)!important;
+  display:block!important;
+  margin:0 auto -10px!important;
+  object-fit:contain!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  filter:drop-shadow(0 0 6px #873cff77) drop-shadow(0 0 14px #873cff44)!important;
+}
+.vaultBrandTitle{
+  margin:0!important;
+  font-size:48px!important;
+  line-height:.92!important;
+  font-weight:320!important;
+  letter-spacing:14px!important;
+  color:transparent!important;
+  background:linear-gradient(180deg,#fff4ff 0%,#cf8dff 42%,#8030ff 100%)!important;
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+  text-shadow:0 0 4px #ffffff33,0 0 8px #873cff88!important;
+}
+.vaultBrandSub{
+  margin-top:10px!important;
+  font-size:13px!important;
+  font-weight:420!important;
+  letter-spacing:7px!important;
+  color:#bd78ff!important;
+  text-shadow:0 0 5px #873cff66!important;
+}
+.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:24px!important}
+.vaultDashGrid .vaultBtn{
+  min-height:132px!important;
+  padding:21px 8px 16px!important;
+  border-radius:19px!important;
+  border:1px solid #642ba599!important;
+  background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;
+  box-shadow:inset 0 0 0 1px #ffffff03,0 8px 20px #0009!important;
+}
+.vaultDashGrid .vaultBtn .big{
+  width:72px!important;
+  height:72px!important;
+  margin:0 auto 12px!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  display:grid!important;
+  place-items:center!important;
+}
+.vaultDashGrid .vaultBtn .big img{
+  width:72px!important;
+  height:72px!important;
+  object-fit:contain!important;
+  image-rendering:auto!important;
+  filter:none!important;
+}
+.vaultDashGrid .vaultBtn span{
+  font-size:19px!important;
+  font-weight:330!important;
+  color:#fff!important;
+  text-shadow:0 1px 5px #000!important;
+}
+.nav{
+  margin:24px -2px -8px!important;
+  padding:13px 10px 12px!important;
+  border-radius:32px!important;
+  background:rgba(5,4,12,.86)!important;
+  border:1px solid #5b279088!important;
+  box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important;
+}
+.nav button{
+  font-size:13px!important;
+  font-weight:330!important;
+  color:#ded7e9!important;
+  display:grid!important;
+  gap:4px!important;
+}
+.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
+.nav .nI img{
+  width:32px!important;
+  height:32px!important;
+  object-fit:contain!important;
+  image-rendering:auto!important;
+  filter:none!important;
 }
 .vaultMiniLogo{
   left:28px!important;
@@ -425,118 +480,17 @@ button,input,textarea{font:inherit}
   object-fit:cover!important;
   filter:drop-shadow(0 0 8px #873cff88)!important;
 }
-.vaultHero{
-  margin:-10px auto 24px!important;
-  text-align:center!important;
-  display:grid!important;
-  place-items:center!important;
-}
-.vaultHeroLogo{
-  width:min(270px,78vw)!important;
-  max-width:100%!important;
-  display:block!important;
-  margin:0 auto -8px!important;
-  object-fit:contain!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  filter:drop-shadow(0 0 8px #873cff77) drop-shadow(0 0 18px #873cff44)!important;
-}
-.vaultBrandTitle{
-  margin:0!important;
-  font-size:52px!important;
-  line-height:.92!important;
-  font-weight:300!important;
-  letter-spacing:15px!important;
-  color:transparent!important;
-  background:linear-gradient(180deg,#fff0ff 0%,#c579ff 45%,#7f2fff 100%)!important;
-  -webkit-background-clip:text!important;
-  background-clip:text!important;
-  text-shadow:0 0 5px #ffffff44,0 0 10px #873cff99,0 0 20px #873cff55!important;
-  filter:none!important;
-}
-.vaultBrandSub{
-  margin-top:12px!important;
-  font-size:14px!important;
-  font-weight:400!important;
-  letter-spacing:8px!important;
-  color:#b75dff!important;
-  text-shadow:0 0 6px #873cff77!important;
-}
-.vaultDashGrid{
-  display:grid!important;
-  grid-template-columns:repeat(3,1fr)!important;
-  gap:14px!important;
-  margin-top:24px!important;
-}
-.vaultDashGrid .vaultBtn{
-  min-height:142px!important;
-  padding:22px 8px 18px!important;
-  border-radius:19px!important;
-  border:1px solid #6a2ab488!important;
-  background:linear-gradient(180deg,rgba(12,10,22,.88),rgba(4,3,10,.94))!important;
-  box-shadow:inset 0 0 0 1px #ffffff03,0 8px 20px #0008!important;
-}
-.vaultDashGrid .vaultBtn .big{
-  width:70px!important;
-  height:70px!important;
-  margin:0 auto 15px!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  box-shadow:none!important;
-  display:grid!important;
-  place-items:center!important;
-}
-.vaultDashGrid .vaultBtn .big img{
-  width:68px!important;
-  height:68px!important;
-  object-fit:contain!important;
-  filter:none!important;
-}
-.vaultDashGrid .vaultBtn span{
-  font-size:20px!important;
-  font-weight:300!important;
-  color:#fff!important;
-  text-shadow:0 1px 5px #000!important;
-}
-.nav{
-  margin:26px -2px -8px!important;
-  padding:13px 10px 12px!important;
-  border-radius:32px!important;
-  background:rgba(5,4,12,.86)!important;
-  border:1px solid #642ba588!important;
-  box-shadow:inset 0 0 12px #873cff10,0 8px 22px #0009!important;
-}
-.nav button{
-  font-size:14px!important;
-  font-weight:300!important;
-  color:#ddd6e8!important;
-  display:grid!important;
-  gap:4px!important;
-}
-.nav .nI{
-  height:32px!important;
-  display:grid!important;
-  place-items:center!important;
-}
-.nav .nI img{
-  width:31px!important;
-  height:31px!important;
-  object-fit:contain!important;
-  filter:none!important;
-}
 @media(max-width:390px){
-  .vaultHeroLogo{width:min(238px,72vw)!important}
-  .vaultBrandTitle{font-size:44px!important;letter-spacing:12px!important}
-  .vaultBrandSub{font-size:12px!important;letter-spacing:6px!important}
+  .vaultHeroLogo{width:min(216px,66vw)!important;margin-bottom:-8px!important}
+  .vaultBrandTitle{font-size:43px!important;letter-spacing:11px!important}
+  .vaultBrandSub{font-size:11px!important;letter-spacing:5.8px!important}
   .vaultDashGrid{gap:10px!important;margin-top:20px!important}
-  .vaultDashGrid .vaultBtn{min-height:122px!important;padding:18px 6px 14px!important}
-  .vaultDashGrid .vaultBtn .big{width:58px!important;height:58px!important;margin-bottom:12px!important}
-  .vaultDashGrid .vaultBtn .big img{width:56px!important;height:56px!important}
+  .vaultDashGrid .vaultBtn{min-height:118px!important;padding:17px 6px 14px!important}
+  .vaultDashGrid .vaultBtn .big{width:60px!important;height:60px!important;margin-bottom:10px!important}
+  .vaultDashGrid .vaultBtn .big img{width:60px!important;height:60px!important}
   .vaultDashGrid .vaultBtn span{font-size:17px!important}
   .nav button{font-size:12px!important}
+  .nav .nI img{width:28px!important;height:28px!important}
 }
 
 </style>
@@ -586,8 +540,8 @@ function notesDecoy(){shell(`<div class="fakeTitle">Notes</div><textarea id="dno
 function checkNote(){let v=document.querySelector('#dnote').value;if(v.includes(state.unlock.notes))vault();else alert('Note saved')}
 function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','Invoices 2026','Receipts'];shell(`<div class="fakeTitle">Files</div><div class="fileList">${folders.map(f=>`<button onclick="fileOpen('${f}')">📁 ${f}</button>`).join('')}</div>`)}
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
-function vault(){current='vault';shell(`<div class="vaultPage"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><div class="vaultHero"><img class="vaultHeroLogo" src="ghost-hero-moon.png" alt="Ghost"><div class="vaultBrandTitle">GHOST</div><div class="vaultBrandSub">— SECRET VAULT —</div></div><div class="vaultDashGrid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.png" alt=""></div><span>Photos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.png" alt=""></div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.png" alt=""></div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.png" alt=""></div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big"><img src="icon-contacts.png" alt=""></div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big"><img src="icon-settings.png" alt=""></div><span>Settings</span></div></div>${nav()}</div>`)}
-function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI"><img src="icon-home.png" alt=""></span>Home</button><button onclick="browserVault()"><span class="nI"><img src="nav-browser.png" alt=""></span>Browser</button><button onclick="photos()"><span class="nI"><img src="nav-photos.png" alt=""></span>Photos</button><button onclick="notesVault()"><span class="nI"><img src="nav-notes.png" alt=""></span>Notes</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.png" alt=""></span>Hide</button></div>`}
+function vault(){current='vault';shell(`<div class="vaultPage"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><div class="vaultHero"><img class="vaultHeroLogo" src="ghost-hero-moon.png" alt="Ghost"><div class="vaultBrandTitle">GHOST</div><div class="vaultBrandSub">— SECRET VAULT —</div></div><div class="vaultDashGrid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big"><img src="icon-settings.svg" alt=""></div><span>Settings</span></div></div>${nav()}</div>`)}
+function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg" alt=""></span>Home</button><button onclick="browserVault()"><span class="nI"><img src="icon-browser.svg" alt=""></span>Browser</button><button onclick="photos()"><span class="nI"><img src="icon-photos.svg" alt=""></span>Photos</button><button onclick="notesVault()"><span class="nI"><img src="icon-notes.svg" alt=""></span>Notes</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.svg" alt=""></span>Hide</button></div>`}
 
 
 function normalizePhotos(){state.photos=(state.photos||[]).map(p=>typeof p==='string'?{src:p,album:'Default',fav:false,created:Date.now()}:Object.assign({album:'Default',fav:false,created:Date.now()},p));if(!state.albums.includes('Default'))state.albums.unshift('Default');state.albumCovers=state.albumCovers||{}}
