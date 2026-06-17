@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v0.8A</title>
+<title>Ghost v0.8B</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -131,42 +131,61 @@ button,input,textarea{font:inherit}
 @media(max-width:390px){.vaultHeroLogo{width:min(292px,90vw)}.vaultDashGrid .vaultBtn{min-height:105px}.vaultDashGrid .vaultBtn .big{font-size:34px}.vaultDashGrid .vaultBtn span{font-size:16px}}
 
 
-/* Ghost v0.8A Dashboard Polish */
-.vaultPage{
-  padding-top:0;
-}
-.vaultClose{
-  top:84px;
-}
-.vaultMiniLogo{
-  top:88px;
-  width:30px;
-  height:30px;
-  opacity:.9;
-}
+/* Ghost v0.8B Hero Rework + Neon Icon Pack */
 .vaultHero{
-  margin:-14px auto 14px;
+  margin:-18px auto 14px;
+  text-align:center;
+  display:grid;
+  place-items:center;
 }
 .vaultHeroLogo{
-  width:min(245px,72vw);
+  width:min(210px,62vw);
+  max-width:100%;
+  display:block;
+  margin:0 auto -4px;
+  object-fit:contain;
   filter:
     drop-shadow(0 0 10px #873cff)
-    drop-shadow(0 0 22px #873cff77)
-    drop-shadow(0 0 34px #873cff44);
+    drop-shadow(0 0 22px #873cff99)
+    drop-shadow(0 0 38px #873cff55);
+}
+.vaultBrandTitle{
+  margin-top:0;
+  font-size:48px;
+  line-height:.95;
+  font-weight:950;
+  letter-spacing:9px;
+  background:linear-gradient(180deg,#f4ddff 0%,#b46cff 42%,#6b21ff 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:
+    0 0 10px #873cff,
+    0 0 22px #873cff,
+    0 0 42px #873cff88;
+}
+.vaultBrandSub{
+  margin-top:8px;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:8px;
+  color:#bb83ff;
+  text-shadow:0 0 10px #873cff,0 0 18px #873cffaa;
 }
 .vaultDashGrid{
   gap:13px;
-  margin-top:6px;
+  margin-top:18px;
 }
 .vaultDashGrid .vaultBtn{
-  min-height:122px;
+  min-height:124px;
   padding:17px 8px 15px;
   border:1px solid #6f33b766;
   background:
-    radial-gradient(circle at top,#23103a 0,#151126 38%,#090713 100%);
+    radial-gradient(circle at 50% 0%,#2a1446 0,#14101f 38%,#090713 100%);
   box-shadow:
     inset 0 0 0 1px #ffffff08,
-    0 0 18px #873cff18,
+    inset 0 0 24px #873cff12,
+    0 0 18px #873cff16,
     0 12px 28px #0008;
   transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
 }
@@ -175,39 +194,64 @@ button,input,textarea{font:inherit}
   border-color:#a75bff;
   box-shadow:
     inset 0 0 0 1px #ffffff10,
-    0 0 22px #873cff66,
+    inset 0 0 28px #873cff22,
+    0 0 26px #873cff66,
     0 12px 28px #0008;
 }
 .vaultDashGrid .vaultBtn .big{
-  width:44px;
-  height:44px;
+  width:50px;
+  height:50px;
   margin:0 auto 12px;
-  border-radius:16px;
+  border-radius:17px;
   display:grid;
   place-items:center;
-  font-size:26px;
-  background:linear-gradient(180deg,#23113d,#10091d);
+  background:radial-gradient(circle,#2b1250 0,#12091f 72%);
   border:1px solid #7d32ff88;
-  color:#ead8ff;
   box-shadow:
-    0 0 12px #873cff99,
-    inset 0 0 12px #873cff22;
-  text-shadow:0 0 10px #873cff;
-  filter:none;
+    0 0 14px #873cffaa,
+    0 0 28px #873cff44,
+    inset 0 0 14px #873cff22;
+  font-size:0!important;
+}
+.vaultDashGrid .vaultBtn .big img{
+  width:34px;
+  height:34px;
+  display:block;
+  object-fit:contain;
 }
 .vaultDashGrid .vaultBtn span{
   font-size:16px;
   font-weight:850;
   letter-spacing:.2px;
+  color:#fff;
+  text-shadow:0 2px 8px #000,0 0 12px #873cff55;
 }
 .nav .nI{
-  text-shadow:0 0 10px #873cff;
+  height:25px;
+  display:grid!important;
+  place-items:center;
+}
+.nav .nI img{
+  width:24px;
+  height:24px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 8px #873cff);
+}
+.vaultMiniLogo{
+  top:90px;
+  width:32px;
+  height:32px;
+  border-radius:9px;
+  opacity:.88;
 }
 @media(max-width:390px){
-  .vaultHeroLogo{width:min(222px,70vw)}
-  .vaultDashGrid{gap:10px}
+  .vaultHeroLogo{width:min(188px,58vw)}
+  .vaultBrandTitle{font-size:42px;letter-spacing:7px}
+  .vaultBrandSub{font-size:12px;letter-spacing:6px}
+  .vaultDashGrid{gap:10px;margin-top:16px}
   .vaultDashGrid .vaultBtn{min-height:112px;padding:15px 6px 13px}
-  .vaultDashGrid .vaultBtn .big{width:40px;height:40px;font-size:24px;margin-bottom:10px}
+  .vaultDashGrid .vaultBtn .big{width:44px;height:44px;margin-bottom:10px}
+  .vaultDashGrid .vaultBtn .big img{width:30px;height:30px}
   .vaultDashGrid .vaultBtn span{font-size:15px}
 }
 
@@ -257,8 +301,8 @@ function notesDecoy(){shell(`<div class="fakeTitle">Notes</div><textarea id="dno
 function checkNote(){let v=document.querySelector('#dnote').value;if(v.includes(state.unlock.notes))vault();else alert('Note saved')}
 function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','Invoices 2026','Receipts'];shell(`<div class="fakeTitle">Files</div><div class="fileList">${folders.map(f=>`<button onclick="fileOpen('${f}')">📁 ${f}</button>`).join('')}</div>`)}
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
-function vault(){current='vault';shell(`<div class="vaultPage"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><div class="vaultHero"><img class="vaultHeroLogo" src="ghost-main-logo.png" alt="Ghost Secret Vault"></div><div class="vaultDashGrid"><div class="vaultBtn" onclick="photos()"><div class="big">🖼️</div><span>Photos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big">📄</div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big">🌐</div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big">📝</div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big">👤</div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big">⚙️</div><span>Settings</span></div></div>${nav()}</div>`)}
-function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI">⌂</span>Home</button><button onclick="browserVault()"><span class="nI">🌐</span>Browser</button><button onclick="photos()"><span class="nI">🖼️</span>Photos</button><button onclick="notesVault()"><span class="nI">📝</span>Notes</button><button onclick="hideNow()"><span class="nI">◌</span>Hide</button></div>`}
+function vault(){current='vault';shell(`<div class="vaultPage"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><div class="vaultHero"><img class="vaultHeroLogo" src="ghost-hero-moon.png" alt="Ghost"><div class="vaultBrandTitle">GHOST</div><div class="vaultBrandSub">SECRET VAULT</div></div><div class="vaultDashGrid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big"><img src="icon-settings.svg" alt=""></div><span>Settings</span></div></div>${nav()}</div>`)}
+function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg" alt=""></span>Home</button><button onclick="browserVault()"><span class="nI"><img src="icon-browser.svg" alt=""></span>Browser</button><button onclick="photos()"><span class="nI"><img src="icon-photos.svg" alt=""></span>Photos</button><button onclick="notesVault()"><span class="nI"><img src="icon-notes.svg" alt=""></span>Notes</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.svg" alt=""></span>Hide</button></div>`}
 
 
 function normalizePhotos(){state.photos=(state.photos||[]).map(p=>typeof p==='string'?{src:p,album:'Default',fav:false,created:Date.now()}:Object.assign({album:'Default',fav:false,created:Date.now()},p));if(!state.albums.includes('Default'))state.albums.unshift('Default');state.albumCovers=state.albumCovers||{}}
@@ -346,7 +390,7 @@ function setPhotoSearch(v){
 }
 function setPhotoSort(v){state.photoSort=v;save();drawAlbumPhotos(state.activeAlbum||'Library')}
 async function drawAlbumHome(){await cleanupAlbumCovers();const albums=albumList();const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));const totalBytes=await storageBytes();shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div><div class="galleryHero"><div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div><div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div><button class="uploadLabel" onclick="createAlbum()">＋ Album</button></div><div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length-2}</b><span>Albums</span></div><div><b>${formatBytes(totalBytes)}</b><span>Storage</span></div></div><div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>${nav()}</div>`)}
-async function drawAlbumPhotos(active){await cleanupAlbumCovers();const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${(state.photoSearch||'').replace(/"/g,'&quot;')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search photos"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.8A: polished dashboard and premium vault icons enabled.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Default'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
+async function drawAlbumPhotos(active){await cleanupAlbumCovers();const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${(state.photoSearch||'').replace(/"/g,'&quot;')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search photos"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.7B: favourites, search, sort and storage stats enabled.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Default'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
 function toggleFav(i){state.photos[i].fav=!state.photos[i].fav;save();flash(state.photos[i].fav?'Added to favourites':'Removed from favourites');drawPhotos()}
 async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Default'}</small></div><button onclick="viewerMenu()">⋮</button></div><button class="viewerFav ${p.fav?'on':''}" onclick="toggleViewerFav()">${p.fav?'⭐':'☆'}</button><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
 function toggleViewerFav(){state.photos[currentPhoto].fav=!state.photos[currentPhoto].fav;save();drawViewer()}
@@ -354,7 +398,7 @@ function viewerMenu(){closeAlbumModal();const dismiss=document.createElement('di
 async function deleteSelectedPhotos(){if(!selectedPhotos.length)return alert('Select photos first');if(!confirm('Delete '+selectedPhotos.length+' selected photo'+(selectedPhotos.length===1?'':'s')+'?'))return;for(const i of selectedPhotos){if(state.photos[i]&&state.photos[i].id)await dbDeletePhoto(state.photos[i].id)}state.photos=state.photos.filter((_,i)=>!selectedPhotos.includes(i));await cleanupAlbumCovers();save();exitSelectMode()}
 async function deletePhoto(){closeAlbumModal();if(confirm('Delete this photo?')){const id=state.photos[currentPhoto].id;if(id)await dbDeletePhoto(id);state.photos.splice(currentPhoto,1);await cleanupAlbumCovers();save();if(!state.photos.length){viewer.className='hidden';drawPhotos()}else{currentPhoto=Math.min(currentPhoto,state.photos.length-1);drawViewer()}}}
 function photoInfo(){const p=state.photos[currentPhoto];const d=p.created?new Date(p.created).toLocaleString():'Unknown';alert('Name: '+photoName(p,currentPhoto)+'\nAlbum: '+(p.album||'Default')+'\nFavourite: '+(p.fav?'Yes':'No')+'\nAdded: '+d+'\nPhoto '+(currentPhoto+1)+' of '+state.photos.length+'\nStorage: device database')}
-function photoSettings(){storageBytes().then(bytes=>alert('Ghost Photos v0.8A Dashboard Polish\nPhotos: '+state.photos.length+'\nAlbums: '+state.albums.length+'\nFavourites: '+rawAlbumIndexes('Favourites').length+'\nStorage used: '+formatBytes(bytes)))}
+function photoSettings(){storageBytes().then(bytes=>alert('Ghost Photos v0.7B Gallery Essentials\nPhotos: '+state.photos.length+'\nAlbums: '+state.albums.length+'\nFavourites: '+rawAlbumIndexes('Favourites').length+'\nStorage used: '+formatBytes(bytes)))}
 function addPhotos(files){isPickingPhotos=false;const selected=Array.from(files||[]);if(!selected.length){flash('No photos selected');return}const uploadAlbum=((state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos'||state.activeAlbum==='Favourites')?'Default':state.activeAlbum);flash('Uploading '+selected.length+' photo'+(selected.length>1?'s':'')+' to '+uploadAlbum+'...');let done=0,metas=[];selected.forEach(file=>{const reader=new FileReader();reader.onload=async e=>{if(e.target&&e.target.result){const id=photoId();await dbPutPhoto(id,e.target.result);metas.push({id,album:uploadAlbum,created:Date.now(),fav:false,name:file.name||'',size:file.size||0,type:file.type||''});if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id}done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.onerror=()=>{done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.readAsDataURL(file)})}
 
 
