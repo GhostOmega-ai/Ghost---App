@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.1 Clean Dashboard</title>
+<title>Ghost v2.1B Fit One Page</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -120,31 +120,88 @@ button,input,textarea{font:inherit}
 
 
 
-/* Ghost v2.1 Clean Dashboard — single dashboard layer */
-.v21Dash{padding-top:0!important}
-.vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 9px #873cffaa)!important}
-.vaultClose{position:absolute!important;right:25px!important;top:93px!important;width:42px!important;height:42px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:39px!important;line-height:1!important;text-shadow:none!important;z-index:5!important}
-.vaultGear{position:absolute!important;right:74px!important;top:95px!important;width:38px!important;height:38px!important;border:1px solid #5b279088!important;border-radius:14px!important;background:#080511cc!important;color:#b86dff!important;font-size:21px!important;display:grid!important;place-items:center!important;box-shadow:0 0 14px #873cff44!important;z-index:5!important}
-.targetHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-10px auto 24px!important}
-.targetHeroGhost{width:min(238px,70vw)!important;height:auto!important;margin:0 auto -8px!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 7px #873cff77) drop-shadow(0 0 15px #873cff44)!important}
-.targetGhostTitle{margin:0!important;font-size:49px!important;line-height:.9!important;font-weight:300!important;letter-spacing:13px!important;color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c678ff 47%,#7a2cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:0 0 5px #fff4,0 0 11px #873cff99,0 0 19px #873cff55!important}
-.targetGhostSub{margin-top:12px!important;font-size:12px!important;font-weight:430!important;letter-spacing:6px!important;color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important}
-.v21Grid{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:14px!important;margin-top:22px!important}
-.v21Grid .vaultBtn{min-height:152px!important;padding:22px 8px 16px!important;border-radius:22px!important;border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;box-shadow:inset 0 0 0 1px #ffffff06,0 8px 20px #0009!important;text-align:center!important}
-.v21Grid .vaultBtn .big{width:70px!important;height:70px!important;margin:0 auto 12px!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;display:grid!important;place-items:center!important;font-size:0!important}
-.v21Grid .vaultBtn .big img{width:70px!important;height:70px!important;object-fit:contain!important;image-rendering:auto!important;filter:none!important}
-.v21Grid .vaultBtn span{display:block!important;font-size:22px!important;font-weight:360!important;color:#fff!important;text-shadow:0 1px 5px #000!important}
-.v21Grid .vaultBtn small{display:block!important;font-size:13px!important;color:#c8bfd7!important;margin-top:5px!important;font-weight:300!important}
-.v21Grid .contactWide{grid-column:1 / -1!important;min-height:112px!important;display:grid!important;grid-template-columns:90px 1fr!important;align-items:center!important;text-align:left!important;padding:18px 22px!important}
-.v21Grid .contactWide .big{margin:0!important}
-.v21Grid .contactWide span{font-size:24px!important}
-.v21Grid .contactWide small{font-size:14px!important}
-.v21Nav{position:sticky!important;bottom:0!important;margin:24px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important;display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:4px!important;backdrop-filter:blur(12px)!important}
-.v21Nav button{font-size:14px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;background:transparent!important;border:0!important;text-align:center!important}
-.v21Nav .nI{height:34px!important;display:grid!important;place-items:center!important}
-.v21Nav .nI img{width:32px!important;height:32px!important;object-fit:contain!important;filter:none!important}
 
-/* Ghost v2.1 Video Vault clean styles */
+
+/* Ghost v2.1B Fit One Page — compact no-scroll dashboard */
+.phone{padding:18px 22px 18px!important}
+.status{font-size:18px!important;margin-bottom:10px!important}
+.v21Dash{padding-top:0!important}
+.vaultMiniLogo{
+  position:absolute!important;left:28px!important;top:70px!important;width:38px!important;height:38px!important;
+  border-radius:12px!important;object-fit:cover!important;filter:drop-shadow(0 0 8px #873cffaa)!important
+}
+.vaultClose{
+  position:absolute!important;right:25px!important;top:78px!important;width:38px!important;height:38px!important;
+  background:transparent!important;border:0!important;color:#a95cff!important;font-size:36px!important;line-height:1!important;z-index:5!important
+}
+.vaultGear{
+  position:absolute!important;right:72px!important;top:80px!important;width:34px!important;height:34px!important;
+  border:1px solid #5b279088!important;border-radius:13px!important;background:#080511cc!important;color:#b86dff!important;
+  font-size:19px!important;display:grid!important;place-items:center!important;box-shadow:0 0 12px #873cff44!important;z-index:5!important
+}
+.targetHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-8px auto 14px!important}
+.targetHeroGhost{
+  width:min(190px,56vw)!important;height:auto!important;margin:0 auto -10px!important;display:block!important;
+  object-fit:contain!important;filter:drop-shadow(0 0 6px #873cff77) drop-shadow(0 0 12px #873cff44)!important
+}
+.targetGhostTitle{
+  margin:0!important;font-size:38px!important;line-height:.88!important;font-weight:300!important;letter-spacing:10px!important;
+  color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c678ff 47%,#7a2cff 100%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  text-shadow:0 0 4px #fff3,0 0 9px #873cff88,0 0 15px #873cff44!important
+}
+.targetGhostSub{
+  margin-top:9px!important;font-size:10.5px!important;font-weight:430!important;letter-spacing:4.6px!important;
+  color:#bd6dff!important;text-shadow:0 0 5px #873cff66!important
+}
+.v21Grid{
+  display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:10px!important;margin-top:15px!important
+}
+.v21Grid .vaultBtn{
+  min-height:112px!important;padding:14px 6px 11px!important;border-radius:19px!important;
+  border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;
+  box-shadow:inset 0 0 0 1px #ffffff06,0 7px 16px #0008!important;text-align:center!important
+}
+.v21Grid .vaultBtn .big{
+  width:48px!important;height:48px!important;margin:0 auto 7px!important;background:transparent!important;border:0!important;
+  border-radius:0!important;box-shadow:none!important;display:grid!important;place-items:center!important;font-size:0!important
+}
+.v21Grid .vaultBtn .big img{
+  width:48px!important;height:48px!important;object-fit:contain!important;image-rendering:auto!important;filter:none!important
+}
+.v21Grid .vaultBtn span{
+  display:block!important;font-size:18px!important;font-weight:360!important;color:#fff!important;text-shadow:0 1px 5px #000!important
+}
+.v21Grid .vaultBtn small{
+  display:block!important;font-size:11px!important;color:#c8bfd7!important;margin-top:3px!important;font-weight:300!important
+}
+.v21Grid .contactWide{
+  grid-column:1 / -1!important;
+  min-height:82px!important;
+  display:grid!important;
+  grid-template-columns:66px 1fr!important;
+  align-items:center!important;
+  text-align:left!important;
+  padding:12px 18px!important
+}
+.v21Grid .contactWide .big{margin:0!important;width:50px!important;height:50px!important}
+.v21Grid .contactWide .big img{width:50px!important;height:50px!important}
+.v21Grid .contactWide span{font-size:21px!important}
+.v21Grid .contactWide small{font-size:12px!important}
+.v21Nav{
+  position:sticky!important;bottom:0!important;margin:14px -2px -6px!important;padding:9px 10px 8px!important;border-radius:28px!important;
+  background:rgba(5,4,12,.88)!important;border:1px solid #5b279088!important;
+  box-shadow:inset 0 0 9px #873cff0d,0 7px 18px #0009!important;
+  display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:4px!important;backdrop-filter:blur(12px)!important
+}
+.v21Nav button{
+  font-size:12px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:2px!important;
+  background:transparent!important;border:0!important;text-align:center!important
+}
+.v21Nav .nI{height:28px!important;display:grid!important;place-items:center!important}
+.v21Nav .nI img{width:26px!important;height:26px!important;object-fit:contain!important;filter:none!important}
+
+/* Ghost v2.1B Video Vault clean styles */
 .videoTop{display:flex;align-items:center;gap:12px;margin-bottom:14px}.videoTop h2{margin:0;font-size:25px}
 .videoHero{border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005}
 .videoHeroIcon{width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;box-shadow:0 0 18px #873cff55;display:grid;place-items:center}
@@ -157,7 +214,30 @@ button,input,textarea{font:inherit}
 .videoActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}.videoActions button{border:1px solid #4b2574;background:#11101c;color:white;border-radius:14px;padding:11px 8px;font-weight:800}.videoActions .danger{background:#ff514f;border-color:#ff514f}
 .videoPlayer{position:fixed;inset:0;background:#020204f8;z-index:70;padding:18px;display:flex;flex-direction:column}.videoPlayerTop{display:flex;align-items:center;gap:10px;margin-bottom:12px}.videoPlayerTop button{width:42px;height:42px;border-radius:14px;border:1px solid #4b2574;background:#11101c;color:white;font-size:22px}.videoPlayerTop strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.videoPlayer video{width:100%;max-height:70vh;border-radius:18px;background:#000;box-shadow:0 0 25px #873cff55}
 .videoEmpty{text-align:center;padding:36px 16px;color:#aaa2b7}.videoEmpty .bigVideo{font-size:58px;margin-bottom:10px}
-@media(max-width:390px){.targetHero{margin:-6px auto 22px!important}.targetHeroGhost{width:min(218px,66vw)!important;margin-bottom:-7px!important}.targetGhostTitle{font-size:42px!important;letter-spacing:10px!important}.targetGhostSub{font-size:11px!important;letter-spacing:5px!important}.v21Grid{gap:11px!important;margin-top:20px!important}.v21Grid .vaultBtn{min-height:136px!important;padding:18px 6px 14px!important}.v21Grid .vaultBtn .big{width:60px!important;height:60px!important;margin-bottom:10px!important}.v21Grid .vaultBtn .big img{width:60px!important;height:60px!important}.v21Grid .vaultBtn span{font-size:19px!important}.v21Grid .vaultBtn small{font-size:12px!important}.v21Grid .contactWide{min-height:96px!important;grid-template-columns:76px 1fr!important}.v21Nav button{font-size:13px!important}.v21Nav .nI img{width:30px!important;height:30px!important}}
+
+@media(max-width:390px){
+  .phone{padding:16px 20px 16px!important}
+  .status{margin-bottom:7px!important}
+  .vaultMiniLogo{top:65px!important;left:26px!important;width:35px!important;height:35px!important}
+  .vaultClose{top:72px!important;right:23px!important;font-size:34px!important}
+  .vaultGear{top:75px!important;right:68px!important;width:32px!important;height:32px!important;font-size:18px!important}
+  .targetHero{margin:-8px auto 12px!important}
+  .targetHeroGhost{width:min(168px,52vw)!important;margin-bottom:-9px!important}
+  .targetGhostTitle{font-size:34px!important;letter-spacing:8.5px!important}
+  .targetGhostSub{font-size:9.5px!important;letter-spacing:4px!important;margin-top:8px!important}
+  .v21Grid{gap:9px!important;margin-top:13px!important}
+  .v21Grid .vaultBtn{min-height:101px!important;padding:12px 6px 10px!important;border-radius:18px!important}
+  .v21Grid .vaultBtn .big{width:42px!important;height:42px!important;margin-bottom:6px!important}
+  .v21Grid .vaultBtn .big img{width:42px!important;height:42px!important}
+  .v21Grid .vaultBtn span{font-size:16px!important}
+  .v21Grid .vaultBtn small{font-size:10px!important;margin-top:2px!important}
+  .v21Grid .contactWide{min-height:72px!important;grid-template-columns:58px 1fr!important;padding:10px 16px!important}
+  .v21Grid .contactWide .big,.v21Grid .contactWide .big img{width:44px!important;height:44px!important}
+  .v21Grid .contactWide span{font-size:18px!important}
+  .v21Nav{margin-top:12px!important;padding:8px 10px 7px!important}
+  .v21Nav .nI{height:25px!important}
+  .v21Nav .nI img{width:24px!important;height:24px!important}
+}
 
 </style>
 
