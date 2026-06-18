@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.0A Blank Screen Fix</title>
+<title>Ghost v2.0B Syntax Repair</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -320,22 +320,426 @@ button,input,textarea{font:inherit}
 }
 
 
+/* Ghost v1.1A Video Vault */
+.mediaGrid{grid-template-columns:repeat(3,1fr)!important}
+.videoTop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.videoTop h2{margin:0;font-size:25px}
+.videoHero{border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005}
+.videoHeroIcon{width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;box-shadow:0 0 18px #873cff55;display:grid;place-items:center}
+.videoHeroIcon img{width:44px;height:44px}
+.videoHero h3{margin:0 0 4px}
+.videoHero p{margin:0;color:#aaa2b7;font-size:13px}
+.videoUpload{margin-left:auto;background:linear-gradient(180deg,#a75bff,#6620ed);border:0;color:white;border-radius:16px;padding:12px 14px;font-weight:900;box-shadow:0 0 15px #873cff77}
+.videoList{display:grid;gap:12px;margin-top:14px}
+.videoCard{border:1px solid #4b2574;background:linear-gradient(145deg,#181229,#090713);border-radius:20px;padding:12px;box-shadow:0 8px 24px #0006}
+.videoThumb{height:150px;border-radius:16px;background:#05030b;border:1px solid #24113d;display:grid;place-items:center;overflow:hidden;margin-bottom:10px}
+.videoThumb video{width:100%;height:100%;object-fit:cover}
+.videoThumb .playIcon{font-size:44px;color:#b37aff;text-shadow:0 0 16px #873cff}
+.videoMetaRow{display:flex;align-items:center;gap:8px}
+.videoMetaRow strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoMetaRow small{color:#aaa2b7}
+.videoActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.videoActions button{border:1px solid #4b2574;background:#11101c;color:white;border-radius:14px;padding:11px 8px;font-weight:800}
+.videoActions .danger{background:#ff514f;border-color:#ff514f}
+.videoPlayer{position:fixed;inset:0;background:#020204f8;z-index:70;padding:18px;display:flex;flex-direction:column}
+.videoPlayerTop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.videoPlayerTop button{width:42px;height:42px;border-radius:14px;border:1px solid #4b2574;background:#11101c;color:white;font-size:22px}
+.videoPlayerTop strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoPlayer video{width:100%;max-height:70vh;border-radius:18px;background:#000;box-shadow:0 0 25px #873cff55}
+.videoEmpty{text-align:center;padding:36px 16px;color:#aaa2b7}
+.videoEmpty .bigVideo{font-size:58px;margin-bottom:10px}
 
-/* Ghost v2.0A blank-screen safety boot */
-window.addEventListener('error', function(e){
-  try{
-    document.body.innerHTML = '<div style="min-height:100vh;background:#05030b;color:white;font-family:Arial;padding:24px"><h1 style="color:#b56cff">Ghost recovered</h1><p>The app hit a script error:</p><pre style="white-space:pre-wrap;background:#11101c;border:1px solid #873cff;border-radius:14px;padding:12px">'+(e.message||'Unknown error')+'</pre><button onclick="localStorage.removeItem(\'ghostStateV03\');location.reload()" style="padding:14px 18px;border-radius:14px;border:0;background:#873cff;color:white;font-weight:800">Reset Ghost State</button></div>';
-  }catch(err){}
-});
-try{
-  if(typeof state!=='undefined' && !state.setupDone){
-    welcome();
-  }else if(typeof disguiseApp==='function'){
-    disguiseApp();
-  }
-}catch(e){
-  document.body.innerHTML = '<div style="min-height:100vh;background:#05030b;color:white;font-family:Arial;padding:24px"><h1 style="color:#b56cff">Ghost boot error</h1><pre style="white-space:pre-wrap;background:#11101c;border:1px solid #873cff;border-radius:14px;padding:12px">'+e.message+'</pre></div>';
+</style>
+
+<style id="v08d2-polish">
+.vaultBrandTitle{
+ text-shadow:0 0 4px #fff3,0 0 8px #a64dff,0 0 14px #873cff88 !important;
+ filter:none !important;
 }
+.vaultDashGrid .vaultBtn .big img,
+.nav .nI img{
+ filter:none !important;
+}
+.vaultDashGrid .vaultBtn{
+ border-color:#8d52d6 !important;
+}
+
+/* Ghost v1.1A Dashboard Rebuild */
+.rebuildDash{padding-top:0!important}
+.vaultClose{position:absolute!important;right:25px!important;top:92px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:42px!important;text-shadow:none!important;z-index:5!important}
+.vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 8px #873cff88)!important}
+.newHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-18px auto 22px!important}
+.newHeroGhost{width:min(250px,72vw)!important;height:auto!important;margin:0 auto -20px!important;display:block!important}
+.newGhostTitle{margin:0!important;font-size:58px!important;line-height:.88!important;font-weight:300!important;letter-spacing:16px!important;color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c779ff 48%,#7a2cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:0 0 5px #fff4,0 0 12px #873cff99,0 0 22px #873cff55!important}
+.newGhostSub{margin-top:13px!important;font-size:14px!important;font-weight:420!important;letter-spacing:8px!important;color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important}
+.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:26px!important}
+.vaultDashGrid .vaultBtn{min-height:136px!important;padding:22px 8px 17px!important;border-radius:20px!important;border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;box-shadow:inset 0 0 0 1px #fff1,0 8px 20px #0009!important}
+.vaultDashGrid .vaultBtn .big{width:72px!important;height:72px!important;margin:0 auto 13px!important;background:transparent!important;border:0!important;box-shadow:none!important;display:grid!important;place-items:center!important}
+.vaultDashGrid .vaultBtn .big img{width:72px!important;height:72px!important;object-fit:contain!important;filter:none!important}
+.vaultDashGrid .vaultBtn span{font-size:20px!important;font-weight:330!important;color:#fff!important;text-shadow:0 1px 5px #000!important}
+.nav{margin:26px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important}
+.nav button{font-size:13px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;background:transparent!important;border:0!important}
+.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
+.nav .nI img{width:32px!important;height:32px!important;object-fit:contain!important;filter:none!important}
+@media(max-width:390px){
+  .newHero{margin:-14px auto 20px!important}
+  .newHeroGhost{width:min(225px,68vw)!important;margin-bottom:-18px!important}
+  .newGhostTitle{font-size:48px!important;letter-spacing:13px!important}
+  .newGhostSub{font-size:12px!important;letter-spacing:6px!important}
+  .vaultDashGrid{gap:10px!important;margin-top:22px!important}
+  .vaultDashGrid .vaultBtn{min-height:120px!important;padding:18px 6px 14px!important}
+  .vaultDashGrid .vaultBtn .big{width:61px!important;height:61px!important;margin-bottom:11px!important}
+  .vaultDashGrid .vaultBtn .big img{width:61px!important;height:61px!important}
+  .vaultDashGrid .vaultBtn span{font-size:17px!important}
+  .nav button{font-size:12px!important}
+  .nav .nI img{width:28px!important;height:28px!important}
+}
+
+
+/* Ghost v1.1A - Final Target Dashboard Asset Pack */
+.targetDash{padding-top:0!important}
+.vaultClose{position:absolute!important;right:25px!important;top:93px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:39px!important;text-shadow:none!important;z-index:5!important}
+.vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 9px #873cffaa)!important}
+.targetHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-10px auto 24px!important}
+.targetHeroGhost{width:min(268px,76vw)!important;height:auto!important;margin:0 auto -8px!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 7px #873cff77) drop-shadow(0 0 15px #873cff44)!important}
+.targetGhostTitle{margin:0!important;font-size:56px!important;line-height:.9!important;font-weight:300!important;letter-spacing:15px!important;color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c678ff 47%,#7a2cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:0 0 5px #fff4,0 0 11px #873cff99,0 0 19px #873cff55!important}
+.targetGhostSub{margin-top:12px!important;font-size:14px!important;font-weight:430!important;letter-spacing:8px!important;color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important}
+.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:24px!important}
+.vaultDashGrid .vaultBtn{min-height:132px!important;padding:21px 8px 16px!important;border-radius:20px!important;border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;box-shadow:inset 0 0 0 1px #ffffff06,0 8px 20px #0009!important}
+.vaultDashGrid .vaultBtn .big{width:72px!important;height:72px!important;margin:0 auto 12px!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;display:grid!important;place-items:center!important}
+.vaultDashGrid .vaultBtn .big img{width:72px!important;height:72px!important;object-fit:contain!important;image-rendering:auto!important;filter:none!important}
+.vaultDashGrid .vaultBtn span{font-size:19px!important;font-weight:330!important;color:#fff!important;text-shadow:0 1px 5px #000!important}
+.nav{margin:25px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important}
+.nav button{font-size:13px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;background:transparent!important;border:0!important}
+.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
+.nav .nI img{width:32px!important;height:32px!important;object-fit:contain!important;filter:none!important}
+@media(max-width:390px){
+  .targetHero{margin:-6px auto 22px!important}
+  .targetHeroGhost{width:min(238px,72vw)!important;margin-bottom:-7px!important}
+  .targetGhostTitle{font-size:47px!important;letter-spacing:12px!important}
+  .targetGhostSub{font-size:12px!important;letter-spacing:6px!important}
+  .vaultDashGrid{gap:10px!important;margin-top:22px!important}
+  .vaultDashGrid .vaultBtn{min-height:118px!important;padding:17px 6px 14px!important}
+  .vaultDashGrid .vaultBtn .big{width:62px!important;height:62px!important;margin-bottom:10px!important}
+  .vaultDashGrid .vaultBtn .big img{width:62px!important;height:62px!important}
+  .vaultDashGrid .vaultBtn span{font-size:17px!important}
+  .nav button{font-size:12px!important}
+  .nav .nI img{width:28px!important;height:28px!important}
+}
+
+
+/* Ghost v1.1A Video Vault */
+.mediaGrid{grid-template-columns:repeat(3,1fr)!important}
+.videoTop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.videoTop h2{margin:0;font-size:25px}
+.videoHero{border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005}
+.videoHeroIcon{width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;box-shadow:0 0 18px #873cff55;display:grid;place-items:center}
+.videoHeroIcon img{width:44px;height:44px}
+.videoHero h3{margin:0 0 4px}
+.videoHero p{margin:0;color:#aaa2b7;font-size:13px}
+.videoUpload{margin-left:auto;background:linear-gradient(180deg,#a75bff,#6620ed);border:0;color:white;border-radius:16px;padding:12px 14px;font-weight:900;box-shadow:0 0 15px #873cff77}
+.videoList{display:grid;gap:12px;margin-top:14px}
+.videoCard{border:1px solid #4b2574;background:linear-gradient(145deg,#181229,#090713);border-radius:20px;padding:12px;box-shadow:0 8px 24px #0006}
+.videoThumb{height:150px;border-radius:16px;background:#05030b;border:1px solid #24113d;display:grid;place-items:center;overflow:hidden;margin-bottom:10px}
+.videoThumb video{width:100%;height:100%;object-fit:cover}
+.videoThumb .playIcon{font-size:44px;color:#b37aff;text-shadow:0 0 16px #873cff}
+.videoMetaRow{display:flex;align-items:center;gap:8px}
+.videoMetaRow strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoMetaRow small{color:#aaa2b7}
+.videoActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.videoActions button{border:1px solid #4b2574;background:#11101c;color:white;border-radius:14px;padding:11px 8px;font-weight:800}
+.videoActions .danger{background:#ff514f;border-color:#ff514f}
+.videoPlayer{position:fixed;inset:0;background:#020204f8;z-index:70;padding:18px;display:flex;flex-direction:column}
+.videoPlayerTop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.videoPlayerTop button{width:42px;height:42px;border-radius:14px;border:1px solid #4b2574;background:#11101c;color:white;font-size:22px}
+.videoPlayerTop strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoPlayer video{width:100%;max-height:70vh;border-radius:18px;background:#000;box-shadow:0 0 25px #873cff55}
+.videoEmpty{text-align:center;padding:36px 16px;color:#aaa2b7}
+.videoEmpty .bigVideo{font-size:58px;margin-bottom:10px}
+
+</style>
+
+</head>
+<body>
+<div id="app" class="phone"></div>
+<div id="viewer" class="hidden"></div>
+<script>
+const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
+const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
+let state=JSON.parse(localStorage.ghostStateV03||'{}');
+state.setupDone=state.setupDone||false;
+state.disguise=state.disguise||'calculator';
+state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
+let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
+function save(){localStorage.ghostStateV03=JSON.stringify(state)}
+function flash(t){
+  let el=document.querySelector('#flashMsg');
+  if(!el){
+    el=document.createElement('div');
+    el.id='flashMsg';
+    el.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#171126;border:1px solid #8b3cff;color:#fff;border-radius:14px;padding:12px 18px;box-shadow:0 0 18px #873cff;z-index:999;font-weight:800;text-align:center';
+    document.body.appendChild(el);
+  }
+  el.textContent=t;
+  setTimeout(()=>{if(el)el.remove()},1500);
+}
+function shell(inner){app.innerHTML=`<div class="screen"><div class="status"><span>9:41</span><span class="icons">▮▮▮ ᯤ ▭</span></div>${inner}</div>`}
+function ghost(cls=''){return `<img class="ghost ${cls}" src="${ghostSVG}">`}
+function hideNow(){viewer.classList.add('hidden'); calcVal=''; weatherSeq=[]; calendarSeq=[]; current='disguise'; disguiseApp()}
+function resetApp(){if(confirm('Reset Ghost setup?')){localStorage.removeItem('ghostStateV03');location.reload()}}
+function welcome(){current='welcome';shell(`${ghost()}<h1 class="title">Welcome to<br><span class="grad">GHOST</span></h1><p class="sub">Create your private vault, then Ghost will only open as your chosen disguise.</p><div class="card"><p>First launch only:</p><p>1. Choose disguise</p><p>2. Set secret unlock</p><p>3. Create vault</p></div><button class="btn" onclick="chooseDisguise()">Get Started →</button>`)}
+function chooseDisguise(){current='setup';const opts=[['calculator','🧮','Calculator','Unlock with a secret calculation'],['weather','🌤️','Weather','Unlock with a secret weather sequence'],['calendar','📅','Calendar','Unlock with a secret date'],['notes','🗒️','Notes','Unlock with a hidden word'],['files','📁','Files','Unlock with a secret folder']];shell(`<div class="topbar"><button class="back" onclick="welcome()">←</button></div>${ghost('small')}<h1 class="title">Choose your<br><span class="grad">disguise</span></h1><p class="sub">This becomes the front page after setup.</p>${opts.map(o=>`<div class="option ${state.disguise==o[0]?'selected':''}" onclick="state.disguise='${o[0]}';save();chooseDisguise()"><div class="miniIcon">${o[1]}</div><div><h3>${o[2]}</h3><p>${o[3]}</p></div><div class="radio"></div></div>`).join('')}<button class="btn" onclick="unlockSetup()">Continue →</button>`)}
+function unlockSetup(){current='setup';let d=state.disguise;let content='';if(d==='calculator')content=`<h1 class="title">Calculator<br><span class="grad">unlock</span></h1><p class="sub">Example: 7777= or 1234+</p><input id="unlockInput" class="input" value="${state.unlock.calculator}" placeholder="Secret calculator code">`;if(d==='weather')content=`<h1 class="title">Weather<br><span class="grad">sequence</span></h1><p class="sub">Type a sequence using sun, cloud, rain, storm.</p><input id="unlockInput" class="input" value="${state.unlock.weather.join(',')}" placeholder="sun,cloud,rain">`;if(d==='calendar')content=`<h1 class="title">Calendar<br><span class="grad">date</span></h1><p class="sub">Choose one date or sequence.</p><input id="unlockInput" class="input" value="${state.unlock.calendar.join(',')}" placeholder="28 or 7,14,21">`;if(d==='notes')content=`<h1 class="title">Notes<br><span class="grad">secret word</span></h1><p class="sub">Typing this word in the decoy notes unlocks Ghost.</p><input id="unlockInput" class="input" value="${state.unlock.notes}" placeholder="ghostmode">`;if(d==='files')content=`<h1 class="title">Files<br><span class="grad">secret folder</span></h1><p class="sub">Opening this fake folder unlocks Ghost.</p><input id="unlockInput" class="input" value="${state.unlock.files}" placeholder="Invoices 2026">`;shell(`<div class="topbar"><button class="back" onclick="chooseDisguise()">←</button></div>${ghost('small')}${content}<button class="btn" onclick="saveUnlock()">Create Vault →</button>`)}
+function saveUnlock(){let v=document.querySelector('#unlockInput').value.trim();if(!v)return alert('Add an unlock method');let d=state.disguise;if(d==='calculator')state.unlock.calculator=v;if(d==='weather')state.unlock.weather=v.split(',').map(x=>x.trim().toLowerCase()).filter(Boolean);if(d==='calendar')state.unlock.calendar=v.split(',').map(x=>x.trim()).filter(Boolean);if(d==='notes')state.unlock.notes=v;if(d==='files')state.unlock.files=v;state.setupDone=true;save();created()}
+function created(){current='created';shell(`${ghost()}<h1 class="title">Vault<br><span class="grad">created</span></h1><p class="sub">From now on, Ghost opens as your disguise.</p><div class="card"><p>Disguise: <b>${state.disguise}</b></p><p>Status: <b style="color:#8dffb1">Hidden</b></p></div><button class="btn" onclick="hideNow()">Open Disguise →</button>`)}
+function disguiseApp(){current='disguise'; if(state.disguise==='weather')return weatherApp(); if(state.disguise==='calendar')return calendarApp(); if(state.disguise==='notes')return notesDecoy(); if(state.disguise==='files')return filesDecoy(); return calcApp()}
+function calcApp(){calcVal='';shell(`<div class="fakeTitle">Calculator</div><div class="calcDisplay" id="display">0</div><div class="calcGrid">${['C','÷','×','⌫','7','8','9','-','4','5','6','+','1','2','3','=','0','.','%','GO'].map(x=>`<button class="${'+-×÷='.includes(x)||x=='GO'?'op':''} ${x=='='?'eq':''}" onclick="calcPress('${x}')">${x}</button>`).join('')}</div><p class="privacyNote">Standard calculator</p>`)}
+function calcPress(x){if(x==='C')calcVal='';else if(x==='⌫')calcVal=calcVal.slice(0,-1);else if(x==='GO'||x==='='){if(calcVal+x===state.unlock.calculator||calcVal===state.unlock.calculator.replace('=',''))return vault();try{calcVal=String(Function('return '+calcVal.replaceAll('×','*').replaceAll('÷','/').replace('%','/100'))())}catch(e){calcVal='Error'}}else calcVal+=x;document.querySelector('#display').textContent=calcVal||'0'}
+function weatherApp(){weatherSeq=[];shell(`<div class="fakeTitle">Weather</div><div class="card" style="text-align:center"><div style="font-size:72px">🌤️</div><h1>18°C</h1><p>Partly cloudy</p></div><div class="weatherCards">${[['sun','☀️','Sun'],['cloud','☁️','Cloud'],['rain','🌧️','Rain'],['storm','⛈️','Storm']].map(w=>`<div class="wCard" onclick="weatherTap('${w[0]}')">${w[1]}<br>${w[2]}</div>`).join('')}</div>`)}
+function weatherTap(w){weatherSeq.push(w);let target=state.unlock.weather.join(',');if(weatherSeq.slice(-state.unlock.weather.length).join(',')===target)vault()}
+function calendarApp(){calendarSeq=[];let d=new Date(),days=Array.from({length:31},(_,i)=>i+1);shell(`<div class="fakeTitle">Calendar</div><h2 style="text-align:center">${d.toLocaleString('default',{month:'long'})} ${d.getFullYear()}</h2><div class="calendarGrid">${days.map(day=>`<button class="day" onclick="calendarTap('${day}')">${day}</button>`).join('')}</div>`)}
+function calendarTap(day){calendarSeq.push(day);let target=state.unlock.calendar.join(',');if(calendarSeq.slice(-state.unlock.calendar.length).join(',')===target)vault()}
+function notesDecoy(){shell(`<div class="fakeTitle">Notes</div><textarea id="dnote" class="noteArea" placeholder="Start typing..."></textarea><button class="btn" onclick="checkNote()">Save</button>`)}
+function checkNote(){let v=document.querySelector('#dnote').value;if(v.includes(state.unlock.notes))vault();else alert('Note saved')}
+function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','Invoices 2026','Receipts'];shell(`<div class="fakeTitle">Files</div><div class="fileList">${folders.map(f=>`<button onclick="fileOpen('${f}')">📁 ${f}</button>`).join('')}</div>`)}
+function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
+function vault(){current='vault';shell(`<div class="vaultPage targetDash"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><section class="targetHero"><img class="targetHeroGhost" src="ghost-hero-target.png" alt="Ghost"><h1 class="targetGhostTitle">GHOST</h1><div class="targetGhostSub">— SECRET VAULT —</div></section><div class="vaultDashGrid mediaGrid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span></div><div class="vaultBtn" onclick="videosVault()"><div class="big"><img src="icon-videos.svg" alt=""></div><span>Videos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big"><img src="icon-settings.svg" alt=""></div><span>Settings</span></div></div>${nav()}</div>`)}
+function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg" alt=""></span>Home</button><button onclick="browserVault()"><span class="nI"><img src="icon-browser.svg" alt=""></span>Browser</button><button onclick="photos()"><span class="nI"><img src="icon-photos.svg" alt=""></span>Photos</button><button onclick="notesVault()"><span class="nI"><img src="icon-notes.svg" alt=""></span>Notes</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.svg" alt=""></span>Hide</button></div>`}
+
+
+function normalizePhotos(){state.photos=(state.photos||[]).map(p=>typeof p==='string'?{src:p,album:'Default',fav:false,created:Date.now()}:Object.assign({album:'Default',fav:false,created:Date.now()},p));if(!state.albums.includes('Default'))state.albums.unshift('Default');state.albumCovers=state.albumCovers||{}}
+function photoId(){return 'p_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
+function openGhostPhotoDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('GhostPhotoDBStable',1);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('photos'))db.createObjectStore('photos',{keyPath:'id'})};req.onsuccess=e=>resolve(e.target.result);req.onerror=e=>reject(e)})}
+async function dbPutPhoto(id,data){const db=await openGhostPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put({id,data});tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
+async function dbGetPhoto(id){const db=await openGhostPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readonly');const req=tx.objectStore('photos').get(id);req.onsuccess=()=>resolve(req.result?req.result.data:null);req.onerror=e=>reject(e)})}
+async function dbDeletePhoto(id){const db=await openGhostPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').delete(id);tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
+async function ensurePhotoStorage(){state.albums=state.albums||['Default','Family','Private','Work','Documents'];state.albumCovers=state.albumCovers||{};if(!state.albums.includes('Default'))state.albums.unshift('Default');const fixed=[];let changed=false;for(const p of (state.photos||[])){if(typeof p==='string'){const id=photoId();await dbPutPhoto(id,p);fixed.push({id,album:'Default',fav:false,created:Date.now()});changed=true}else if(p&&p.src){const id=p.id||photoId();await dbPutPhoto(id,p.src);fixed.push({id,album:p.album||'Default',fav:!!p.fav,created:p.created||Date.now()});changed=true}else if(p&&p.id){fixed.push(Object.assign({album:'Default',fav:false,created:Date.now()},p))}}state.photos=fixed;if(changed)save()}
+async function photos(){current='photos';await ensurePhotoStorage();selectedPhotos=[];selectMode=false;if(!state.activeAlbum)state.activeAlbum='Library';await drawPhotos()}
+function albumEmoji(a){return (a==='Library'||a==='All'||a==='All Photos')?'📚':a==='Family'?'👨‍👩‍👧':a==='Private'?'🔒':a==='Work'?'💼':a==='Documents'?'📄':a==='Default'?'🗂️':'📁'}
+function albumList(){return ['Library',...state.albums.filter(a=>a!=='Library'&&a!=='All'&&a!=='All Photos')]}
+function albumPhotoIndexes(album){if(album==='Library')return state.photos.map((_,i)=>i);return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Default')===album).map(x=>x.i)}
+function filteredPhotoIndexes(){normalizePhotos();if(state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos'||!state.activeAlbum)return state.photos.map((_,i)=>i);return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Default')===state.activeAlbum).map(x=>x.i)}
+async function photoSrc(i){const p=state.photos[i];if(!p)return '';if(p.src)return p.src;return await dbGetPhoto(p.id)||''}
+async function albumCoverSrc(album){const coverId=state.albumCovers&&state.albumCovers[album];if(coverId){const s=await dbGetPhoto(coverId);if(s)return s}const idxs=albumPhotoIndexes(album);if(!idxs.length)return '';return await photoSrc(idxs[idxs.length-1])}
+async function drawPhotos(){await ensurePhotoStorage();const active=state.activeAlbum||'Library';if(active==='Library'&&!selectMode){await drawAlbumHome();return}await drawAlbumPhotos(active)}
+async function drawAlbumHome(){const albums=albumList();const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div><div class="galleryHero"><div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div><div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div><button class="uploadLabel" onclick="createAlbum()">＋ Album</button></div><div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>${nav()}</div>`)}
+function openAlbum(a){state.activeAlbum=a;save();if(a==='Library'||a==='All'||a==='All Photos'){drawAlbumPhotos('Library')}else{drawPhotos()}}
+async function drawAlbumPhotos(active){const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">Stable storage enabled: photos are stored outside normal settings.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Default'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No photos here yet</h3><p>Tap Upload to add photos to this album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
+function startAlbumSelect(){selectMode=true;selectedPhotos=[];drawPhotos()}
+function switchAlbum(a){isPickingPhotos=false;selectMode=false;selectedPhotos=[];state.activeAlbum=a;save();drawPhotos()}
+function flash(t){let el=document.querySelector('#flashMsg');if(!el){el=document.createElement('div');el.id='flashMsg';el.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#171126;border:1px solid #8b3cff;color:#fff;border-radius:14px;padding:12px 18px;box-shadow:0 0 18px #873cff;z-index:999;font-weight:800;text-align:center';document.body.appendChild(el)}el.textContent=t;setTimeout(()=>{if(el)el.remove()},1800)}
+function createAlbum(){const name=prompt('Album name?');if(!name)return;if(!state.albums.includes(name))state.albums.push(name);state.activeAlbum=name;save();drawPhotos()}
+function photoSettings(){alert('Ghost Photos v0.6.3 Album Cards\\nStorage: stable device database\\nPhotos: '+state.photos.length+'\\nAlbums: '+state.albums.length)}
+function albumOptions(album){if(album==='Library'||album==='All'||album==='All Photos')return;const modal=document.createElement('div');modal.className='albumModal';let buttons=`<button class="albumChoice" onclick="renameAlbum('${album}')">Rename Album</button><button class="albumChoice" onclick="changeAlbumCover('${album}')">Change Cover</button><button class="albumChoice" onclick="moveAlbumContents('${album}')">Move Contents</button>`;if(album!=='Library'&&album!=='Default')buttons+=`<button class="albumChoice" onclick="deleteAlbumFlow('${album}')">Delete Album</button>`;buttons+=`<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button>`;modal.innerHTML=`<div class="albumModalCard"><h2>${albumEmoji(album)} ${album}</h2>${buttons}</div>`;document.body.appendChild(modal)}
+function closeAlbumModal(){document.querySelectorAll('.albumModal,.cleanMenu,.menuDismiss').forEach(x=>x.remove())}
+function renameAlbum(album){if(album==='Library')return alert('All cannot be renamed');const name=prompt('New album name?',album);if(!name||name===album)return;state.photos.forEach(p=>{if(p.album===album)p.album=name});state.albums=state.albums.map(a=>a===album?name:a);if(state.albumCovers[album]){state.albumCovers[name]=state.albumCovers[album];delete state.albumCovers[album]}state.activeAlbum=name;save();closeAlbumModal();drawPhotos()}
+async function changeAlbumCover(album){const idxs=albumPhotoIndexes(album);if(!idxs.length)return alert('Add photos first');closeAlbumModal();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));const modal=document.createElement('div');modal.className='albumModal';modal.innerHTML=`<div class="albumModalCard"><h2>Choose Cover</h2><div class="photoGridNew">${idxs.map((i,n)=>`<div class="photoTile" onclick="setAlbumCover('${album}',${i})"><img src="${thumbs[n]}"></div>`).join('')}</div><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;document.body.appendChild(modal)}
+function setAlbumCover(album,i){state.albumCovers[album]=state.photos[i].id;save();closeAlbumModal();drawPhotos()}
+function moveAlbumContents(album){if(album==='Library')return alert('Choose a specific album first');showAlbumPicker('album:'+album)}
+function deleteAlbumFlow(album){const modal=document.querySelector('.albumModal');modal.innerHTML=`<div class="albumModalCard"><h2>Delete ${album}?</h2><button class="albumChoice" onclick="deleteAlbumConfirm('${album}','default')">Delete album only<br><small>Move photos to Default</small></button><button class="albumChoice" onclick="deleteAlbumConfirm('${album}','all')">Delete album and photos</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`}
+async function deleteAlbumConfirm(album,mode){if(mode==='all'){if(!confirm('Delete album and every photo inside?'))return;const ids=state.photos.filter(p=>p.album===album).map(p=>p.id);for(const id of ids){await dbDeletePhoto(id)}state.photos=state.photos.filter(p=>p.album!==album)}else{state.photos.forEach(p=>{if(p.album===album)p.album='Default'})}state.albums=state.albums.filter(a=>a!==album);delete state.albumCovers[album];state.activeAlbum='Library';save();closeAlbumModal();drawPhotos()}
+function startSelectMode(i){selectMode=true;selectedPhotos=[i];drawPhotos()}
+function exitSelectMode(){selectMode=false;selectedPhotos=[];drawPhotos()}
+function togglePhotoSelect(i){if(selectedPhotos.includes(i))selectedPhotos=selectedPhotos.filter(x=>x!==i);else selectedPhotos.push(i);drawPhotos()}
+async function deleteSelectedPhotos(){if(!selectedPhotos.length)return alert('Select photos first');if(!confirm('Delete selected photos?'))return;for(const i of selectedPhotos){if(state.photos[i]&&state.photos[i].id)await dbDeletePhoto(state.photos[i].id)}state.photos=state.photos.filter((_,i)=>!selectedPhotos.includes(i));save();exitSelectMode()}
+function showAlbumPicker(mode){closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal';modal.innerHTML=`<div class="albumModalCard"><h2>Move to album</h2>${state.albums.map(a=>`<button class="albumChoice" onclick="finishAlbumMove('${mode}','${a}')">${albumEmoji(a)} ${a}</button>`).join('')}<button class="albumChoice" onclick="createAlbumFromPicker('${mode}')">➕ Create New Album</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;document.body.appendChild(modal)}
+function createAlbumFromPicker(mode){const name=prompt('New album name?');if(!name)return;if(!state.albums.includes(name))state.albums.push(name);finishAlbumMove(mode,name)}
+function finishAlbumMove(mode,album){if(mode==='selected'){selectedPhotos.forEach(i=>state.photos[i].album=album);selectedPhotos=[];selectMode=false}else if(mode.startsWith('album:')){const source=mode.split(':')[1];state.photos.forEach(p=>{if(p.album===source)p.album=album});if(state.albumCovers[source]){state.albumCovers[album]=state.albumCovers[source]}}else{state.photos[currentPhoto].album=album}state.activeAlbum=album;save();closeAlbumModal();if(mode==='current')drawViewer();else drawPhotos()}
+function addPhotos(files){isPickingPhotos=false;const selected=Array.from(files||[]);if(!selected.length){flash('No photos selected');return}const uploadAlbum=((state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos')?'Default':state.activeAlbum);flash('Uploading '+selected.length+' photo'+(selected.length>1?'s':'')+' to '+uploadAlbum+'...');let done=0,metas=[];selected.forEach(file=>{const reader=new FileReader();reader.onload=async e=>{if(e.target&&e.target.result){const id=photoId();const data=e.target.result;let meta={id,album:uploadAlbum,created:Date.now(),fav:false,name:file.name||'',size:file.size||0,type:file.type||'',lastModified:file.lastModified||0};try{const img=new Image();img.onload=async()=>{meta.width=img.naturalWidth;meta.height=img.naturalHeight;await dbPutPhoto(id,data);metas.push(meta);if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id;done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};img.onerror=async()=>{await dbPutPhoto(id,data);metas.push(meta);if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id;done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};img.src=data;return}catch(err){await dbPutPhoto(id,data);metas.push(meta);if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id}}done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.onerror=()=>{done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.readAsDataURL(file)})}
+function finishPhotoUpload(done,total,metas,uploadAlbum){if(done!==total)return;state.photos=state.photos.concat(metas);state.activeAlbum=uploadAlbum;save();flash(metas.length+' photo'+(metas.length!==1?'s':'')+' added');setTimeout(()=>drawPhotos(),150)}
+function openViewerByPosition(pos){const idxs=filteredPhotoIndexes();currentPhoto=idxs[pos]||0;drawViewer()}
+async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Default'}</small></div><button onclick="viewerMenu()">⋮</button></div><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
+function closeViewer(){viewer.className='hidden';viewer.innerHTML='';drawPhotos()}
+function viewerMenu(){closeAlbumModal();const dismiss=document.createElement('div');dismiss.className='menuDismiss';dismiss.onclick=closeAlbumModal;const menu=document.createElement('div');menu.className='cleanMenu';menu.onclick=e=>e.stopPropagation();menu.innerHTML=`<button onclick="showAlbumPicker('current')">📁 Move Photo</button><button onclick="setCurrentAsCover()">⭐ Set Album Cover</button><button onclick="deletePhoto()">🗑 Delete Photo</button><button onclick="photoInfo()">ℹ Photo Info</button>`;document.body.appendChild(dismiss);document.body.appendChild(menu)}
+function setCurrentAsCover(){const album=state.photos[currentPhoto].album||'Default';state.albumCovers[album]=state.photos[currentPhoto].id;save();closeAlbumModal();flash('Album cover updated')}
+function photoInfo(){const p=state.photos[currentPhoto];alert('Album: '+(p.album||'Default')+'\\nPhoto '+(currentPhoto+1)+' of '+state.photos.length+'\\nStorage: device database')}
+async function deletePhoto(){closeAlbumModal();if(confirm('Delete this photo?')){const id=state.photos[currentPhoto].id;if(id)await dbDeletePhoto(id);state.photos.splice(currentPhoto,1);save();if(!state.photos.length){viewer.className='hidden';drawPhotos()}else{currentPhoto=Math.min(currentPhoto,state.photos.length-1);drawViewer()}}}
+function releasePhoto(){closeAlbumModal();if(confirm('Release from Ghost vault? This removes it from Ghost only.'))deletePhoto()}
+let viewerScale=1,viewerX=0,viewerY=0,viewerOriginX=50,viewerOriginY=50;
+function applyViewerTransform(){const img=document.querySelector('#viewerImg');if(img){img.style.transformOrigin=viewerOriginX+'% '+viewerOriginY+'%';img.style.transform=`translate(${viewerX}px,${viewerY}px) scale(${viewerScale})`}}
+function toggleViewerUI(){const ui=document.querySelector('#viewerUI');if(ui)ui.classList.toggle('uiHidden')}
+function setupViewerGestures(){viewerScale=1;viewerX=0;viewerY=0;viewerOriginX=50;viewerOriginY=50;applyViewerTransform();const stage=document.querySelector('#viewerStage');let sx=0,sy=0,startX=0,startY=0,startScale=1,startDist=0,lastTap=0,tapTimer=null;stage.ontouchstart=e=>{if(tapTimer){clearTimeout(tapTimer);tapTimer=null}if(e.touches.length===1){sx=e.touches[0].clientX;sy=e.touches[0].clientY;startX=viewerX;startY=viewerY}if(e.touches.length===2){let a=e.touches[0],b=e.touches[1];let dx=a.clientX-b.clientX,dy=a.clientY-b.clientY;startDist=Math.sqrt(dx*dx+dy*dy);startScale=viewerScale;const rect=stage.getBoundingClientRect();const mx=(a.clientX+b.clientX)/2;const my=(a.clientY+b.clientY)/2;viewerOriginX=((mx-rect.left)/rect.width)*100;viewerOriginY=((my-rect.top)/rect.height)*100;applyViewerTransform()}};stage.ontouchmove=e=>{e.preventDefault();if(e.touches.length===1&&viewerScale>1){viewerX=startX+(e.touches[0].clientX-sx);viewerY=startY+(e.touches[0].clientY-sy);applyViewerTransform()}if(e.touches.length===2&&startDist){let a=e.touches[0],b=e.touches[1];let dx=a.clientX-b.clientX,dy=a.clientY-b.clientY;let dist=Math.sqrt(dx*dx+dy*dy);viewerScale=Math.max(1,Math.min(5,startScale*(dist/startDist)));applyViewerTransform()}};stage.ontouchend=e=>{if(!e.changedTouches.length)return;const now=Date.now();const dx=e.changedTouches[0].clientX-sx;const dy=e.changedTouches[0].clientY-sy;const moved=Math.abs(dx)>18||Math.abs(dy)>18;if(now-lastTap<280&&!moved){if(tapTimer){clearTimeout(tapTimer);tapTimer=null}const rect=stage.getBoundingClientRect();viewerOriginX=((sx-rect.left)/rect.width)*100;viewerOriginY=((sy-rect.top)/rect.height)*100;viewerScale=viewerScale>1?1:2.5;viewerX=0;viewerY=0;applyViewerTransform();lastTap=0;return}lastTap=now;if(viewerScale<=1&&Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)){if(dx>65)prevViewerPhoto();if(dx<-65)nextViewerPhoto();return}if(viewerScale<=1&&!moved){tapTimer=setTimeout(()=>{toggleViewerUI();tapTimer=null},285)}};stage.onclick=e=>{if(!('ontouchstart' in window))toggleViewerUI()}}
+function prevViewerPhoto(){const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos-1+idxs.length)%idxs.length];drawViewer()}
+function nextViewerPhoto(){const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);currentPhoto=idxs[(pos+1)%idxs.length];drawViewer()}
+
+/* Ghost v0.7B Gallery Essentials overrides */
+state.photoSort=state.photoSort||'newest';
+state.photoSearch=state.photoSearch||'';
+function formatBytes(bytes){bytes=Number(bytes)||0;if(bytes<1024)return bytes+' B';if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';if(bytes<1024*1024*1024)return (bytes/1024/1024).toFixed(1)+' MB';return (bytes/1024/1024/1024).toFixed(2)+' GB'}
+async function photoBytes(i){const s=await photoSrc(i);return s?Math.round(s.length*0.75):0}
+async function storageBytes(){let total=0;for(let i=0;i<state.photos.length;i++)total+=await photoBytes(i);return total}
+function photoName(p,i){return p.name||('Photo '+(i+1))}
+function rawAlbumIndexes(album){normalizePhotos();if(album==='Library'||album==='All'||album==='All Photos'||!album)return state.photos.map((_,i)=>i);if(album==='Favourites')return state.photos.map((p,i)=>({p,i})).filter(x=>x.p.fav).map(x=>x.i);return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Default')===album).map(x=>x.i)}
+function albumList(){return ['Library','Favourites',...state.albums.filter(a=>!['Library','All','All Photos','Favourites'].includes(a))]}
+function albumPhotoIndexes(album){return rawAlbumIndexes(album)}
+function sortIndexes(idxs){const mode=state.photoSort||'newest';return idxs.slice().sort((a,b)=>{const pa=state.photos[a]||{},pb=state.photos[b]||{};if(mode==='oldest')return (pa.created||0)-(pb.created||0);if(mode==='az')return photoName(pa,a).localeCompare(photoName(pb,b));if(mode==='za')return photoName(pb,b).localeCompare(photoName(pa,a));return (pb.created||0)-(pa.created||0)})}
+function filteredPhotoIndexes(){let idxs=rawAlbumIndexes(state.activeAlbum||'Library');const q=(state.photoSearch||'').trim().toLowerCase();if(q)idxs=idxs.filter(i=>{const p=state.photos[i]||{};return photoName(p,i).toLowerCase().includes(q)||(p.album||'Default').toLowerCase().includes(q)});return sortIndexes(idxs)}
+function albumEmoji(a){return a==='Favourites'?'⭐':(a==='Library'||a==='All'||a==='All Photos')?'📚':a==='Family'?'👨‍👩‍👧':a==='Private'?'🔒':a==='Work'?'💼':a==='Documents'?'📄':a==='Default'?'🗂️':'📁'}
+async function cleanupAlbumCovers(){state.albumCovers=state.albumCovers||{};const valid=new Set(state.photos.map(p=>p.id));let changed=false;for(const album of state.albums){const cover=state.albumCovers[album];const idxs=rawAlbumIndexes(album);const coverOk=cover&&valid.has(cover)&&idxs.some(i=>state.photos[i].id===cover);if(!coverOk){if(idxs.length)state.albumCovers[album]=state.photos[sortIndexes(idxs)[0]].id;else delete state.albumCovers[album];changed=true}}if(changed)save()}
+async function albumCoverSrc(album){await cleanupAlbumCovers();if(album==='Favourites'){const favs=sortIndexes(rawAlbumIndexes('Favourites'));return favs.length?await photoSrc(favs[0]):''}const coverId=state.albumCovers&&state.albumCovers[album];if(coverId){const s=await dbGetPhoto(coverId);if(s)return s}const idxs=sortIndexes(rawAlbumIndexes(album));if(!idxs.length)return '';return await photoSrc(idxs[0])}
+let photoSearchTimer=null;
+function setPhotoSearch(v){
+  state.photoSearch=v;
+  save();
+  clearTimeout(photoSearchTimer);
+  photoSearchTimer=setTimeout(()=>{
+    drawAlbumPhotos(state.activeAlbum||'Library');
+    setTimeout(()=>{
+      const input=document.querySelector('#photoSearchInput');
+      if(input){input.focus();input.setSelectionRange(input.value.length,input.value.length)}
+    },0);
+  },120);
+}
+function setPhotoSort(v){state.photoSort=v;save();drawAlbumPhotos(state.activeAlbum||'Library')}
+async function drawAlbumHome(){await cleanupAlbumCovers();const albums=albumList();const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));const totalBytes=await storageBytes();shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div><div class="galleryHero"><div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div><div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div><button class="uploadLabel" onclick="createAlbum()">＋ Album</button></div><div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length-2}</b><span>Albums</span></div><div><b>${formatBytes(totalBytes)}</b><span>Storage</span></div></div><div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>${nav()}</div>`)}
+async function drawAlbumPhotos(active){await cleanupAlbumCovers();const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${(state.photoSearch||'').replace(/"/g,'&quot;')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search photos"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.7B: favourites, search, sort and storage stats enabled.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Default'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
+function toggleFav(i){state.photos[i].fav=!state.photos[i].fav;save();flash(state.photos[i].fav?'Added to favourites':'Removed from favourites');drawPhotos()}
+async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Default'}</small></div><button onclick="viewerMenu()">⋮</button></div><button class="viewerFav ${p.fav?'on':''}" onclick="toggleViewerFav()">${p.fav?'⭐':'☆'}</button><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
+function toggleViewerFav(){state.photos[currentPhoto].fav=!state.photos[currentPhoto].fav;save();drawViewer()}
+function viewerMenu(){closeAlbumModal();const dismiss=document.createElement('div');dismiss.className='menuDismiss';dismiss.onclick=closeAlbumModal;const menu=document.createElement('div');menu.className='cleanMenu';menu.onclick=e=>e.stopPropagation();const fav=state.photos[currentPhoto]&&state.photos[currentPhoto].fav;menu.innerHTML=`<button onclick="toggleViewerFav();closeAlbumModal()">${fav?'⭐ Remove Favourite':'⭐ Add Favourite'}</button><button onclick="showAlbumPicker('current')">📁 Move Photo</button><button onclick="setCurrentAsCover()">⭐ Set Album Cover</button><button onclick="deletePhoto()">🗑 Delete Photo</button><button onclick="photoInfo()">ℹ Photo Info</button>`;document.body.appendChild(dismiss);document.body.appendChild(menu)}
+async function deleteSelectedPhotos(){if(!selectedPhotos.length)return alert('Select photos first');if(!confirm('Delete '+selectedPhotos.length+' selected photo'+(selectedPhotos.length===1?'':'s')+'?'))return;for(const i of selectedPhotos){if(state.photos[i]&&state.photos[i].id)await dbDeletePhoto(state.photos[i].id)}state.photos=state.photos.filter((_,i)=>!selectedPhotos.includes(i));await cleanupAlbumCovers();save();exitSelectMode()}
+async function deletePhoto(){closeAlbumModal();if(confirm('Delete this photo?')){const id=state.photos[currentPhoto].id;if(id)await dbDeletePhoto(id);state.photos.splice(currentPhoto,1);await cleanupAlbumCovers();save();if(!state.photos.length){viewer.className='hidden';drawPhotos()}else{currentPhoto=Math.min(currentPhoto,state.photos.length-1);drawViewer()}}}
+function photoInfo(){const p=state.photos[currentPhoto];const d=p.created?new Date(p.created).toLocaleString():'Unknown';alert('Name: '+photoName(p,currentPhoto)+'\nAlbum: '+(p.album||'Default')+'\nFavourite: '+(p.fav?'Yes':'No')+'\nAdded: '+d+'\nPhoto '+(currentPhoto+1)+' of '+state.photos.length+'\nStorage: device database')}
+function photoSettings(){storageBytes().then(bytes=>alert('Ghost Photos v0.7B Gallery Essentials\nPhotos: '+state.photos.length+'\nAlbums: '+state.albums.length+'\nFavourites: '+rawAlbumIndexes('Favourites').length+'\nStorage used: '+formatBytes(bytes)))}
+function addPhotos(files){isPickingPhotos=false;const selected=Array.from(files||[]);if(!selected.length){flash('No photos selected');return}const uploadAlbum=((state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos'||state.activeAlbum==='Favourites')?'Default':state.activeAlbum);flash('Uploading '+selected.length+' photo'+(selected.length>1?'s':'')+' to '+uploadAlbum+'...');let done=0,metas=[];selected.forEach(file=>{const reader=new FileReader();reader.onload=async e=>{if(e.target&&e.target.result){const id=photoId();await dbPutPhoto(id,e.target.result);metas.push({id,album:uploadAlbum,created:Date.now(),fav:false,name:file.name||'',size:file.size||0,type:file.type||''});if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id}done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.onerror=()=>{done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.readAsDataURL(file)})}
+
+
+/* Ghost v0.7B.1 Stability + Rename Photo patch */
+function escHtml(v){return String(v||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function photoDisplayName(i){const p=state.photos[i]||{};return photoName(p,i)}
+function photoMetaText(i){const p=state.photos[i]||{};return escHtml(photoDisplayName(i))+'<br><small>'+escHtml(p.album||'Default')+'</small>'}
+async function renderPhotoGridOnly(){
+  const grid=document.querySelector('#photoGridBody');
+  const empty=document.querySelector('#photoEmptyState');
+  if(!grid)return drawAlbumPhotos(state.activeAlbum||'Library');
+  const idxs=filteredPhotoIndexes();
+  const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));
+  grid.innerHTML=idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${photoMetaText(i)}</div></div>`}).join('');
+  if(empty) empty.innerHTML=!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:'';
+  grid.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})});
+}
+function setPhotoSearch(v){state.photoSearch=v;save();renderPhotoGridOnly()}
+function setPhotoSort(v){state.photoSort=v;save();renderPhotoGridOnly()}
+async function drawAlbumPhotos(active){
+  await cleanupAlbumCovers();
+  active=active||state.activeAlbum||'Library';
+  if(state.activeAlbum!==active){state.activeAlbum=active;save()}
+  const idxs=filteredPhotoIndexes();
+  const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));
+  shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${escHtml(state.photoSearch||'')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search by photo name"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.7B.1: stable search, favourites and rename enabled.</p><div id="photoGridBody" class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${photoMetaText(i)}</div></div>`}).join('')}</div><div id="photoEmptyState">${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}</div>${nav()}</div>`);
+  document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})});
+}
+function toggleFav(i){state.photos[i].fav=!state.photos[i].fav;save();flash(state.photos[i].fav?'Added to favourites':'Removed from favourites');renderPhotoGridOnly()}
+function toggleViewerFav(){state.photos[currentPhoto].fav=!state.photos[currentPhoto].fav;save();drawViewer()}
+function renamePhoto(i){
+  closeAlbumModal();
+  const p=state.photos[i];
+  if(!p)return;
+  const current=photoName(p,i);
+  const name=prompt('Rename photo',current);
+  if(name===null)return;
+  const clean=name.trim();
+  if(!clean)return alert('Photo name cannot be blank');
+  p.name=clean;
+  save();
+  flash('Photo renamed');
+  if(!viewer.classList.contains('hidden')&&i===currentPhoto)drawViewer();else renderPhotoGridOnly();
+}
+async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${escHtml(photoName(p,currentPhoto))}</small></div><button onclick="viewerMenu()">⋮</button></div><button class="viewerFav ${p.fav?'on':''}" onclick="toggleViewerFav()">${p.fav?'⭐':'☆'}</button><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
+function viewerMenu(){closeAlbumModal();const dismiss=document.createElement('div');dismiss.className='menuDismiss';dismiss.onclick=closeAlbumModal;const menu=document.createElement('div');menu.className='cleanMenu';menu.onclick=e=>e.stopPropagation();const fav=state.photos[currentPhoto]&&state.photos[currentPhoto].fav;menu.innerHTML=`<button onclick="toggleViewerFav();closeAlbumModal()">${fav?'⭐ Remove Favourite':'⭐ Add Favourite'}</button><button onclick="renamePhoto(${currentPhoto})">✏️ Rename Photo</button><button onclick="showAlbumPicker('current')">📁 Move Photo</button><button onclick="setCurrentAsCover()">⭐ Set Album Cover</button><button onclick="deletePhoto()">🗑 Delete Photo</button><button onclick="photoInfo()">ℹ Photo Info</button>`;document.body.appendChild(dismiss);document.body.appendChild(menu)}
+function photoInfo(){const p=state.photos[currentPhoto];const d=p.created?new Date(p.created).toLocaleString():'Unknown';alert('Name: '+photoName(p,currentPhoto)+'\nAlbum: '+(p.album||'Default')+'\nFavourite: '+(p.fav?'Yes':'No')+'\nAdded: '+d+'\nPhoto '+(currentPhoto+1)+' of '+state.photos.length+'\nStorage: device database')}
+
+function filesVault(){current='filesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Files</h2></div><input type="file" multiple onchange="addFiles(this.files)" class="input"><div class="fileList">${state.files.map(f=>`<button>📄 ${f.name}<span style="margin-left:auto;color:#aaa">${Math.round(f.size/1024)}kb</span></button>`).join('')||'<p class="sub">No files yet.</p>'}</div>${nav()}`)}
+function addFiles(files){[...files].forEach(f=>state.files.push({name:f.name,size:f.size,type:f.type}));save();filesVault()}
+function notesVault(){current='notesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Notes</h2></div><textarea id="newNote" class="noteArea" placeholder="Write a private note..."></textarea><button class="btn" onclick="state.notes.unshift(document.querySelector('#newNote').value);save();notesVault()">Save Note</button>${state.notes.map((n,i)=>`<div class="card" style="margin-top:12px">${n}<button class="btn danger" onclick="state.notes.splice(${i},1);save();notesVault()">Delete</button></div>`).join('')}${nav()}`)}
+function contactsVault(){current='contacts';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Contacts</h2></div><input id="cName" class="input" placeholder="Name"><input id="cNum" class="input" style="margin-top:10px" placeholder="Number"><button class="btn" onclick="addContact()">Save Contact</button><h3 style="margin-top:18px">Saved Contacts</h3><div class="contactList">${state.contacts.map((c,i)=>`<button onclick="if(confirm('Delete contact?')){state.contacts.splice(${i},1);save();contactsVault()}">👤 ${c.name}<span style="margin-left:auto;color:#aaa">${c.num}</span></button>`).join('')||'<p class="sub">No contacts saved yet.</p>'}</div><p class="privacyNote">This web version stores contacts inside Ghost only.</p>${nav()}`)}
+function addContact(){
+  const nameEl=document.querySelector('#cName');
+  const numEl=document.querySelector('#cNum');
+  const name=(nameEl.value||'').trim();
+  const num=(numEl.value||'').trim();
+  if(!name || !num){alert('Add name and number');return;}
+  state.contacts = state.contacts || [];
+  state.contacts.push({name:name,num:num});
+  save();
+  flash('Contact added');
+  contactsVault();
+}
+function browserVault(){current='browser';let hist=JSON.parse(localStorage.ghostBrowserHistoryV03||'[]');shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Browser</h2></div><div class="browserBar"><input id="url" placeholder="Search Google or type URL"><button onclick="searchWeb()" class="btn" style="width:auto;margin:0;padding:12px 16px;border-radius:16px">Go</button></div><div class="webFrame"><div class="google">Google</div><div class="searchPill">Search opens in Chrome in this web version</div><h3>Ghost search history</h3>${hist.map(h=>`<p>↗ ${h}</p>`).join('')||'<p class="hint">No Ghost browser history yet.</p>'}</div><button class="btn danger" onclick="burnBrowser()">Burn Ghost Browser History</button><p class="privacyNote">Important: this cannot delete Chrome, Google account, phone provider, or other app history.</p>${nav()}`)}
+function searchWeb(){let q=document.querySelector('#url').value.trim();if(!q)return;let hist=JSON.parse(localStorage.ghostBrowserHistoryV03||'[]');hist.unshift(q);localStorage.ghostBrowserHistoryV03=JSON.stringify(hist.slice(0,20));window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank')}
+function burnBrowser(){if(confirm('Delete Ghost browser history only?')){localStorage.removeItem('ghostBrowserHistoryV03');browserVault()}}
+function settings(){current='settings';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Settings</h2></div><div class="card"><p>Disguise: <b>${state.disguise}</b></p><p>Emergency hide: <b style="color:#8dffb1">On</b></p></div><button class="btn dark" onclick="chooseDisguise()">Change Disguise</button><button class="btn dark" onclick="unlockSetup()">Change Unlock</button><button class="btn danger" onclick="resetApp()">Reset Setup</button>${nav()}`)}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&current!=='disguise'&&current!=='photos'&&!isPickingPhotos){setTimeout(()=>hideNow(),100)}});
+window.addEventListener('pagehide',()=>{if(current!=='disguise'&&current!=='photos'&&!isPickingPhotos)hideNow()});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+if(state.setupDone)disguiseApp();else welcome();
+
+/* Ghost v1.1A Video Vault */
+function videoId(){return 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
+function openGhostVideoDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('GhostVideoDBStable',1);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('videos'))db.createObjectStore('videos',{keyPath:'id'})};req.onsuccess=e=>resolve(e.target.result);req.onerror=e=>reject(e)})}
+async function dbPutVideo(id,data){const db=await openGhostVideoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readwrite');tx.objectStore('videos').put({id,data});tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
+async function dbGetVideo(id){const db=await openGhostVideoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readonly');const req=tx.objectStore('videos').get(id);req.onsuccess=()=>resolve(req.result?req.result.data:null);req.onerror=e=>reject(e)})}
+async function dbDeleteVideo(id){const db=await openGhostVideoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readwrite');tx.objectStore('videos').delete(id);tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
+function formatVideoSize(bytes){bytes=Number(bytes)||0;if(bytes<1024)return bytes+' B';if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';if(bytes<1024*1024*1024)return (bytes/1024/1024).toFixed(1)+' MB';return (bytes/1024/1024/1024).toFixed(2)+' GB'}
+async function videosVault(){current='videos';state.videos=state.videos||[];save();await drawVideos()}
+async function drawVideos(){
+  state.videos=state.videos||[];
+  const rows=state.videos.map((v,i)=>`<div class="videoCard"><div class="videoThumb" onclick="openVideoPlayer(${i})"><div class="playIcon">▶</div></div><div class="videoMetaRow"><strong>${v.name||('Video '+(i+1))}</strong><small>${formatVideoSize(v.size)}</small></div><div class="videoActions"><button onclick="openVideoPlayer(${i})">Play</button><button onclick="renameVideo(${i})">Rename</button><button class="danger" onclick="deleteVideo(${i})">Delete</button></div></div>`).join('');
+  shell(`<div class="videosShell"><div class="videoTop"><button class="iconBtn" onclick="vault()">←</button><h2>Videos</h2><button class="iconBtn" style="margin-left:auto" onclick="videoInfo()">ℹ</button></div><div class="videoHero"><div class="videoHeroIcon"><img src="icon-videos.svg" alt=""></div><div><h3>Ghost Videos</h3><p>${state.videos.length} video${state.videos.length===1?'':'s'} stored</p></div><label class="videoUpload" for="videoUploadInput">Import</label><input id="videoUploadInput" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" multiple onchange="addVideos(this.files)" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div><div class="videoList">${rows}</div>${!state.videos.length?`<div class="videoEmpty"><div class="bigVideo">🎥</div><h3>No videos yet</h3><p>Tap Import to add videos to Ghost.</p></div>`:''}${nav()}</div>`)
+}
+function addVideos(files){
+  const selected=Array.from(files||[]);
+  if(!selected.length){flash('No videos selected');return}
+  flash('Importing '+selected.length+' video'+(selected.length>1?'s':'')+'...');
+  let done=0, metas=[];
+  selected.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=async e=>{
+      if(e.target&&e.target.result){
+        const id=videoId();
+        await dbPutVideo(id,e.target.result);
+        metas.push({id,name:file.name||'Video',size:file.size||0,type:file.type||'video',created:Date.now()});
+      }
+      done++;
+      if(done===selected.length){
+        state.videos=(state.videos||[]).concat(metas);
+        save();
+        flash(metas.length+' video'+(metas.length!==1?'s':'')+' added');
+        setTimeout(()=>drawVideos(),150);
+      }
+    };
+    reader.onerror=()=>{done++; if(done===selected.length){state.videos=(state.videos||[]).concat(metas);save();drawVideos()}};
+    reader.readAsDataURL(file);
+  })
+}
+async function openVideoPlayer(i){
+  const v=state.videos[i];
+  if(!v)return;
+  const src=await dbGetVideo(v.id);
+  if(!src)return alert('Video file missing from device storage');
+  viewer.className='videoPlayer';
+  viewer.innerHTML=`<div class="videoPlayerTop"><button onclick="closeVideoPlayer()">←</button><strong>${v.name||'Video'}</strong><button onclick="renameVideo(${i})">✎</button></div><video src="${src}" controls playsinline autoplay></video><div class="videoActions" style="margin-top:14px"><button onclick="closeVideoPlayer()">Back</button><button onclick="renameVideo(${i})">Rename</button><button class="danger" onclick="deleteVideo(${i},true)">Delete</button></div>`;
+}
+function closeVideoPlayer(){viewer.className='hidden';viewer.innerHTML='';drawVideos()}
+function renameVideo(i){
+  const v=state.videos[i]; if(!v)return;
+  const name=prompt('Video name?',v.name||('Video '+(i+1)));
+  if(!name)return;
+  v.name=name.trim();
+  save();
+  if(viewer.className==='videoPlayer')openVideoPlayer(i);else drawVideos();
+}
+async function deleteVideo(i,fromPlayer=false){
+  const v=state.videos[i]; if(!v)return;
+  if(!confirm('Delete this video from Ghost?'))return;
+  await dbDeleteVideo(v.id);
+  state.videos.splice(i,1);
+  save();
+  if(fromPlayer){viewer.className='hidden';viewer.innerHTML=''}
+  drawVideos();
+}
+function videoInfo(){alert('Ghost Videos v2.0B\nStored videos: '+((state.videos||[]).length)+'\nStorage: device browser database')}
 
 </script>
 </body>
