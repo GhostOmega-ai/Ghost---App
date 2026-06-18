@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v1.1A Video Vault</title>
+<title>Ghost v2.0 Foundation Cleanup</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -118,329 +118,90 @@ button,input,textarea{font:inherit}
 
 
 
-/* Ghost v0.8 Premium Dashboard Branding */
-.vaultPage{padding-top:0}
-.vaultClose{position:absolute;right:22px;top:92px;width:42px;height:42px;border:0;background:transparent;color:#a65cff;font-size:38px;line-height:1;z-index:5;text-shadow:0 0 14px #873cff}
-.vaultHero{margin:-6px auto 22px;text-align:center;display:grid;place-items:center}
-.vaultHeroLogo{width:min(330px,92vw);max-width:100%;display:block;margin:0 auto;filter:drop-shadow(0 0 12px #873cff) drop-shadow(0 0 30px #873cff66)}
-.vaultDashGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
-.vaultDashGrid .vaultBtn{min-height:118px;padding:18px 8px;background:linear-gradient(145deg,#15131fdd,#090713dd);border:1px solid #38205d;box-shadow:inset 0 0 0 1px #ffffff06,0 10px 24px #0006}
-.vaultDashGrid .vaultBtn .big{font-size:40px;line-height:1;margin-bottom:14px;color:#a65cff;text-shadow:0 0 10px #873cff,0 0 24px #873cff88;filter:drop-shadow(0 0 7px #873cff)}
-.vaultDashGrid .vaultBtn span{display:block;font-size:18px;font-weight:750;color:#fff;text-shadow:0 2px 8px #000}
-.vaultMiniLogo{position:absolute;left:22px;top:94px;width:34px;height:34px;border-radius:10px;object-fit:cover;filter:drop-shadow(0 0 9px #873cff)}
-@media(max-width:390px){.vaultHeroLogo{width:min(292px,90vw)}.vaultDashGrid .vaultBtn{min-height:105px}.vaultDashGrid .vaultBtn .big{font-size:34px}.vaultDashGrid .vaultBtn span{font-size:16px}}
 
 
-/* Ghost v1.1A Hero Rework + Neon Icon Pack */
-.vaultHero{
-  margin:-18px auto 14px;
-  text-align:center;
-  display:grid;
-  place-items:center;
-}
-.vaultHeroLogo{
-  width:min(170px,50vw);
-  max-width:100%;
-  display:block;
-  margin:0 auto -4px;
-  object-fit:contain;
-  filter:
-    drop-shadow(0 0 10px #873cff)
-    drop-shadow(0 0 22px #873cff99)
-    drop-shadow(0 0 38px #873cff55);
-}
-.vaultBrandTitle{
-  margin-top:0;
-  font-size:42px;
-  line-height:.95;
-  font-weight:950;
-  letter-spacing:9px;
-  background:linear-gradient(180deg,#f4ddff 0%,#b46cff 42%,#6b21ff 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  text-shadow:
-    0 0 10px #873cff,
-    0 0 22px #873cff,
-    0 0 42px #873cff88;
-}
-.vaultBrandSub{
-  margin-top:8px;
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:8px;
-  color:#bb83ff;
-  text-shadow:0 0 10px #873cff,0 0 18px #873cffaa;
-}
-.vaultDashGrid{
-  gap:13px;
-  margin-top:18px;
-}
-.vaultDashGrid .vaultBtn{
-  min-height:124px;
-  padding:17px 8px 15px;
-  border:1px solid #6f33b766;
-  background:
-    radial-gradient(circle at 50% 0%,#2a1446 0,#14101f 38%,#090713 100%);
-  box-shadow:
-    inset 0 0 0 1px #ffffff08,
-    inset 0 0 24px #873cff12,
-    0 0 18px #873cff16,
-    0 12px 28px #0008;
-  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-}
-.vaultDashGrid .vaultBtn:active{
-  transform:scale(.96);
-  border-color:#a75bff;
-  box-shadow:
-    inset 0 0 0 1px #ffffff10,
-    inset 0 0 28px #873cff22,
-    0 0 26px #873cff66,
-    0 12px 28px #0008;
-}
-.vaultDashGrid .vaultBtn .big{
-  width:50px;
-  height:50px;
-  margin:0 auto 12px;
-  border-radius:17px;
-  display:grid;
-  place-items:center;
-  background:#12091f;
-  border:1px solid #7d32ff88;
-  box-shadow:
-    0 0 14px #873cffaa,
-    0 0 28px #873cff44,
-    inset 0 0 14px #873cff22;
-  font-size:0!important;
-}
-.vaultDashGrid .vaultBtn .big img{
-  width:34px;
-  height:34px;
-  display:block;
-  object-fit:contain;
-}
-.vaultDashGrid .vaultBtn span{
-  font-size:16px;
-  font-weight:850;
-  letter-spacing:.2px;
-  color:#fff;
-  text-shadow:0 2px 8px #000,0 0 12px #873cff55;
-}
-.nav .nI{
-  height:25px;
-  display:grid!important;
-  place-items:center;
-}
-.nav .nI img{
-  width:24px;
-  height:24px;
-  object-fit:contain;
-  filter:drop-shadow(0 0 8px #873cff);
+/* Ghost v2.0 Foundation Cleanup — single clean dashboard/video layer */
+.targetDash{padding-top:0!important}
+.vaultClose{
+  position:absolute!important;right:25px!important;top:93px!important;
+  width:42px!important;height:42px!important;background:transparent!important;border:0!important;
+  color:#a95cff!important;font-size:39px!important;line-height:1!important;text-shadow:none!important;z-index:5!important
 }
 .vaultMiniLogo{
-  top:90px;
-  width:32px;
-  height:32px;
-  border-radius:9px;
-  opacity:.88;
+  position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;
+  border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 9px #873cffaa)!important
 }
-@media(max-width:390px){
-  .vaultHeroLogo{width:min(188px,58vw)}
-  .vaultBrandTitle{font-size:42px;letter-spacing:7px}
-  .vaultBrandSub{font-size:12px;letter-spacing:6px}
-  .vaultDashGrid{gap:10px;margin-top:16px}
-  .vaultDashGrid .vaultBtn{min-height:112px;padding:15px 6px 13px}
-  .vaultDashGrid .vaultBtn .big{width:44px;height:44px;margin-bottom:10px}
-  .vaultDashGrid .vaultBtn .big img{width:30px;height:30px}
-  .vaultDashGrid .vaultBtn span{font-size:15px}
-}
-
-
-/* Ghost v1.1A Dashboard Rebuild */
-.rebuildDash{padding-top:0!important}
-.vaultClose{position:absolute!important;right:25px!important;top:92px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:42px!important;text-shadow:none!important;z-index:5!important}
-.vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 8px #873cff88)!important}
-.newHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-18px auto 22px!important}
-.newHeroGhost{width:min(250px,72vw)!important;height:auto!important;margin:0 auto -20px!important;display:block!important}
-.newGhostTitle{margin:0!important;font-size:58px!important;line-height:.88!important;font-weight:300!important;letter-spacing:16px!important;color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c779ff 48%,#7a2cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:0 0 5px #fff4,0 0 12px #873cff99,0 0 22px #873cff55!important}
-.newGhostSub{margin-top:13px!important;font-size:14px!important;font-weight:420!important;letter-spacing:8px!important;color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important}
-.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:26px!important}
-.vaultDashGrid .vaultBtn{min-height:136px!important;padding:22px 8px 17px!important;border-radius:20px!important;border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;box-shadow:inset 0 0 0 1px #fff1,0 8px 20px #0009!important}
-.vaultDashGrid .vaultBtn .big{width:72px!important;height:72px!important;margin:0 auto 13px!important;background:transparent!important;border:0!important;box-shadow:none!important;display:grid!important;place-items:center!important}
-.vaultDashGrid .vaultBtn .big img{width:72px!important;height:72px!important;object-fit:contain!important;filter:none!important}
-.vaultDashGrid .vaultBtn span{font-size:20px!important;font-weight:330!important;color:#fff!important;text-shadow:0 1px 5px #000!important}
-.nav{margin:26px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important}
-.nav button{font-size:13px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;background:transparent!important;border:0!important}
-.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
-.nav .nI img{width:32px!important;height:32px!important;object-fit:contain!important;filter:none!important}
-@media(max-width:390px){
-  .newHero{margin:-14px auto 20px!important}
-  .newHeroGhost{width:min(225px,68vw)!important;margin-bottom:-18px!important}
-  .newGhostTitle{font-size:48px!important;letter-spacing:13px!important}
-  .newGhostSub{font-size:12px!important;letter-spacing:6px!important}
-  .vaultDashGrid{gap:10px!important;margin-top:22px!important}
-  .vaultDashGrid .vaultBtn{min-height:120px!important;padding:18px 6px 14px!important}
-  .vaultDashGrid .vaultBtn .big{width:61px!important;height:61px!important;margin-bottom:11px!important}
-  .vaultDashGrid .vaultBtn .big img{width:61px!important;height:61px!important}
-  .vaultDashGrid .vaultBtn span{font-size:17px!important}
-  .nav button{font-size:12px!important}
-  .nav .nI img{width:28px!important;height:28px!important}
-}
-
-
-/* Ghost v1.1A - Final Target Dashboard Asset Pack */
-.targetDash{padding-top:0!important}
-.vaultClose{position:absolute!important;right:25px!important;top:93px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:39px!important;text-shadow:none!important;z-index:5!important}
-.vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 9px #873cffaa)!important}
 .targetHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-10px auto 24px!important}
-.targetHeroGhost{width:min(268px,76vw)!important;height:auto!important;margin:0 auto -8px!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 7px #873cff77) drop-shadow(0 0 15px #873cff44)!important}
-.targetGhostTitle{margin:0!important;font-size:56px!important;line-height:.9!important;font-weight:300!important;letter-spacing:15px!important;color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c678ff 47%,#7a2cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:0 0 5px #fff4,0 0 11px #873cff99,0 0 19px #873cff55!important}
-.targetGhostSub{margin-top:12px!important;font-size:14px!important;font-weight:430!important;letter-spacing:8px!important;color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important}
-.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:24px!important}
-.vaultDashGrid .vaultBtn{min-height:132px!important;padding:21px 8px 16px!important;border-radius:20px!important;border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;box-shadow:inset 0 0 0 1px #ffffff06,0 8px 20px #0009!important}
-.vaultDashGrid .vaultBtn .big{width:72px!important;height:72px!important;margin:0 auto 12px!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;display:grid!important;place-items:center!important}
-.vaultDashGrid .vaultBtn .big img{width:72px!important;height:72px!important;object-fit:contain!important;image-rendering:auto!important;filter:none!important}
-.vaultDashGrid .vaultBtn span{font-size:19px!important;font-weight:330!important;color:#fff!important;text-shadow:0 1px 5px #000!important}
-.nav{margin:25px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important}
-.nav button{font-size:13px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;background:transparent!important;border:0!important}
-.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
-.nav .nI img{width:32px!important;height:32px!important;object-fit:contain!important;filter:none!important}
-@media(max-width:390px){
-  .targetHero{margin:-6px auto 22px!important}
-  .targetHeroGhost{width:min(238px,72vw)!important;margin-bottom:-7px!important}
-  .targetGhostTitle{font-size:47px!important;letter-spacing:12px!important}
-  .targetGhostSub{font-size:12px!important;letter-spacing:6px!important}
-  .vaultDashGrid{gap:10px!important;margin-top:22px!important}
-  .vaultDashGrid .vaultBtn{min-height:118px!important;padding:17px 6px 14px!important}
-  .vaultDashGrid .vaultBtn .big{width:62px!important;height:62px!important;margin-bottom:10px!important}
-  .vaultDashGrid .vaultBtn .big img{width:62px!important;height:62px!important}
-  .vaultDashGrid .vaultBtn span{font-size:17px!important}
-  .nav button{font-size:12px!important}
-  .nav .nI img{width:28px!important;height:28px!important}
+.targetHeroGhost{
+  width:min(248px,72vw)!important;height:auto!important;margin:0 auto -8px!important;display:block!important;
+  object-fit:contain!important;filter:drop-shadow(0 0 7px #873cff77) drop-shadow(0 0 15px #873cff44)!important
 }
-
-
-/* Ghost v1.1A Video Vault */
-.mediaGrid{grid-template-columns:repeat(3,1fr)!important}
-.videoTop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.videoTop h2{margin:0;font-size:25px}
-.videoHero{border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005}
-.videoHeroIcon{width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;box-shadow:0 0 18px #873cff55;display:grid;place-items:center}
-.videoHeroIcon img{width:44px;height:44px}
-.videoHero h3{margin:0 0 4px}
-.videoHero p{margin:0;color:#aaa2b7;font-size:13px}
-.videoUpload{margin-left:auto;background:linear-gradient(180deg,#a75bff,#6620ed);border:0;color:white;border-radius:16px;padding:12px 14px;font-weight:900;box-shadow:0 0 15px #873cff77}
-.videoList{display:grid;gap:12px;margin-top:14px}
-.videoCard{border:1px solid #4b2574;background:linear-gradient(145deg,#181229,#090713);border-radius:20px;padding:12px;box-shadow:0 8px 24px #0006}
-.videoThumb{height:150px;border-radius:16px;background:#05030b;border:1px solid #24113d;display:grid;place-items:center;overflow:hidden;margin-bottom:10px}
-.videoThumb video{width:100%;height:100%;object-fit:cover}
-.videoThumb .playIcon{font-size:44px;color:#b37aff;text-shadow:0 0 16px #873cff}
-.videoMetaRow{display:flex;align-items:center;gap:8px}
-.videoMetaRow strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.videoMetaRow small{color:#aaa2b7}
-.videoActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
-.videoActions button{border:1px solid #4b2574;background:#11101c;color:white;border-radius:14px;padding:11px 8px;font-weight:800}
-.videoActions .danger{background:#ff514f;border-color:#ff514f}
-.videoPlayer{position:fixed;inset:0;background:#020204f8;z-index:70;padding:18px;display:flex;flex-direction:column}
-.videoPlayerTop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.videoPlayerTop button{width:42px;height:42px;border-radius:14px;border:1px solid #4b2574;background:#11101c;color:white;font-size:22px}
-.videoPlayerTop strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.videoPlayer video{width:100%;max-height:70vh;border-radius:18px;background:#000;box-shadow:0 0 25px #873cff55}
-.videoEmpty{text-align:center;padding:36px 16px;color:#aaa2b7}
-.videoEmpty .bigVideo{font-size:58px;margin-bottom:10px}
-
-</style>
-
-<style id="v08d2-polish">
-.vaultBrandTitle{
- text-shadow:0 0 4px #fff3,0 0 8px #a64dff,0 0 14px #873cff88 !important;
- filter:none !important;
+.targetGhostTitle{
+  margin:0!important;font-size:52px!important;line-height:.9!important;font-weight:300!important;letter-spacing:14px!important;
+  color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c678ff 47%,#7a2cff 100%)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+  text-shadow:0 0 5px #fff4,0 0 11px #873cff99,0 0 19px #873cff55!important
 }
-.vaultDashGrid .vaultBtn .big img,
-.nav .nI img{
- filter:none !important;
+.targetGhostSub{
+  margin-top:12px!important;font-size:13px!important;font-weight:430!important;letter-spacing:7px!important;
+  color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important
+}
+.vaultDashGrid{
+  display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:12px!important;margin-top:22px!important
 }
 .vaultDashGrid .vaultBtn{
- border-color:#8d52d6 !important;
+  min-height:124px!important;padding:18px 7px 15px!important;border-radius:20px!important;
+  border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;
+  box-shadow:inset 0 0 0 1px #ffffff06,0 8px 20px #0009!important;text-align:center!important
 }
-
-/* Ghost v1.1A Dashboard Rebuild */
-.rebuildDash{padding-top:0!important}
-.vaultClose{position:absolute!important;right:25px!important;top:92px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:42px!important;text-shadow:none!important;z-index:5!important}
-.vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 8px #873cff88)!important}
-.newHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-18px auto 22px!important}
-.newHeroGhost{width:min(250px,72vw)!important;height:auto!important;margin:0 auto -20px!important;display:block!important}
-.newGhostTitle{margin:0!important;font-size:58px!important;line-height:.88!important;font-weight:300!important;letter-spacing:16px!important;color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c779ff 48%,#7a2cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:0 0 5px #fff4,0 0 12px #873cff99,0 0 22px #873cff55!important}
-.newGhostSub{margin-top:13px!important;font-size:14px!important;font-weight:420!important;letter-spacing:8px!important;color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important}
-.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:26px!important}
-.vaultDashGrid .vaultBtn{min-height:136px!important;padding:22px 8px 17px!important;border-radius:20px!important;border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;box-shadow:inset 0 0 0 1px #fff1,0 8px 20px #0009!important}
-.vaultDashGrid .vaultBtn .big{width:72px!important;height:72px!important;margin:0 auto 13px!important;background:transparent!important;border:0!important;box-shadow:none!important;display:grid!important;place-items:center!important}
-.vaultDashGrid .vaultBtn .big img{width:72px!important;height:72px!important;object-fit:contain!important;filter:none!important}
-.vaultDashGrid .vaultBtn span{font-size:20px!important;font-weight:330!important;color:#fff!important;text-shadow:0 1px 5px #000!important}
-.nav{margin:26px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important}
-.nav button{font-size:13px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;background:transparent!important;border:0!important}
-.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
-.nav .nI img{width:32px!important;height:32px!important;object-fit:contain!important;filter:none!important}
-@media(max-width:390px){
-  .newHero{margin:-14px auto 20px!important}
-  .newHeroGhost{width:min(225px,68vw)!important;margin-bottom:-18px!important}
-  .newGhostTitle{font-size:48px!important;letter-spacing:13px!important}
-  .newGhostSub{font-size:12px!important;letter-spacing:6px!important}
-  .vaultDashGrid{gap:10px!important;margin-top:22px!important}
-  .vaultDashGrid .vaultBtn{min-height:120px!important;padding:18px 6px 14px!important}
-  .vaultDashGrid .vaultBtn .big{width:61px!important;height:61px!important;margin-bottom:11px!important}
-  .vaultDashGrid .vaultBtn .big img{width:61px!important;height:61px!important}
-  .vaultDashGrid .vaultBtn span{font-size:17px!important}
-  .nav button{font-size:12px!important}
-  .nav .nI img{width:28px!important;height:28px!important}
+.vaultDashGrid .vaultBtn .big{
+  width:62px!important;height:62px!important;margin:0 auto 10px!important;background:transparent!important;border:0!important;
+  border-radius:0!important;box-shadow:none!important;display:grid!important;place-items:center!important;font-size:0!important
 }
-
-
-/* Ghost v1.1A - Final Target Dashboard Asset Pack */
-.targetDash{padding-top:0!important}
-.vaultClose{position:absolute!important;right:25px!important;top:93px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:39px!important;text-shadow:none!important;z-index:5!important}
-.vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 9px #873cffaa)!important}
-.targetHero{display:grid!important;place-items:center!important;text-align:center!important;margin:-10px auto 24px!important}
-.targetHeroGhost{width:min(268px,76vw)!important;height:auto!important;margin:0 auto -8px!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 7px #873cff77) drop-shadow(0 0 15px #873cff44)!important}
-.targetGhostTitle{margin:0!important;font-size:56px!important;line-height:.9!important;font-weight:300!important;letter-spacing:15px!important;color:transparent!important;background:linear-gradient(180deg,#fff3ff 0%,#c678ff 47%,#7a2cff 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:0 0 5px #fff4,0 0 11px #873cff99,0 0 19px #873cff55!important}
-.targetGhostSub{margin-top:12px!important;font-size:14px!important;font-weight:430!important;letter-spacing:8px!important;color:#bd6dff!important;text-shadow:0 0 6px #873cff77!important}
-.vaultDashGrid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:13px!important;margin-top:24px!important}
-.vaultDashGrid .vaultBtn{min-height:132px!important;padding:21px 8px 16px!important;border-radius:20px!important;border:1px solid #642ba599!important;background:linear-gradient(180deg,rgba(10,8,18,.92),rgba(3,3,8,.98))!important;box-shadow:inset 0 0 0 1px #ffffff06,0 8px 20px #0009!important}
-.vaultDashGrid .vaultBtn .big{width:72px!important;height:72px!important;margin:0 auto 12px!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;display:grid!important;place-items:center!important}
-.vaultDashGrid .vaultBtn .big img{width:72px!important;height:72px!important;object-fit:contain!important;image-rendering:auto!important;filter:none!important}
-.vaultDashGrid .vaultBtn span{font-size:19px!important;font-weight:330!important;color:#fff!important;text-shadow:0 1px 5px #000!important}
-.nav{margin:25px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important}
-.nav button{font-size:13px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;background:transparent!important;border:0!important}
-.nav .nI{height:32px!important;display:grid!important;place-items:center!important}
-.nav .nI img{width:32px!important;height:32px!important;object-fit:contain!important;filter:none!important}
-@media(max-width:390px){
-  .targetHero{margin:-6px auto 22px!important}
-  .targetHeroGhost{width:min(238px,72vw)!important;margin-bottom:-7px!important}
-  .targetGhostTitle{font-size:47px!important;letter-spacing:12px!important}
-  .targetGhostSub{font-size:12px!important;letter-spacing:6px!important}
-  .vaultDashGrid{gap:10px!important;margin-top:22px!important}
-  .vaultDashGrid .vaultBtn{min-height:118px!important;padding:17px 6px 14px!important}
-  .vaultDashGrid .vaultBtn .big{width:62px!important;height:62px!important;margin-bottom:10px!important}
-  .vaultDashGrid .vaultBtn .big img{width:62px!important;height:62px!important}
-  .vaultDashGrid .vaultBtn span{font-size:17px!important}
-  .nav button{font-size:12px!important}
-  .nav .nI img{width:28px!important;height:28px!important}
+.vaultDashGrid .vaultBtn .big img{
+  width:62px!important;height:62px!important;object-fit:contain!important;image-rendering:auto!important;filter:none!important
 }
+.vaultDashGrid .vaultBtn span{
+  display:block!important;font-size:17px!important;font-weight:360!important;color:#fff!important;text-shadow:0 1px 5px #000!important
+}
+.nav{
+  position:sticky!important;bottom:0!important;margin:24px -2px -8px!important;padding:13px 10px 12px!important;border-radius:32px!important;
+  background:rgba(5,4,12,.86)!important;border:1px solid #5b279088!important;
+  box-shadow:inset 0 0 10px #873cff0d,0 8px 22px #0009!important;
+  display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:4px!important;backdrop-filter:blur(12px)!important
+}
+.nav button{
+  font-size:12px!important;font-weight:330!important;color:#ded7e9!important;display:grid!important;gap:4px!important;
+  background:transparent!important;border:0!important;text-align:center!important
+}
+.nav .nI{height:30px!important;display:grid!important;place-items:center!important}
+.nav .nI img{width:28px!important;height:28px!important;object-fit:contain!important;filter:none!important}
 
-
-/* Ghost v1.1A Video Vault */
+/* Video Vault clean styles */
 .mediaGrid{grid-template-columns:repeat(3,1fr)!important}
 .videoTop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .videoTop h2{margin:0;font-size:25px}
-.videoHero{border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005}
-.videoHeroIcon{width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;box-shadow:0 0 18px #873cff55;display:grid;place-items:center}
+.videoHero{
+  border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;
+  padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005
+}
+.videoHeroIcon{
+  width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;
+  box-shadow:0 0 18px #873cff55;display:grid;place-items:center
+}
 .videoHeroIcon img{width:44px;height:44px}
-.videoHero h3{margin:0 0 4px}
-.videoHero p{margin:0;color:#aaa2b7;font-size:13px}
-.videoUpload{margin-left:auto;background:linear-gradient(180deg,#a75bff,#6620ed);border:0;color:white;border-radius:16px;padding:12px 14px;font-weight:900;box-shadow:0 0 15px #873cff77}
+.videoHero h3{margin:0 0 4px}.videoHero p{margin:0;color:#aaa2b7;font-size:13px}
+.videoUpload{
+  margin-left:auto;background:linear-gradient(180deg,#a75bff,#6620ed);border:0;color:white;border-radius:16px;
+  padding:12px 14px;font-weight:900;box-shadow:0 0 15px #873cff77
+}
 .videoList{display:grid;gap:12px;margin-top:14px}
-.videoCard{border:1px solid #4b2574;background:linear-gradient(145deg,#181229,#090713);border-radius:20px;padding:12px;box-shadow:0 8px 24px #0006}
-.videoThumb{height:150px;border-radius:16px;background:#05030b;border:1px solid #24113d;display:grid;place-items:center;overflow:hidden;margin-bottom:10px}
+.videoCard{
+  border:1px solid #4b2574;background:linear-gradient(145deg,#181229,#090713);border-radius:20px;padding:12px;box-shadow:0 8px 24px #0006
+}
+.videoThumb{
+  height:150px;border-radius:16px;background:#05030b;border:1px solid #24113d;display:grid;place-items:center;overflow:hidden;margin-bottom:10px
+}
 .videoThumb video{width:100%;height:100%;object-fit:cover}
 .videoThumb .playIcon{font-size:44px;color:#b37aff;text-shadow:0 0 16px #873cff}
 .videoMetaRow{display:flex;align-items:center;gap:8px}
@@ -456,6 +217,20 @@ button,input,textarea{font:inherit}
 .videoPlayer video{width:100%;max-height:70vh;border-radius:18px;background:#000;box-shadow:0 0 25px #873cff55}
 .videoEmpty{text-align:center;padding:36px 16px;color:#aaa2b7}
 .videoEmpty .bigVideo{font-size:58px;margin-bottom:10px}
+
+@media(max-width:390px){
+  .targetHero{margin:-6px auto 22px!important}
+  .targetHeroGhost{width:min(222px,68vw)!important;margin-bottom:-7px!important}
+  .targetGhostTitle{font-size:44px!important;letter-spacing:11px!important}
+  .targetGhostSub{font-size:11px!important;letter-spacing:5.8px!important}
+  .vaultDashGrid{gap:10px!important;margin-top:20px!important}
+  .vaultDashGrid .vaultBtn{min-height:112px!important;padding:16px 6px 13px!important}
+  .vaultDashGrid .vaultBtn .big{width:56px!important;height:56px!important;margin-bottom:9px!important}
+  .vaultDashGrid .vaultBtn .big img{width:56px!important;height:56px!important}
+  .vaultDashGrid .vaultBtn span{font-size:16px!important}
+  .nav button{font-size:12px!important}
+  .nav .nI img{width:27px!important;height:27px!important}
+}
 
 </style>
 
@@ -675,7 +450,7 @@ window.addEventListener('pagehide',()=>{if(current!=='disguise'&&current!=='phot
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 if(state.setupDone)disguiseApp();else welcome();
 
-/* Ghost v1.1A Video Vault */
+/* Ghost v2.0 Video Vault */
 function videoId(){return 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
 function openGhostVideoDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('GhostVideoDBStable',1);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('videos'))db.createObjectStore('videos',{keyPath:'id'})};req.onsuccess=e=>resolve(e.target.result);req.onerror=e=>reject(e)})}
 async function dbPutVideo(id,data){const db=await openGhostVideoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readwrite');tx.objectStore('videos').put({id,data});tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
@@ -739,7 +514,7 @@ async function deleteVideo(i,fromPlayer=false){
   if(fromPlayer){viewer.className='hidden';viewer.innerHTML=''}
   drawVideos();
 }
-function videoInfo(){alert('Ghost Videos v1.1A
+function videoInfo(){alert('Ghost Videos v2.0
 Stored videos: '+((state.videos||[]).length)+'
 Storage: device browser database')}
 
