@@ -1,0 +1,11 @@
+Ghost v1.1A - Video Vault Foundation
+
+Features:
+- Videos dashboard tile
+- Import MP4/WebM/MOV
+- Video library
+- In-app playback
+- Rename video
+- Delete video
+- Video count
+- Future-ready for albums
