@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.0B Syntax Repair</title>
+<title>Ghost v2.0C Force Boot Rescue</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -739,7 +739,48 @@ async function deleteVideo(i,fromPlayer=false){
   if(fromPlayer){viewer.className='hidden';viewer.innerHTML=''}
   drawVideos();
 }
-function videoInfo(){alert('Ghost Videos v2.0B\nStored videos: '+((state.videos||[]).length)+'\nStorage: device browser database')}
+function videoInfo(){alert('Ghost Videos v2.0C\nStored videos: '+((state.videos||[]).length)+'\nStorage: device browser database')}
+
+
+/* Ghost v2.0C safe boot */
+function ghostRenderFallback(title,msg,button){
+  var appEl=document.querySelector('#app');
+  if(!appEl){return;}
+  appEl.innerHTML =
+    '<div class="screen">'+
+    '<div class="status"><span>9:41</span><span class="icons">▮▮▮ ᯤ ▭</span></div>'+
+    '<h1 class="title"><span class="grad">'+title+'</span></h1>'+
+    '<p class="sub">'+msg+'</p>'+
+    (button||'')+
+    '</div>';
+}
+function ghostSafeBoot(){
+  try{
+    if(typeof state === 'undefined'){
+      ghostRenderFallback('GHOST','State failed to load.','<button class="btn" onclick="location.reload()">Reload</button>');
+      return;
+    }
+    if(!state.setupDone && typeof welcome === 'function'){
+      welcome();
+      return;
+    }
+    if(typeof disguiseApp === 'function'){
+      disguiseApp();
+      return;
+    }
+    ghostRenderFallback('GHOST','Boot fallback loaded.','<button class="btn" onclick="location.reload()">Reload</button>');
+  }catch(e){
+    var safeMsg = String((e && e.message) ? e.message : e).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]});
+    ghostRenderFallback('GHOST','Boot error: '+safeMsg,'<button class="btn" onclick="localStorage.removeItem(&quot;ghostStateV03&quot;);location.reload()">Reset State</button>');
+  }
+}
+window.addEventListener('DOMContentLoaded', ghostSafeBoot);
+setTimeout(function(){
+  try{
+    var appEl=document.querySelector('#app');
+    if(appEl && !appEl.innerHTML.trim()) ghostSafeBoot();
+  }catch(e){}
+}, 300);
 
 </script>
 </body>
