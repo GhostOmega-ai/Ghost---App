@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v1.0A Final Dashboard Target</title>
+<title>Ghost v1.1A Video Vault</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
@@ -131,7 +131,7 @@ button,input,textarea{font:inherit}
 @media(max-width:390px){.vaultHeroLogo{width:min(292px,90vw)}.vaultDashGrid .vaultBtn{min-height:105px}.vaultDashGrid .vaultBtn .big{font-size:34px}.vaultDashGrid .vaultBtn span{font-size:16px}}
 
 
-/* Ghost v1.0A Hero Rework + Neon Icon Pack */
+/* Ghost v1.1A Hero Rework + Neon Icon Pack */
 .vaultHero{
   margin:-18px auto 14px;
   text-align:center;
@@ -256,7 +256,7 @@ button,input,textarea{font:inherit}
 }
 
 
-/* Ghost v1.0A Dashboard Rebuild */
+/* Ghost v1.1A Dashboard Rebuild */
 .rebuildDash{padding-top:0!important}
 .vaultClose{position:absolute!important;right:25px!important;top:92px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:42px!important;text-shadow:none!important;z-index:5!important}
 .vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 8px #873cff88)!important}
@@ -288,7 +288,7 @@ button,input,textarea{font:inherit}
 }
 
 
-/* Ghost v1.0A - Final Target Dashboard Asset Pack */
+/* Ghost v1.1A - Final Target Dashboard Asset Pack */
 .targetDash{padding-top:0!important}
 .vaultClose{position:absolute!important;right:25px!important;top:93px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:39px!important;text-shadow:none!important;z-index:5!important}
 .vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 9px #873cffaa)!important}
@@ -318,6 +318,36 @@ button,input,textarea{font:inherit}
   .nav button{font-size:12px!important}
   .nav .nI img{width:28px!important;height:28px!important}
 }
+
+
+/* Ghost v1.1A Video Vault */
+.mediaGrid{grid-template-columns:repeat(3,1fr)!important}
+.videoTop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.videoTop h2{margin:0;font-size:25px}
+.videoHero{border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005}
+.videoHeroIcon{width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;box-shadow:0 0 18px #873cff55;display:grid;place-items:center}
+.videoHeroIcon img{width:44px;height:44px}
+.videoHero h3{margin:0 0 4px}
+.videoHero p{margin:0;color:#aaa2b7;font-size:13px}
+.videoUpload{margin-left:auto;background:linear-gradient(180deg,#a75bff,#6620ed);border:0;color:white;border-radius:16px;padding:12px 14px;font-weight:900;box-shadow:0 0 15px #873cff77}
+.videoList{display:grid;gap:12px;margin-top:14px}
+.videoCard{border:1px solid #4b2574;background:linear-gradient(145deg,#181229,#090713);border-radius:20px;padding:12px;box-shadow:0 8px 24px #0006}
+.videoThumb{height:150px;border-radius:16px;background:#05030b;border:1px solid #24113d;display:grid;place-items:center;overflow:hidden;margin-bottom:10px}
+.videoThumb video{width:100%;height:100%;object-fit:cover}
+.videoThumb .playIcon{font-size:44px;color:#b37aff;text-shadow:0 0 16px #873cff}
+.videoMetaRow{display:flex;align-items:center;gap:8px}
+.videoMetaRow strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoMetaRow small{color:#aaa2b7}
+.videoActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.videoActions button{border:1px solid #4b2574;background:#11101c;color:white;border-radius:14px;padding:11px 8px;font-weight:800}
+.videoActions .danger{background:#ff514f;border-color:#ff514f}
+.videoPlayer{position:fixed;inset:0;background:#020204f8;z-index:70;padding:18px;display:flex;flex-direction:column}
+.videoPlayerTop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.videoPlayerTop button{width:42px;height:42px;border-radius:14px;border:1px solid #4b2574;background:#11101c;color:white;font-size:22px}
+.videoPlayerTop strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoPlayer video{width:100%;max-height:70vh;border-radius:18px;background:#000;box-shadow:0 0 25px #873cff55}
+.videoEmpty{text-align:center;padding:36px 16px;color:#aaa2b7}
+.videoEmpty .bigVideo{font-size:58px;margin-bottom:10px}
 
 </style>
 
@@ -334,7 +364,7 @@ button,input,textarea{font:inherit}
  border-color:#8d52d6 !important;
 }
 
-/* Ghost v1.0A Dashboard Rebuild */
+/* Ghost v1.1A Dashboard Rebuild */
 .rebuildDash{padding-top:0!important}
 .vaultClose{position:absolute!important;right:25px!important;top:92px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:42px!important;text-shadow:none!important;z-index:5!important}
 .vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 8px #873cff88)!important}
@@ -366,7 +396,7 @@ button,input,textarea{font:inherit}
 }
 
 
-/* Ghost v1.0A - Final Target Dashboard Asset Pack */
+/* Ghost v1.1A - Final Target Dashboard Asset Pack */
 .targetDash{padding-top:0!important}
 .vaultClose{position:absolute!important;right:25px!important;top:93px!important;background:transparent!important;border:0!important;color:#a95cff!important;font-size:39px!important;text-shadow:none!important;z-index:5!important}
 .vaultMiniLogo{position:absolute!important;left:28px!important;top:82px!important;width:42px!important;height:42px!important;border-radius:13px!important;object-fit:cover!important;filter:drop-shadow(0 0 9px #873cffaa)!important}
@@ -397,6 +427,36 @@ button,input,textarea{font:inherit}
   .nav .nI img{width:28px!important;height:28px!important}
 }
 
+
+/* Ghost v1.1A Video Vault */
+.mediaGrid{grid-template-columns:repeat(3,1fr)!important}
+.videoTop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.videoTop h2{margin:0;font-size:25px}
+.videoHero{border:1px solid #552681;background:linear-gradient(145deg,#181229,#090713);border-radius:24px;padding:14px;margin:4px 0 14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px #0005}
+.videoHeroIcon{width:62px;height:62px;min-width:62px;border-radius:20px;background:#13081f;border:1px solid #7d32ff66;box-shadow:0 0 18px #873cff55;display:grid;place-items:center}
+.videoHeroIcon img{width:44px;height:44px}
+.videoHero h3{margin:0 0 4px}
+.videoHero p{margin:0;color:#aaa2b7;font-size:13px}
+.videoUpload{margin-left:auto;background:linear-gradient(180deg,#a75bff,#6620ed);border:0;color:white;border-radius:16px;padding:12px 14px;font-weight:900;box-shadow:0 0 15px #873cff77}
+.videoList{display:grid;gap:12px;margin-top:14px}
+.videoCard{border:1px solid #4b2574;background:linear-gradient(145deg,#181229,#090713);border-radius:20px;padding:12px;box-shadow:0 8px 24px #0006}
+.videoThumb{height:150px;border-radius:16px;background:#05030b;border:1px solid #24113d;display:grid;place-items:center;overflow:hidden;margin-bottom:10px}
+.videoThumb video{width:100%;height:100%;object-fit:cover}
+.videoThumb .playIcon{font-size:44px;color:#b37aff;text-shadow:0 0 16px #873cff}
+.videoMetaRow{display:flex;align-items:center;gap:8px}
+.videoMetaRow strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoMetaRow small{color:#aaa2b7}
+.videoActions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.videoActions button{border:1px solid #4b2574;background:#11101c;color:white;border-radius:14px;padding:11px 8px;font-weight:800}
+.videoActions .danger{background:#ff514f;border-color:#ff514f}
+.videoPlayer{position:fixed;inset:0;background:#020204f8;z-index:70;padding:18px;display:flex;flex-direction:column}
+.videoPlayerTop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.videoPlayerTop button{width:42px;height:42px;border-radius:14px;border:1px solid #4b2574;background:#11101c;color:white;font-size:22px}
+.videoPlayerTop strong{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.videoPlayer video{width:100%;max-height:70vh;border-radius:18px;background:#000;box-shadow:0 0 25px #873cff55}
+.videoEmpty{text-align:center;padding:36px 16px;color:#aaa2b7}
+.videoEmpty .bigVideo{font-size:58px;margin-bottom:10px}
+
 </style>
 
 </head>
@@ -410,7 +470,7 @@ let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
-state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
@@ -444,7 +504,7 @@ function notesDecoy(){shell(`<div class="fakeTitle">Notes</div><textarea id="dno
 function checkNote(){let v=document.querySelector('#dnote').value;if(v.includes(state.unlock.notes))vault();else alert('Note saved')}
 function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','Invoices 2026','Receipts'];shell(`<div class="fakeTitle">Files</div><div class="fileList">${folders.map(f=>`<button onclick="fileOpen('${f}')">📁 ${f}</button>`).join('')}</div>`)}
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
-function vault(){current='vault';shell(`<div class="vaultPage targetDash"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><section class="targetHero"><img class="targetHeroGhost" src="ghost-hero-target.png" alt="Ghost"><h1 class="targetGhostTitle">GHOST</h1><div class="targetGhostSub">— SECRET VAULT —</div></section><div class="vaultDashGrid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big"><img src="icon-settings.svg" alt=""></div><span>Settings</span></div></div>${nav()}</div>`)}
+function vault(){current='vault';shell(`<div class="vaultPage targetDash"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultClose" onclick="hideNow()">×</button><section class="targetHero"><img class="targetHeroGhost" src="ghost-hero-target.png" alt="Ghost"><h1 class="targetGhostTitle">GHOST</h1><div class="targetGhostSub">— SECRET VAULT —</div></section><div class="vaultDashGrid mediaGrid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span></div><div class="vaultBtn" onclick="videosVault()"><div class="big"><img src="icon-videos.svg" alt=""></div><span>Videos</span></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span></div><div class="vaultBtn" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span></div><div class="vaultBtn" onclick="settings()"><div class="big"><img src="icon-settings.svg" alt=""></div><span>Settings</span></div></div>${nav()}</div>`)}
 function nav(){return `<div class="nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg" alt=""></span>Home</button><button onclick="browserVault()"><span class="nI"><img src="icon-browser.svg" alt=""></span>Browser</button><button onclick="photos()"><span class="nI"><img src="icon-photos.svg" alt=""></span>Photos</button><button onclick="notesVault()"><span class="nI"><img src="icon-notes.svg" alt=""></span>Notes</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.svg" alt=""></span>Hide</button></div>`}
 
 
@@ -614,6 +674,75 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&current!==
 window.addEventListener('pagehide',()=>{if(current!=='disguise'&&current!=='photos'&&!isPickingPhotos)hideNow()});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{})}
 if(state.setupDone)disguiseApp();else welcome();
+
+/* Ghost v1.1A Video Vault */
+function videoId(){return 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
+function openGhostVideoDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('GhostVideoDBStable',1);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('videos'))db.createObjectStore('videos',{keyPath:'id'})};req.onsuccess=e=>resolve(e.target.result);req.onerror=e=>reject(e)})}
+async function dbPutVideo(id,data){const db=await openGhostVideoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readwrite');tx.objectStore('videos').put({id,data});tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
+async function dbGetVideo(id){const db=await openGhostVideoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readonly');const req=tx.objectStore('videos').get(id);req.onsuccess=()=>resolve(req.result?req.result.data:null);req.onerror=e=>reject(e)})}
+async function dbDeleteVideo(id){const db=await openGhostVideoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('videos','readwrite');tx.objectStore('videos').delete(id);tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
+function formatVideoSize(bytes){bytes=Number(bytes)||0;if(bytes<1024)return bytes+' B';if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';if(bytes<1024*1024*1024)return (bytes/1024/1024).toFixed(1)+' MB';return (bytes/1024/1024/1024).toFixed(2)+' GB'}
+async function videosVault(){current='videos';state.videos=state.videos||[];save();await drawVideos()}
+async function drawVideos(){
+  state.videos=state.videos||[];
+  const rows=state.videos.map((v,i)=>`<div class="videoCard"><div class="videoThumb" onclick="openVideoPlayer(${i})"><div class="playIcon">▶</div></div><div class="videoMetaRow"><strong>${v.name||('Video '+(i+1))}</strong><small>${formatVideoSize(v.size)}</small></div><div class="videoActions"><button onclick="openVideoPlayer(${i})">Play</button><button onclick="renameVideo(${i})">Rename</button><button class="danger" onclick="deleteVideo(${i})">Delete</button></div></div>`).join('');
+  shell(`<div class="videosShell"><div class="videoTop"><button class="iconBtn" onclick="vault()">←</button><h2>Videos</h2><button class="iconBtn" style="margin-left:auto" onclick="videoInfo()">ℹ</button></div><div class="videoHero"><div class="videoHeroIcon"><img src="icon-videos.svg" alt=""></div><div><h3>Ghost Videos</h3><p>${state.videos.length} video${state.videos.length===1?'':'s'} stored</p></div><label class="videoUpload" for="videoUploadInput">Import</label><input id="videoUploadInput" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" multiple onchange="addVideos(this.files)" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div><div class="videoList">${rows}</div>${!state.videos.length?`<div class="videoEmpty"><div class="bigVideo">🎥</div><h3>No videos yet</h3><p>Tap Import to add videos to Ghost.</p></div>`:''}${nav()}</div>`)
+}
+function addVideos(files){
+  const selected=Array.from(files||[]);
+  if(!selected.length){flash('No videos selected');return}
+  flash('Importing '+selected.length+' video'+(selected.length>1?'s':'')+'...');
+  let done=0, metas=[];
+  selected.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=async e=>{
+      if(e.target&&e.target.result){
+        const id=videoId();
+        await dbPutVideo(id,e.target.result);
+        metas.push({id,name:file.name||'Video',size:file.size||0,type:file.type||'video',created:Date.now()});
+      }
+      done++;
+      if(done===selected.length){
+        state.videos=(state.videos||[]).concat(metas);
+        save();
+        flash(metas.length+' video'+(metas.length!==1?'s':'')+' added');
+        setTimeout(()=>drawVideos(),150);
+      }
+    };
+    reader.onerror=()=>{done++; if(done===selected.length){state.videos=(state.videos||[]).concat(metas);save();drawVideos()}};
+    reader.readAsDataURL(file);
+  })
+}
+async function openVideoPlayer(i){
+  const v=state.videos[i];
+  if(!v)return;
+  const src=await dbGetVideo(v.id);
+  if(!src)return alert('Video file missing from device storage');
+  viewer.className='videoPlayer';
+  viewer.innerHTML=`<div class="videoPlayerTop"><button onclick="closeVideoPlayer()">←</button><strong>${v.name||'Video'}</strong><button onclick="renameVideo(${i})">✎</button></div><video src="${src}" controls playsinline autoplay></video><div class="videoActions" style="margin-top:14px"><button onclick="closeVideoPlayer()">Back</button><button onclick="renameVideo(${i})">Rename</button><button class="danger" onclick="deleteVideo(${i},true)">Delete</button></div>`;
+}
+function closeVideoPlayer(){viewer.className='hidden';viewer.innerHTML='';drawVideos()}
+function renameVideo(i){
+  const v=state.videos[i]; if(!v)return;
+  const name=prompt('Video name?',v.name||('Video '+(i+1)));
+  if(!name)return;
+  v.name=name.trim();
+  save();
+  if(viewer.className==='videoPlayer')openVideoPlayer(i);else drawVideos();
+}
+async function deleteVideo(i,fromPlayer=false){
+  const v=state.videos[i]; if(!v)return;
+  if(!confirm('Delete this video from Ghost?'))return;
+  await dbDeleteVideo(v.id);
+  state.videos.splice(i,1);
+  save();
+  if(fromPlayer){viewer.className='hidden';viewer.innerHTML=''}
+  drawVideos();
+}
+function videoInfo(){alert('Ghost Videos v1.1A
+Stored videos: '+((state.videos||[]).length)+'
+Storage: device browser database')}
+
 </script>
 </body>
 </html>
