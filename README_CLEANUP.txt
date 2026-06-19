@@ -1,18 +1,13 @@
-Ghost v2.2 Video Vault
+Ghost v2.2B Video Vault Menu Update
 
-Clean update built from the v2.1B one-page base.
+Built from uploaded index (12).html.
 
-Adds:
-- Video albums page matching the Photo Vault style.
-- Ghost Videos banner, stats bar, album cards.
-- Library, Favourites, Family, Travel, Downloads, Work albums.
-- Import videos.
-- Album view with video grid.
-- Video action sheet: Play, Rename, Move, Favourite, Delete.
-- In-app Ghost video player.
-- Create, rename and delete custom video albums.
+Changes:
+- Replaced browser prompt album options with Ghost-styled bottom sheet.
+- Album menu now shows Rename Album, Delete Album, Add Video.
+- Library and Favourites smart albums only show Add Video.
+- Added + Album beside + Video at the top of Video Vault.
+- Replaced Move Video prompt with Ghost-styled album picker.
+- Kept this as a focused update before the bigger cleanup build.
 
-Cleanup:
-- Removed old video vault JS/CSS before adding v2.2.
-- Kept dashboard compact from v2.1B.
-- Syntax check included.
+Next recommended step: v2.3 Cleanup Build to remove legacy CSS/function clutter.
