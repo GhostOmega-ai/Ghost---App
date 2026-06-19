@@ -1,7 +1,18 @@
-Ghost v2.1B Fit One Page
+Ghost v2.2 Video Vault
 
-- Compact dashboard so Photos, Videos, Files, Notes, Contacts, Home and Hide fit on one screen.
-- Keeps Settings top-right.
-- Keeps v2.1 clean-base approach: no old dashboard patch clutter.
-- JavaScript syntax check included.
-- Use this as the clean base before the next feature phase.
+Clean update built from the v2.1B one-page base.
+
+Adds:
+- Video albums page matching the Photo Vault style.
+- Ghost Videos banner, stats bar, album cards.
+- Library, Favourites, Family, Travel, Downloads, Work albums.
+- Import videos.
+- Album view with video grid.
+- Video action sheet: Play, Rename, Move, Favourite, Delete.
+- In-app Ghost video player.
+- Create, rename and delete custom video albums.
+
+Cleanup:
+- Removed old video vault JS/CSS before adding v2.2.
+- Kept dashboard compact from v2.1B.
+- Syntax check included.
