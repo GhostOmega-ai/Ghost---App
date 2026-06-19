@@ -4,9 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.2B Video Vault Menu Update</title>
+<title>Ghost v2.3 Cleanup Build</title>
 <link rel="manifest" href="manifest.json">
 <style>
+
+/* Ghost v2.3 Cleanup Build
+   This file was tidied from the uploaded v2.2 source.
+   Active areas kept: dashboard, disguises, photos, videos, files, notes, contacts, settings.
+   Removed: duplicate utility function(s), excess update clutter/blank spacing.
+   Next: continue Video Vault fixes from this v2.3 base.
+*/
+
 :root{--bg:#05030b;--card:#11101cdd;--card2:#171126;--line:#7d32ff;--txt:#fff;--mut:#aaa6b8;--red:#ff514f;--green:#38d67a;--purple:#873cff;--glow:0 0 18px #873cff,0 0 38px #873cff55}
 *{box-sizing:border-box}
 html,body{margin:0;background:radial-gradient(circle at top,#1e0b3c 0,#07030d 35%,#020204 100%);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--txt);min-height:100vh;overscroll-behavior:none}
@@ -115,11 +123,6 @@ button,input,textarea{font:inherit}
   display:block;
   filter:drop-shadow(0 0 8px #873cff) drop-shadow(0 0 18px #873cff) drop-shadow(0 0 28px #873cff);
 }
-
-
-
-
-
 
 
 /* Ghost v2.1B Fit One Page — compact no-scroll dashboard */
@@ -280,64 +283,6 @@ button,input,textarea{font:inherit}
   .videoTileGrid{gap:7px}.videoPlay{width:38px;height:38px}.videoTileName{font-size:11px}
 }
 
-
-/* Ghost v2.2B Video Vault Menu Update */
-.videoHeroActions{margin-left:auto;display:grid;gap:8px}
-.videoHeroActions .videoUpload,.videoHeroActions .videoAlbumAdd{
-  margin-left:0!important;
-  min-width:96px;
-  text-align:center;
-  background:linear-gradient(180deg,#a75bff,#6620ed);
-  border:0;
-  color:white;
-  border-radius:15px;
-  padding:10px 12px;
-  font-weight:900;
-  box-shadow:0 0 15px #873cff77;
-}
-.videoHeroActions .videoAlbumAdd{background:#14101f;border:1px solid #6b2fb3}
-.videoMenuBack{position:fixed;inset:0;background:#000b;z-index:85;display:grid;align-items:end;padding:16px}
-.videoMenu{
-  position:relative;
-  background:linear-gradient(160deg,#151126,#090713);
-  border:1px solid #7d32ff88;
-  border-radius:24px;
-  padding:18px;
-  box-shadow:0 0 32px #000c,0 0 22px #873cff44;
-}
-.videoMenu h3{margin:0 42px 4px 0;font-size:22px}
-.videoMenu p{margin:0 42px 14px 0;color:#aaa2b7;font-size:13px}
-.videoMenu button,.videoMenu label{
-  display:block;
-  width:100%;
-  background:#11101c;
-  border:1px solid #2d174a;
-  color:white;
-  text-align:left;
-  padding:14px 16px;
-  font-weight:800;
-  border-radius:15px;
-  margin:8px 0;
-}
-.videoMenu label{cursor:pointer}
-.videoMenu button.danger{color:#ff6868;border-color:#5a1d34}
-.ghostMenuInput{
-  width:100%;
-  margin:8px 0 10px;
-  background:#080610;
-  border:1px solid #7d32ff88;
-  color:white;
-  border-radius:15px;
-  padding:14px 16px;
-  outline:none;
-  box-shadow:inset 0 0 12px #873cff22;
-}
-.ghostMenuRow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ghostMenuRow button{text-align:center!important}
-@media(max-width:390px){
-  .videoHeroActions .videoUpload,.videoHeroActions .videoAlbumAdd{min-width:82px;padding:9px 10px;font-size:13px}
-}
-
 </style>
 
 </head>
@@ -409,7 +354,7 @@ function openAlbum(a){state.activeAlbum=a;save();if(a==='Library'||a==='All'||a=
 async function drawAlbumPhotos(active){const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">Stable storage enabled: photos are stored outside normal settings.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Default'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No photos here yet</h3><p>Tap Upload to add photos to this album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
 function startAlbumSelect(){selectMode=true;selectedPhotos=[];drawPhotos()}
 function switchAlbum(a){isPickingPhotos=false;selectMode=false;selectedPhotos=[];state.activeAlbum=a;save();drawPhotos()}
-function flash(t){let el=document.querySelector('#flashMsg');if(!el){el=document.createElement('div');el.id='flashMsg';el.style.cssText='position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#171126;border:1px solid #8b3cff;color:#fff;border-radius:14px;padding:12px 18px;box-shadow:0 0 18px #873cff;z-index:999;font-weight:800;text-align:center';document.body.appendChild(el)}el.textContent=t;setTimeout(()=>{if(el)el.remove()},1800)}
+
 function createAlbum(){const name=prompt('Album name?');if(!name)return;if(!state.albums.includes(name))state.albums.push(name);state.activeAlbum=name;save();drawPhotos()}
 function photoSettings(){alert('Ghost Photos v0.6.3 Album Cards\\nStorage: stable device database\\nPhotos: '+state.photos.length+'\\nAlbums: '+state.albums.length)}
 function albumOptions(album){if(album==='Library'||album==='All'||album==='All Photos')return;const modal=document.createElement('div');modal.className='albumModal';let buttons=`<button class="albumChoice" onclick="renameAlbum('${album}')">Rename Album</button><button class="albumChoice" onclick="changeAlbumCover('${album}')">Change Cover</button><button class="albumChoice" onclick="moveAlbumContents('${album}')">Move Contents</button>`;if(album!=='Library'&&album!=='Default')buttons+=`<button class="albumChoice" onclick="deleteAlbumFlow('${album}')">Delete Album</button>`;buttons+=`<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button>`;modal.innerHTML=`<div class="albumModalCard"><h2>${albumEmoji(album)} ${album}</h2>${buttons}</div>`;document.body.appendChild(modal)}
@@ -557,7 +502,6 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch
 if(state.setupDone)disguiseApp();else welcome();
 
 
-
 /* Ghost v2.2 Video Vault — clean album system */
 function videoId(){return 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
 function ensureVideoVault(){
@@ -659,7 +603,7 @@ function drawVideoAlbums(){
     <div class="videoVaultHero">
       <div class="videoVaultIcon"><img src="icon-videos.svg" alt=""></div>
       <div><h3>Ghost Videos</h3><p>${total} video${total===1?'':'s'} stored</p></div>
-      <div class="videoHeroActions"><label class="videoUpload" for="videoUploadInput">+ Video</label><button class="videoAlbumAdd" onclick="openNewVideoAlbumModal()">+ Album</button></div>
+      <label class="videoUpload" for="videoUploadInput">+ Video</label>
       <input id="videoUploadInput" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" multiple onchange="addVideos(this.files)" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
     </div>
     <div class="videoStats"><div><b>${total}</b><span>Videos</span></div><div><b>${Math.max(0,albums.length-2)}</b><span>Albums</span></div><div><b>${formatVideoSize(totalVideoSize()).replace(' ','')}</b><span>Storage</span></div></div>
@@ -754,27 +698,20 @@ function renameVideo(i){
   save();
   if(viewer.className==='videoPlayer')openVideoPlayer(i);else if(viewer.className==='videoSheetBack')openVideoSheet(i);else drawVideoAlbum(state.videoActiveAlbum||'Library');
 }
-
 function moveVideo(i){
   ensureVideoVault();
   const v=state.videos[i]; if(!v)return;
-  const choices=state.videoAlbums.filter(a=>a!=='Favourites');
-  viewer.className='videoMenuBack';
-  viewer.innerHTML=`<div class="videoMenu">
-    <button class="sheetClose" onclick="closeVideoSheet()">×</button>
-    <h3>Move Video</h3>
-    <p>${v.name||'Video'}</p>
-    ${choices.map(a=>`<button onclick="moveVideoToAlbum(${i},'${a.replace(/'/g,"\\'")}')">📁 ${a}</button>`).join('')}
-    <button onclick="openVideoSheet(${i})">Cancel</button>
-  </div>`;
-}
-function moveVideoToAlbum(i,album){
-  const v=state.videos[i]; if(!v)return;
-  v.album=album;
+  const choices=state.videoAlbums.filter(function(a){return a!=='Favourites'});
+  const msg='Move to album:\\n\\n'+choices.map(function(a,n){return (n+1)+'. '+a}).join('\\n');
+  const pick=prompt(msg, String(Math.max(1,choices.indexOf(v.album)+1)));
+  if(!pick)return;
+  const num=parseInt(pick,10);
+  if(!num||!choices[num-1]){alert('Album not found');return}
+  v.album=choices[num-1];
   save();
+  flash('Moved to '+v.album);
   closeVideoSheet();
-  flash('Moved to '+album);
-  drawVideoAlbum(state.videoActiveAlbum||album);
+  drawVideoAlbum(state.videoActiveAlbum||v.album);
 }
 function toggleVideoFav(i){
   const v=state.videos[i]; if(!v)return;
@@ -794,123 +731,39 @@ async function deleteVideo(i,fromSheet){
   viewer.className='hidden';viewer.innerHTML='';
   drawVideoAlbum(state.videoActiveAlbum||'Library');
 }
-
 function videoAlbumMenu(album){
-  ensureVideoVault();
-  const smart=(album==='Library'||album==='Favourites');
-  viewer.className='videoMenuBack';
-  viewer.innerHTML=`<div class="videoMenu">
-    <button class="sheetClose" onclick="closeVideoSheet()">×</button>
-    <h3>${album}</h3>
-    <p>${smart?'Smart album options':'Album options'}</p>
-    ${smart?'':`<button onclick="openRenameVideoAlbumModal('${album.replace(/'/g,"\\'")}')">✎ Rename Album</button><button class="danger" onclick="deleteVideoAlbum('${album.replace(/'/g,"\\'")}')">🗑 Delete Album</button>`}
-    <label for="videoUploadInputMenu">＋ Add Video</label>
-    <input id="videoUploadInputMenu" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" multiple onchange="addVideosToAlbum(this.files,'${album.replace(/'/g,"\\'")}')" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-    <button onclick="closeVideoSheet()">Cancel</button>
-  </div>`;
+  if(album==='Library'||album==='Favourites'){
+    alert(album+' is a smart album and cannot be renamed or deleted.');
+    return;
+  }
+  const action=prompt(album+' options:\\n\\n1. Rename album\\n2. Delete album\\n3. New album','1');
+  if(action==='1'){
+    const n=prompt('New album name?',album);
+    if(!n)return;
+    state.videos.forEach(function(v){if(v.album===album)v.album=n.trim()});
+    state.videoAlbums=state.videoAlbums.map(function(a){return a===album?n.trim():a});
+    save(); drawVideoAlbums();
+  }else if(action==='2'){
+    if(!confirm('Delete album? Videos will move to Library.'))return;
+    state.videos.forEach(function(v){if(v.album===album)v.album='Library'});
+    state.videoAlbums=state.videoAlbums.filter(function(a){return a!==album});
+    save(); drawVideoAlbums();
+  }else if(action==='3'){
+    newVideoAlbum();
+  }
 }
-function openNewVideoAlbumModal(){
-  viewer.className='videoMenuBack';
-  viewer.innerHTML=`<div class="videoMenu">
-    <button class="sheetClose" onclick="closeVideoSheet()">×</button>
-    <h3>Create New Album</h3>
-    <p>Choose a name for your new video album.</p>
-    <input id="newVideoAlbumName" class="ghostMenuInput" placeholder="Album name">
-    <div class="ghostMenuRow"><button onclick="closeVideoSheet()">Cancel</button><button onclick="createVideoAlbumFromModal()">Create</button></div>
-  </div>`;
-  setTimeout(()=>{const input=document.querySelector('#newVideoAlbumName'); if(input)input.focus()},80);
-}
-function createVideoAlbumFromModal(){
+function newVideoAlbum(){
   ensureVideoVault();
-  const input=document.querySelector('#newVideoAlbumName');
-  const name=(input&&input.value?input.value:'').trim();
-  if(!name){flash('Add an album name');return}
-  if(state.videoAlbums.includes(name)){flash('Album already exists');return}
+  const n=prompt('Album name?','New Album');
+  if(!n)return;
+  const name=n.trim();
+  if(!name)return;
+  if(state.videoAlbums.includes(name)){alert('Album already exists');return}
   state.videoAlbums.push(name);
   save();
-  closeVideoSheet();
   drawVideoAlbums();
-  flash('Album created');
 }
-function openRenameVideoAlbumModal(album){
-  viewer.className='videoMenuBack';
-  viewer.innerHTML=`<div class="videoMenu">
-    <button class="sheetClose" onclick="closeVideoSheet()">×</button>
-    <h3>Rename Album</h3>
-    <p>${album}</p>
-    <input id="renameVideoAlbumName" class="ghostMenuInput" placeholder="Album name" value="${album.replace(/"/g,'&quot;')}">
-    <div class="ghostMenuRow"><button onclick="videoAlbumMenu('${album.replace(/'/g,"\\'")}')">Cancel</button><button onclick="renameVideoAlbumFromModal('${album.replace(/'/g,"\\'")}')">Save</button></div>
-  </div>`;
-  setTimeout(()=>{const input=document.querySelector('#renameVideoAlbumName'); if(input){input.focus();input.select()}},80);
-}
-function renameVideoAlbumFromModal(album){
-  const input=document.querySelector('#renameVideoAlbumName');
-  const name=(input&&input.value?input.value:'').trim();
-  if(!name){flash('Add an album name');return}
-  if(name!==album && state.videoAlbums.includes(name)){flash('Album already exists');return}
-  state.videos.forEach(v=>{if(v.album===album)v.album=name});
-  state.videoAlbums=state.videoAlbums.map(a=>a===album?name:a);
-  if(state.videoActiveAlbum===album)state.videoActiveAlbum=name;
-  save();
-  closeVideoSheet();
-  drawVideoAlbums();
-  flash('Album renamed');
-}
-function deleteVideoAlbum(album){
-  if(!confirm('Delete album? Videos will move to Library.'))return;
-  state.videos.forEach(v=>{if(v.album===album)v.album='Library'});
-  state.videoAlbums=state.videoAlbums.filter(a=>a!==album);
-  if(state.videoActiveAlbum===album)state.videoActiveAlbum='Albums';
-  save();
-  closeVideoSheet();
-  drawVideoAlbums();
-  flash('Album deleted');
-}
-function addVideosToAlbum(files,album){
-  ensureVideoVault();
-  const selected=Array.from(files||[]);
-  if(!selected.length){flash('No videos selected');return}
-  closeVideoSheet();
-  flash('Importing '+selected.length+' video'+(selected.length>1?'s':'')+'...');
-  let done=0, metas=[];
-  selected.forEach(file=>{
-    const reader=new FileReader();
-    reader.onload=async e=>{
-      if(e.target&&e.target.result){
-        const id=videoId();
-        await dbPutVideo(id,e.target.result);
-        metas.push({
-          id:id,
-          name:file.name||'Video',
-          size:file.size||0,
-          type:file.type||'video',
-          created:Date.now(),
-          album:(album==='Favourites'?'Library':album),
-          fav:(album==='Favourites'),
-          duration:'--:--'
-        });
-      }
-      done++;
-      if(done===selected.length){
-        state.videos=(state.videos||[]).concat(metas);
-        save();
-        flash(metas.length+' video'+(metas.length!==1?'s':'')+' added');
-        setTimeout(()=>drawVideoAlbums(),150);
-      }
-    };
-    reader.onerror=()=>{
-      done++;
-      if(done===selected.length){
-        state.videos=(state.videos||[]).concat(metas);
-        save();
-        drawVideoAlbums();
-      }
-    };
-    reader.readAsDataURL(file);
-  });
-}
-function newVideoAlbum(){openNewVideoAlbumModal()}
-function videoInfo(){alert('Ghost Videos v2.2\nStored videos: '+((state.videos||[]).length)+'\nStorage: device browser database')}
+function videoInfo(){alert('Ghost Videos v2.3\nStored videos: '+((state.videos||[]).length)+'\nStorage: device browser database')}
 
 /* Ghost v2.1 safe boot */
 function ghostRenderFallback(title,msg,button){

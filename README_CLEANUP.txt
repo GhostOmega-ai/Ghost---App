@@ -1,13 +1,25 @@
-Ghost v2.2B Video Vault Menu Update
+Ghost v2.3 Cleanup Build
 
 Built from uploaded index (12).html.
 
-Changes:
-- Replaced browser prompt album options with Ghost-styled bottom sheet.
-- Album menu now shows Rename Album, Delete Album, Add Video.
-- Library and Favourites smart albums only show Add Video.
-- Added + Album beside + Video at the top of Video Vault.
-- Replaced Move Video prompt with Ghost-styled album picker.
-- Kept this as a focused update before the bigger cleanup build.
+Purpose:
+- Stabilise the current app before more Video Vault work.
+- Keep behaviour the same where possible.
+- Remove obvious duplicate utility code.
+- Add/keep safe boot protection to avoid silent blank screens.
+- Bundle only the active app files needed for upload.
 
-Next recommended step: v2.3 Cleanup Build to remove legacy CSS/function clutter.
+Kept:
+- Dashboard
+- Calculator/disguise flow
+- Photos and albums
+- Video Vault v2.2 base
+- Files, Notes, Contacts, Settings
+
+Cleaned:
+- Duplicate flash() function removed.
+- Excess blank spacing reduced.
+- Syntax checked before packaging.
+
+Next recommended step:
+Continue Video Vault fixes from this v2.3 cleanup base.
