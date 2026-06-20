@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.4B3 Photo Button Fix</title>
+<title>Ghost v2.5A Album Refactor</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -453,6 +453,16 @@ button,input,textarea{font:inherit}
   .videoVaultHero .vaultHeroActions .secondaryHeroBtn{min-width:96px!important;height:46px!important;font-size:13px!important}
 }
 
+
+/* Ghost v2.5A Album Refactor */
+.galleryHero .photoHeroActions,
+.videoVaultHero .vaultHeroActions{margin-left:auto!important;display:grid!important;grid-template-rows:1fr 1fr!important;gap:8px!important;min-width:112px!important}
+.galleryHero .photoHeroActions .uploadLabel,
+.galleryHero .photoHeroActions .secondaryHeroBtn,
+.videoVaultHero .vaultHeroActions .videoUpload,
+.videoVaultHero .vaultHeroActions .secondaryHeroBtn{margin-left:0!important;width:100%!important;min-width:112px!important;height:50px!important;display:grid!important;place-items:center!important;text-align:center!important;border-radius:16px!important;padding:0 12px!important;font-weight:900!important;line-height:1!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important;border:0!important;box-shadow:0 0 15px #873cff77!important;cursor:pointer!important}
+@media(max-width:390px){.galleryHero .photoHeroActions,.videoVaultHero .vaultHeroActions{min-width:96px!important;gap:7px!important}.galleryHero .photoHeroActions .uploadLabel,.galleryHero .photoHeroActions .secondaryHeroBtn,.videoVaultHero .vaultHeroActions .videoUpload,.videoVaultHero .vaultHeroActions .secondaryHeroBtn{min-width:96px!important;height:46px!important;font-size:13px!important}}
+
 </style>
 
 </head>
@@ -460,13 +470,15 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
+const GHOST_BUILD='v2.5A-album-refactor';
+
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
 let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
-state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Other']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Other']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Family','Private']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
@@ -504,26 +516,125 @@ function vault(){current='vault';shell(`<div class="vaultPage v21Dash"><img clas
 function nav(){return `<div class="nav v21Nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg" alt=""></span>Home</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.svg" alt=""></span>Hide</button></div>`}
 
 
-function normalizePhotos(){state.photos=(state.photos||[]).map(p=>typeof p==='string'?{src:p,album:'Default',fav:false,created:Date.now()}:Object.assign({album:'Default',fav:false,created:Date.now()},p));if(!state.albums.includes('Default'))state.albums.unshift('Default');state.albumCovers=state.albumCovers||{}}
+
+function normalizePhotos(){
+  state.albumCovers=state.albumCovers||{};
+  const protectedNames=['Library','All','All Photos','Favourites','Default','Work','Documents'];
+  state.albums=(state.albums||[]).filter(a=>a && !protectedNames.includes(a));
+  ['Family','Private'].forEach(a=>{if(!state.albums.includes(a))state.albums.push(a)});
+  state.albums=['Family','Private',...state.albums.filter(a=>!['Family','Private'].includes(a))];
+
+  state.photos=(state.photos||[]).map(p=>{
+    let obj=typeof p==='string'
+      ? {src:p,album:'Private',fav:false,created:Date.now()}
+      : Object.assign({album:'Private',fav:false,created:Date.now()},p);
+    if(!obj.album || obj.album==='Default' || obj.album==='Work' || obj.album==='Documents') obj.album='Private';
+    obj.fav=!!obj.fav;
+    return obj;
+  });
+
+  if(state.albumCovers['Default']){
+    state.albumCovers['Private']=state.albumCovers['Private']||state.albumCovers['Default'];
+    delete state.albumCovers['Default'];
+  }
+  delete state.albumCovers['Work'];
+  delete state.albumCovers['Documents'];
+  if(state.activeAlbum==='Default'||state.activeAlbum==='Work'||state.activeAlbum==='Documents')state.activeAlbum='Private';
+}
 function photoId(){return 'p_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
 function openGhostPhotoDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('GhostPhotoDBStable',1);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('photos'))db.createObjectStore('photos',{keyPath:'id'})};req.onsuccess=e=>resolve(e.target.result);req.onerror=e=>reject(e)})}
 async function dbPutPhoto(id,data){const db=await openGhostPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put({id,data});tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
 async function dbGetPhoto(id){const db=await openGhostPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readonly');const req=tx.objectStore('photos').get(id);req.onsuccess=()=>resolve(req.result?req.result.data:null);req.onerror=e=>reject(e)})}
 async function dbDeletePhoto(id){const db=await openGhostPhotoDB();return new Promise((resolve,reject)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').delete(id);tx.oncomplete=()=>resolve();tx.onerror=e=>reject(e)})}
-async function ensurePhotoStorage(){state.albums=state.albums||['Default','Family','Private','Work','Documents'];state.albumCovers=state.albumCovers||{};if(!state.albums.includes('Default'))state.albums.unshift('Default');const fixed=[];let changed=false;for(const p of (state.photos||[])){if(typeof p==='string'){const id=photoId();await dbPutPhoto(id,p);fixed.push({id,album:'Default',fav:false,created:Date.now()});changed=true}else if(p&&p.src){const id=p.id||photoId();await dbPutPhoto(id,p.src);fixed.push({id,album:p.album||'Default',fav:!!p.fav,created:p.created||Date.now()});changed=true}else if(p&&p.id){fixed.push(Object.assign({album:'Default',fav:false,created:Date.now()},p))}}state.photos=fixed;if(changed)save()}
+async function ensurePhotoStorage(){
+  state.albumCovers=state.albumCovers||{};
+  const fixed=[];
+  let changed=false;
+  for(const p of (state.photos||[])){
+    if(typeof p==='string'){
+      const id=photoId();
+      await dbPutPhoto(id,p);
+      fixed.push({id,album:'Private',fav:false,created:Date.now()});
+      changed=true;
+    }else if(p&&p.src){
+      const id=p.id||photoId();
+      await dbPutPhoto(id,p.src);
+      let album=p.album||'Private';
+      if(album==='Default'||album==='Work'||album==='Documents')album='Private';
+      fixed.push({id,album,fav:!!p.fav,created:p.created||Date.now(),name:p.name||'',size:p.size||0,type:p.type||'',lastModified:p.lastModified||0,width:p.width,height:p.height});
+      changed=true;
+    }else if(p&&p.id){
+      let obj=Object.assign({album:'Private',fav:false,created:Date.now()},p);
+      if(!obj.album||obj.album==='Default'||obj.album==='Work'||obj.album==='Documents'){obj.album='Private';changed=true}
+      obj.fav=!!obj.fav;
+      fixed.push(obj);
+    }
+  }
+  state.photos=fixed;
+  normalizePhotos();
+  if(changed)save();
+}
 async function photos(){current='photos';await ensurePhotoStorage();selectedPhotos=[];selectMode=false;if(!state.activeAlbum)state.activeAlbum='Library';await drawPhotos()}
-function albumEmoji(a){return (a==='Library'||a==='All'||a==='All Photos')?'📚':a==='Family'?'👨‍👩‍👧':a==='Private'?'🔒':a==='Work'?'💼':a==='Documents'?'📄':a==='Default'?'🗂️':'📁'}
-function albumList(){return ['Library',...state.albums.filter(a=>a!=='Library'&&a!=='All'&&a!=='All Photos')]}
-function albumPhotoIndexes(album){if(album==='Library')return state.photos.map((_,i)=>i);return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Default')===album).map(x=>x.i)}
-function filteredPhotoIndexes(){normalizePhotos();if(state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos'||!state.activeAlbum)return state.photos.map((_,i)=>i);return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Default')===state.activeAlbum).map(x=>x.i)}
+function albumEmoji(a){
+  return (a==='Library'||a==='All'||a==='All Photos')?'📚':a==='Favourites'?'⭐':a==='Family'?'👨‍👩‍👧':a==='Private'?'🔒':'📁';
+}
+function protectedPhotoAlbum(a){return a==='Library'||a==='All'||a==='All Photos'||a==='Favourites'}
+function albumList(){
+  normalizePhotos();
+  const custom=(state.albums||[]).filter(a=>a && !['Library','All','All Photos','Favourites','Default','Work','Documents'].includes(a));
+  return ['Library','Favourites','Family','Private',...custom.filter(a=>!['Family','Private'].includes(a))];
+}
+function albumPhotoIndexes(album){
+  normalizePhotos();
+  if(album==='Library'||album==='All'||album==='All Photos')return state.photos.map((_,i)=>i);
+  if(album==='Favourites')return state.photos.map((p,i)=>p.fav?i:-1).filter(i=>i>=0);
+  return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Private')===album).map(x=>x.i);
+}
+function filteredPhotoIndexes(){
+  normalizePhotos();
+  const a=state.activeAlbum||'Library';
+  if(a==='Library'||a==='All'||a==='All Photos')return state.photos.map((_,i)=>i);
+  if(a==='Favourites')return state.photos.map((p,i)=>p.fav?i:-1).filter(i=>i>=0);
+  return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Private')===a).map(x=>x.i);
+}
 async function photoSrc(i){const p=state.photos[i];if(!p)return '';if(p.src)return p.src;return await dbGetPhoto(p.id)||''}
 async function albumCoverSrc(album){const coverId=state.albumCovers&&state.albumCovers[album];if(coverId){const s=await dbGetPhoto(coverId);if(s)return s}const idxs=albumPhotoIndexes(album);if(!idxs.length)return '';return await photoSrc(idxs[idxs.length-1])}
 async function drawPhotos(){await ensurePhotoStorage();const active=state.activeAlbum||'Library';if(active==='Library'&&!selectMode){await drawAlbumHome();return}await drawAlbumPhotos(active)}
-async function drawAlbumHome(){const albums=albumList();const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div><div class="galleryHero"><div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div><div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div><div class="vaultHeroActions photoHeroActions"><label class="uploadLabel" for="photoAlbumUploadInput">+ Photo</label><button class="secondaryHeroBtn" onclick="openCreatePhotoAlbumModal()">+ Album</button></div><input id="photoAlbumUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div><div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>${nav()}</div>`)}
+
+async function drawAlbumHome(){
+  await ensurePhotoStorage();
+  const albums=albumList();
+  const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));
+  shell(`<div class="photosShell">
+    <div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div>
+    <div class="galleryHero">
+      <div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div>
+      <div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div>
+      <div class="vaultHeroActions photoHeroActions">
+        <label class="uploadLabel" for="photoAlbumUploadInput">+ Photo</label>
+        <button class="secondaryHeroBtn" onclick="openCreatePhotoAlbumModal()">+ Album</button>
+      </div>
+      <input id="photoAlbumUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    </div>
+    <div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length}</b><span>Albums</span></div><div><b>${photoStorageLabel()}</b><span>Storage</span></div></div>
+    <div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>
+    ${nav()}
+  </div>`);
+}
+function photoStorageLabel(){
+  try{
+    const total=(state.photos||[]).reduce((a,p)=>a+(Number(p.size)||0),0);
+    if(!total)return '0 MB';
+    if(total<1024*1024)return (total/1024).toFixed(1)+' KB';
+    return (total/1024/1024).toFixed(1)+' MB';
+  }catch(e){return '0 MB'}
+}
+
 function openAlbum(a){state.activeAlbum=a;save();if(a==='Library'||a==='All'||a==='All Photos'){drawAlbumPhotos('Library')}else{drawPhotos()}}
-async function drawAlbumPhotos(active){const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">Stable storage enabled: photos are stored outside normal settings.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Default'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No photos here yet</h3><p>Tap Upload to add photos to this album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
+async function drawAlbumPhotos(active){const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">Stable storage enabled: photos are stored outside normal settings.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Private'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No photos here yet</h3><p>Tap Upload to add photos to this album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
 function startAlbumSelect(){selectMode=true;selectedPhotos=[];drawPhotos()}
 function switchAlbum(a){isPickingPhotos=false;selectMode=false;selectedPhotos=[];state.activeAlbum=a;save();drawPhotos()}
+
 
 
 function createAlbum(){openCreatePhotoAlbumModal()}
@@ -545,6 +656,7 @@ function createPhotoAlbumFromModal(){
   const input=document.querySelector('#newPhotoAlbumName');
   const name=(input&&input.value?input.value:'').trim();
   if(!name){flash('Add an album name');return}
+  if(['Library','Favourites','Default','All','All Photos','Work','Documents'].includes(name)){flash('That name is protected');return}
   if(state.albums.includes(name)){flash('Album already exists');return}
   state.albums.push(name);
   state.activeAlbum=name;
@@ -553,20 +665,112 @@ function createPhotoAlbumFromModal(){
   drawPhotos();
   flash('Album created');
 }
-function photoSettings(){alert('Ghost Photos v0.6.3 Album Cards\\nStorage: stable device database\\nPhotos: '+state.photos.length+'\\nAlbums: '+state.albums.length)}
-function albumOptions(album){if(album==='Library'||album==='All'||album==='All Photos')return;const modal=document.createElement('div');modal.className='albumModal';let buttons=`<button class="albumChoice" onclick="renameAlbum('${album}')">Rename Album</button><button class="albumChoice" onclick="changeAlbumCover('${album}')">Change Cover</button><button class="albumChoice" onclick="moveAlbumContents('${album}')">Move Contents</button>`;if(album!=='Library'&&album!=='Default')buttons+=`<button class="albumChoice" onclick="deleteAlbumFlow('${album}')">Delete Album</button>`;buttons+=`<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button>`;modal.innerHTML=`<div class="albumModalCard"><h2>${albumEmoji(album)} ${album}</h2>${buttons}</div>`;document.body.appendChild(modal)}
+
+function photoSettings(){alert('Ghost Photos v2.5A\\nStorage: stable device database\\nPhotos: '+state.photos.length+'\\nAlbums: '+state.albums.length)}
+
+function albumOptions(album){
+  closeAlbumModal();
+  const modal=document.createElement('div');
+  modal.className='albumModal';
+  modal.onclick=function(e){if(e.target===modal)closeAlbumModal()};
+  const safe=protectedPhotoAlbum(album);
+  let buttons='';
+  if(safe){
+    buttons+=`<button class="albumChoice" onclick="closeAlbumModal()">Protected Album</button>`;
+  }else{
+    buttons+=`<button class="albumChoice" onclick="openRenamePhotoAlbumModal('${album}')">Rename Album</button>
+    <button class="albumChoice" onclick="changeAlbumCover('${album}')">Change Cover</button>
+    <button class="albumChoice" onclick="moveAlbumContents('${album}')">Move Contents</button>
+    <button class="albumChoice" onclick="deleteAlbumFlow('${album}')">Delete Album</button>`;
+  }
+  buttons+=`<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button>`;
+  modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>${albumEmoji(album)} ${album}</h2>${buttons}</div>`;
+  document.body.appendChild(modal);
+}
+function openRenamePhotoAlbumModal(album){
+  closeAlbumModal();
+  if(protectedPhotoAlbum(album))return flash('Protected album');
+  const modal=document.createElement('div');
+  modal.className='albumModal';
+  modal.onclick=function(e){if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard ghostCreateCard" onclick="event.stopPropagation()">
+    <h2>Rename Album</h2>
+    <p class="ghostModalSub">${album}</p>
+    <input id="renamePhotoAlbumName" class="ghostModalInput" placeholder="Album name" value="${album.replace(/"/g,'&quot;')}">
+    <div class="ghostModalRow"><button class="albumChoice" onclick="albumOptions('${album}')">Cancel</button><button class="albumChoice primaryChoice" onclick="renameAlbumFromModal('${album}')">Save</button></div>
+  </div>`;
+  document.body.appendChild(modal);
+  setTimeout(()=>{const i=document.querySelector('#renamePhotoAlbumName'); if(i){i.focus();i.select()}},80);
+}
+function renameAlbumFromModal(album){
+  if(protectedPhotoAlbum(album))return flash('Protected album');
+  const input=document.querySelector('#renamePhotoAlbumName');
+  const name=(input&&input.value?input.value:'').trim();
+  if(!name){flash('Add an album name');return}
+  if(['Library','Favourites','Default','All','All Photos','Work','Documents'].includes(name)){flash('That name is protected');return}
+  if(name!==album && state.albums.includes(name)){flash('Album already exists');return}
+  state.photos.forEach(p=>{if(p.album===album)p.album=name});
+  state.albums=state.albums.map(a=>a===album?name:a);
+  if(state.albumCovers[album]){state.albumCovers[name]=state.albumCovers[album];delete state.albumCovers[album]}
+  if(state.activeAlbum===album)state.activeAlbum=name;
+  save();
+  closeAlbumModal();
+  drawPhotos();
+  flash('Album renamed');
+}
+
 function closeAlbumModal(){document.querySelectorAll('.albumModal,.cleanMenu,.menuDismiss').forEach(x=>x.remove())}
-function renameAlbum(album){if(album==='Library')return alert('All cannot be renamed');const name=prompt('New album name?',album);if(!name||name===album)return;state.photos.forEach(p=>{if(p.album===album)p.album=name});state.albums=state.albums.map(a=>a===album?name:a);if(state.albumCovers[album]){state.albumCovers[name]=state.albumCovers[album];delete state.albumCovers[album]}state.activeAlbum=name;save();closeAlbumModal();drawPhotos()}
+function renameAlbum(album){openRenamePhotoAlbumModal(album)}
 async function changeAlbumCover(album){const idxs=albumPhotoIndexes(album);if(!idxs.length)return alert('Add photos first');closeAlbumModal();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));const modal=document.createElement('div');modal.className='albumModal';modal.innerHTML=`<div class="albumModalCard"><h2>Choose Cover</h2><div class="photoGridNew">${idxs.map((i,n)=>`<div class="photoTile" onclick="setAlbumCover('${album}',${i})"><img src="${thumbs[n]}"></div>`).join('')}</div><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;document.body.appendChild(modal)}
 function setAlbumCover(album,i){state.albumCovers[album]=state.photos[i].id;save();closeAlbumModal();drawPhotos()}
 function moveAlbumContents(album){if(album==='Library')return alert('Choose a specific album first');showAlbumPicker('album:'+album)}
-function deleteAlbumFlow(album){const modal=document.querySelector('.albumModal');modal.innerHTML=`<div class="albumModalCard"><h2>Delete ${album}?</h2><button class="albumChoice" onclick="deleteAlbumConfirm('${album}','default')">Delete album only<br><small>Move photos to Default</small></button><button class="albumChoice" onclick="deleteAlbumConfirm('${album}','all')">Delete album and photos</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`}
-async function deleteAlbumConfirm(album,mode){if(mode==='all'){if(!confirm('Delete album and every photo inside?'))return;const ids=state.photos.filter(p=>p.album===album).map(p=>p.id);for(const id of ids){await dbDeletePhoto(id)}state.photos=state.photos.filter(p=>p.album!==album)}else{state.photos.forEach(p=>{if(p.album===album)p.album='Default'})}state.albums=state.albums.filter(a=>a!==album);delete state.albumCovers[album];state.activeAlbum='Library';save();closeAlbumModal();drawPhotos()}
+
+function deleteAlbumFlow(album){
+  if(protectedPhotoAlbum(album))return flash('Protected album');
+  const modal=document.querySelector('.albumModal')||document.createElement('div');
+  modal.className='albumModal';
+  modal.innerHTML=`<div class="albumModalCard"><h2>Delete ${album}?</h2>
+    <button class="albumChoice" onclick="deleteAlbumConfirm('${album}','library')">Move contents to Library</button>
+    <button class="albumChoice" onclick="deleteAlbumConfirm('${album}','all')">Delete contents permanently</button>
+    <button class="albumChoice" onclick="closeAlbumModal()">Cancel</button>
+  </div>`;
+  if(!modal.parentNode)document.body.appendChild(modal);
+}
+
+
+async function deleteAlbumConfirm(album,mode){
+  if(protectedPhotoAlbum(album))return flash('Protected album');
+  if(mode==='all'){
+    if(!confirm('Delete album and every photo inside?'))return;
+    const ids=state.photos.filter(p=>p.album===album).map(p=>p.id);
+    for(const id of ids){await dbDeletePhoto(id)}
+    state.photos=state.photos.filter(p=>p.album!==album);
+  }else{
+    // Library is smart/all photos, so store moved contents under Private.
+    state.photos.forEach(p=>{if(p.album===album)p.album='Private'});
+  }
+  state.albums=state.albums.filter(a=>a!==album);
+  delete state.albumCovers[album];
+  state.activeAlbum='Library';
+  save();
+  closeAlbumModal();
+  drawPhotos();
+}
+
 function startSelectMode(i){selectMode=true;selectedPhotos=[i];drawPhotos()}
 function exitSelectMode(){selectMode=false;selectedPhotos=[];drawPhotos()}
 function togglePhotoSelect(i){if(selectedPhotos.includes(i))selectedPhotos=selectedPhotos.filter(x=>x!==i);else selectedPhotos.push(i);drawPhotos()}
 async function deleteSelectedPhotos(){if(!selectedPhotos.length)return alert('Select photos first');if(!confirm('Delete selected photos?'))return;for(const i of selectedPhotos){if(state.photos[i]&&state.photos[i].id)await dbDeletePhoto(state.photos[i].id)}state.photos=state.photos.filter((_,i)=>!selectedPhotos.includes(i));save();exitSelectMode()}
-function showAlbumPicker(mode){closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal';modal.innerHTML=`<div class="albumModalCard"><h2>Move to album</h2>${state.albums.map(a=>`<button class="albumChoice" onclick="finishAlbumMove('${mode}','${a}')">${albumEmoji(a)} ${a}</button>`).join('')}<button class="albumChoice" onclick="createAlbumFromPicker('${mode}')">➕ Create New Album</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;document.body.appendChild(modal)}
+
+function showAlbumPicker(mode){
+  closeAlbumModal();
+  const moveAlbums=['Library',...state.albums.filter(a=>!['Default','Favourites','Work','Documents'].includes(a))];
+  const modal=document.createElement('div');
+  modal.className='albumModal';
+  modal.onclick=function(e){if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>Move to album</h2>${moveAlbums.map(a=>`<button class="albumChoice" onclick="finishAlbumMove('${mode}','${a}')">${albumEmoji(a)} ${a}</button>`).join('')}<button class="albumChoice" onclick="createAlbumFromPicker('${mode}')">➕ Create New Album</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;
+  document.body.appendChild(modal);
+}
 
 function createAlbumFromPicker(mode){
   closeAlbumModal();
@@ -589,11 +793,67 @@ function createAlbumFromPickerConfirm(mode){
   if(!state.albums.includes(name))state.albums.push(name);
   finishAlbumMove(mode,name);
 }
-function finishAlbumMove(mode,album){if(mode==='selected'){selectedPhotos.forEach(i=>state.photos[i].album=album);selectedPhotos=[];selectMode=false}else if(mode.startsWith('album:')){const source=mode.split(':')[1];state.photos.forEach(p=>{if(p.album===source)p.album=album});if(state.albumCovers[source]){state.albumCovers[album]=state.albumCovers[source]}}else{state.photos[currentPhoto].album=album}state.activeAlbum=album;save();closeAlbumModal();if(mode==='current')drawViewer();else drawPhotos()}
-function addPhotos(files){isPickingPhotos=false;const selected=Array.from(files||[]);if(!selected.length){flash('No photos selected');return}const uploadAlbum=((state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos')?'Default':state.activeAlbum);flash('Uploading '+selected.length+' photo'+(selected.length>1?'s':'')+' to '+uploadAlbum+'...');let done=0,metas=[];selected.forEach(file=>{const reader=new FileReader();reader.onload=async e=>{if(e.target&&e.target.result){const id=photoId();const data=e.target.result;let meta={id,album:uploadAlbum,created:Date.now(),fav:false,name:file.name||'',size:file.size||0,type:file.type||'',lastModified:file.lastModified||0};try{const img=new Image();img.onload=async()=>{meta.width=img.naturalWidth;meta.height=img.naturalHeight;await dbPutPhoto(id,data);metas.push(meta);if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id;done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};img.onerror=async()=>{await dbPutPhoto(id,data);metas.push(meta);if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id;done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};img.src=data;return}catch(err){await dbPutPhoto(id,data);metas.push(meta);if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id}}done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.onerror=()=>{done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};reader.readAsDataURL(file)})}
-function finishPhotoUpload(done,total,metas,uploadAlbum){if(done!==total)return;state.photos=state.photos.concat(metas);state.activeAlbum=uploadAlbum;save();flash(metas.length+' photo'+(metas.length!==1?'s':'')+' added');setTimeout(()=>drawPhotos(),150)}
+
+function finishAlbumMove(mode,album){
+  const target=(album==='Library'||album==='All'||album==='All Photos')?'Private':album;
+  if(mode==='selected'){
+    selectedPhotos.forEach(i=>state.photos[i].album=target);
+    selectedPhotos=[];
+    selectMode=false;
+  }else if(mode.startsWith('album:')){
+    const source=mode.split(':')[1];
+    state.photos.forEach(p=>{if(p.album===source)p.album=target});
+    if(state.albumCovers[source]){state.albumCovers[target]=state.albumCovers[source]}
+  }else{
+    state.photos[currentPhoto].album=target;
+  }
+  state.activeAlbum=album==='Library'?'Library':target;
+  save();
+  closeAlbumModal();
+  if(mode==='current')drawViewer();else drawPhotos();
+}
+
+
+function addPhotos(files){
+  isPickingPhotos=false;
+  const selected=Array.from(files||[]);
+  if(!selected.length){flash('No photos selected');return}
+  const uploadAlbum=((state.activeAlbum==='Library'||state.activeAlbum==='All'||state.activeAlbum==='All Photos'||state.activeAlbum==='Favourites'||!state.activeAlbum)?'Private':state.activeAlbum);
+  flash('Uploading '+selected.length+' photo'+(selected.length>1?'s':'')+'...');
+  let done=0,metas=[];
+  selected.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=async e=>{
+      if(e.target&&e.target.result){
+        const id=photoId();
+        const data=e.target.result;
+        let meta={id,album:uploadAlbum,created:Date.now(),fav:false,name:file.name||'',size:file.size||0,type:file.type||'',lastModified:file.lastModified||0};
+        try{
+          await dbPutPhoto(id,data);
+          metas.push(meta);
+          if(!state.albumCovers[uploadAlbum])state.albumCovers[uploadAlbum]=id;
+        }catch(err){}
+      }
+      done++;
+      finishPhotoUpload(done,selected.length,metas,uploadAlbum);
+    };
+    reader.onerror=()=>{done++;finishPhotoUpload(done,selected.length,metas,uploadAlbum)};
+    reader.readAsDataURL(file);
+  });
+}
+
+
+function finishPhotoUpload(done,total,metas,uploadAlbum){
+  if(done!==total)return;
+  state.photos=state.photos.concat(metas);
+  state.activeAlbum=(state.activeAlbum==='Library'||state.activeAlbum==='Favourites'||!state.activeAlbum)?'Library':uploadAlbum;
+  save();
+  flash(metas.length+' photo'+(metas.length!==1?'s':'')+' added');
+  setTimeout(()=>drawPhotos(),150);
+}
+
 function openViewerByPosition(pos){const idxs=filteredPhotoIndexes();currentPhoto=idxs[pos]||0;drawViewer()}
-async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Default'}</small></div><button onclick="viewerMenu()">⋮</button></div><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
+async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Private'}</small></div><button onclick="viewerMenu()">⋮</button></div><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
 function closeViewer(){viewer.className='hidden';viewer.innerHTML='';drawPhotos()}
 function viewerMenu(){closeAlbumModal();const dismiss=document.createElement('div');dismiss.className='menuDismiss';dismiss.onclick=closeAlbumModal;const menu=document.createElement('div');menu.className='cleanMenu';menu.onclick=e=>e.stopPropagation();menu.innerHTML=`<button onclick="showAlbumPicker('current')">📁 Move Photo</button><button onclick="setCurrentAsCover()">⭐ Set Album Cover</button><button onclick="deletePhoto()">🗑 Delete Photo</button><button onclick="photoInfo()">ℹ Photo Info</button>`;document.body.appendChild(dismiss);document.body.appendChild(menu)}
 function setCurrentAsCover(){const album=state.photos[currentPhoto].album||'Default';state.albumCovers[album]=state.photos[currentPhoto].id;save();closeAlbumModal();flash('Album cover updated')}
@@ -637,9 +897,9 @@ function setPhotoSearch(v){
 }
 function setPhotoSort(v){state.photoSort=v;save();drawAlbumPhotos(state.activeAlbum||'Library')}
 async function drawAlbumHome(){await cleanupAlbumCovers();const albums=albumList();const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));const totalBytes=await storageBytes();shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div><div class="galleryHero"><div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div><div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div><button class="uploadLabel" onclick="createAlbum()">＋ Album</button></div><div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length-2}</b><span>Albums</span></div><div><b>${formatBytes(totalBytes)}</b><span>Storage</span></div></div><div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>${nav()}</div>`)}
-async function drawAlbumPhotos(active){await cleanupAlbumCovers();const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${(state.photoSearch||'').replace(/"/g,'&quot;')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search photos"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.7B: favourites, search, sort and storage stats enabled.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Default'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
+async function drawAlbumPhotos(active){await cleanupAlbumCovers();const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${(state.photoSearch||'').replace(/"/g,'&quot;')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search photos"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.7B: favourites, search, sort and storage stats enabled.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Private'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
 function toggleFav(i){state.photos[i].fav=!state.photos[i].fav;save();flash(state.photos[i].fav?'Added to favourites':'Removed from favourites');drawPhotos()}
-async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Default'}</small></div><button onclick="viewerMenu()">⋮</button></div><button class="viewerFav ${p.fav?'on':''}" onclick="toggleViewerFav()">${p.fav?'⭐':'☆'}</button><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
+async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Private'}</small></div><button onclick="viewerMenu()">⋮</button></div><button class="viewerFav ${p.fav?'on':''}" onclick="toggleViewerFav()">${p.fav?'⭐':'☆'}</button><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
 function toggleViewerFav(){state.photos[currentPhoto].fav=!state.photos[currentPhoto].fav;save();drawViewer()}
 function viewerMenu(){closeAlbumModal();const dismiss=document.createElement('div');dismiss.className='menuDismiss';dismiss.onclick=closeAlbumModal;const menu=document.createElement('div');menu.className='cleanMenu';menu.onclick=e=>e.stopPropagation();const fav=state.photos[currentPhoto]&&state.photos[currentPhoto].fav;menu.innerHTML=`<button onclick="toggleViewerFav();closeAlbumModal()">${fav?'⭐ Remove Favourite':'⭐ Add Favourite'}</button><button onclick="showAlbumPicker('current')">📁 Move Photo</button><button onclick="setCurrentAsCover()">⭐ Set Album Cover</button><button onclick="deletePhoto()">🗑 Delete Photo</button><button onclick="photoInfo()">ℹ Photo Info</button>`;document.body.appendChild(dismiss);document.body.appendChild(menu)}
 async function deleteSelectedPhotos(){if(!selectedPhotos.length)return alert('Select photos first');if(!confirm('Delete '+selectedPhotos.length+' selected photo'+(selectedPhotos.length===1?'':'s')+'?'))return;for(const i of selectedPhotos){if(state.photos[i]&&state.photos[i].id)await dbDeletePhoto(state.photos[i].id)}state.photos=state.photos.filter((_,i)=>!selectedPhotos.includes(i));await cleanupAlbumCovers();save();exitSelectMode()}
