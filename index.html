@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.3 Cleanup Build</title>
+<title>Ghost v2.4A Video Phase A</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -283,6 +283,48 @@ button,input,textarea{font:inherit}
   .videoTileGrid{gap:7px}.videoPlay{width:38px;height:38px}.videoTileName{font-size:11px}
 }
 
+
+/* Ghost v2.4A Video Phase A */
+.videoVaultIcon.ghostVideoIcon{
+  overflow:hidden!important;
+  padding:0!important;
+  background:#05030b!important;
+}
+.videoVaultIcon.ghostVideoIcon img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  filter:drop-shadow(0 0 10px #873cff) drop-shadow(0 0 18px #873cff)!important;
+}
+.videoCover{
+  overflow:hidden!important;
+  background:#05030b!important;
+}
+.videoCoverImg,.videoThumbImg{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+}
+.videoCover::after{
+  content:'';position:absolute;inset:0;background:radial-gradient(circle at center,transparent 35%,rgba(0,0,0,.55));pointer-events:none;
+}
+.videoCover .playBubble{z-index:2}
+.videoTileThumb{background:#05030b!important}
+.videoTileThumb .videoThumbImg{position:absolute;inset:0}
+.videoTileThumb .videoPlay,.videoTileThumb .durationPill{position:relative;z-index:2}
+.sheetThumb{overflow:hidden}
+.sheetThumb img{width:100%;height:100%;object-fit:cover;display:block}
+.videoSheetBack{cursor:pointer}
+.videoSheet{cursor:default}
+.videoSheetUpload{
+  display:block;width:100%;background:#11101c;border:1px solid #2d174a;color:white;text-align:left;
+  padding:14px 16px;font-weight:750;border-radius:14px;margin:7px 0;
+}
+.emptyGhostVideo{width:72px;height:72px;border-radius:20px;object-fit:cover;box-shadow:0 0 18px #873cff88}
+.videoPlayerTop{background:linear-gradient(180deg,rgba(0,0,0,.72),rgba(0,0,0,0));padding-bottom:10px}
+.videoPlayer video{margin:auto 0;max-height:78vh!important}
+
 </style>
 
 </head>
@@ -296,7 +338,7 @@ let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
-state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Travel','Downloads','Work']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Other']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Default','Family','Private','Work','Documents']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
@@ -506,12 +548,20 @@ if(state.setupDone)disguiseApp();else welcome();
 function videoId(){return 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2)}
 function ensureVideoVault(){
   state.videos=state.videos||[];
-  state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Travel','Downloads','Work'];
-  if(!state.videoAlbums.includes('Library'))state.videoAlbums.unshift('Library');
-  if(!state.videoAlbums.includes('Favourites'))state.videoAlbums.splice(1,0,'Favourites');
+  const coreAlbums=['Library','Favourites','Family','Other'];
+  const oldDefaults=['Travel','Downloads','Work'];
+  let existing=Array.isArray(state.videoAlbums)?state.videoAlbums:[];
+  existing=existing.filter(a=>a && !oldDefaults.includes(a));
+  coreAlbums.forEach(a=>{if(!existing.includes(a))existing.push(a)});
+  state.videoAlbums=[
+    ...coreAlbums,
+    ...existing.filter(a=>!coreAlbums.includes(a))
+  ];
   state.videoActiveAlbum=state.videoActiveAlbum||'Albums';
   state.videos=state.videos.map(function(v){
-    v.album=v.album||'Library';
+    if(!v.album)v.album='Library';
+    if(oldDefaults.includes(v.album))v.album='Other';
+    if(v.album!=='Library' && v.album!=='Favourites' && !state.videoAlbums.includes(v.album))state.videoAlbums.push(v.album);
     v.fav=!!v.fav;
     v.created=v.created||Date.now();
     return v;
@@ -556,6 +606,73 @@ async function dbDeleteVideo(id){
     tx.onerror=function(e){reject(e)};
   });
 }
+
+function videoGhostFallback(){return 'video-ghost-icon.png'}
+function videoSmartAlbumList(){
+  ensureVideoVault();
+  return state.videoAlbums||['Library','Favourites','Family','Other'];
+}
+function videoAlbumLatestIndex(album){
+  const idxs=videoAlbumIndexes(album);
+  if(!idxs.length)return -1;
+  return idxs.slice().sort(function(a,b){
+    return (state.videos[b].created||0)-(state.videos[a].created||0);
+  })[0];
+}
+async function getVideoThumbnail(i){
+  const v=state.videos[i];
+  if(!v)return videoGhostFallback();
+  if(v.thumb)return v.thumb;
+  const src=await dbGetVideo(v.id);
+  if(!src)return videoGhostFallback();
+  return new Promise(function(resolve){
+    const vid=document.createElement('video');
+    vid.muted=true;
+    vid.playsInline=true;
+    vid.preload='metadata';
+    let settled=false;
+    function done(url){
+      if(settled)return;
+      settled=true;
+      v.thumb=url||videoGhostFallback();
+      save();
+      resolve(v.thumb);
+    }
+    vid.onloadeddata=function(){
+      try{
+        const seek=Math.min(0.25, Math.max(0, (vid.duration||1)/8));
+        vid.currentTime=seek;
+      }catch(e){capture()}
+    };
+    vid.onseeked=capture;
+    vid.onerror=function(){done(videoGhostFallback())};
+    function capture(){
+      try{
+        const canvas=document.createElement('canvas');
+        canvas.width=320;
+        canvas.height=180;
+        const ctx=canvas.getContext('2d');
+        ctx.fillStyle='#05030b';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        const vw=vid.videoWidth||320, vh=vid.videoHeight||180;
+        const scale=Math.max(canvas.width/vw, canvas.height/vh);
+        const w=vw*scale, h=vh*scale;
+        ctx.drawImage(vid,(canvas.width-w)/2,(canvas.height-h)/2,w,h);
+        done(canvas.toDataURL('image/jpeg',0.72));
+      }catch(e){
+        done(videoGhostFallback());
+      }
+    }
+    setTimeout(function(){done(videoGhostFallback())},2500);
+    vid.src=src;
+  });
+}
+async function videoAlbumCoverSrc(album){
+  const idx=videoAlbumLatestIndex(album);
+  if(idx<0)return videoGhostFallback();
+  return await getVideoThumbnail(idx);
+}
+
 function formatVideoSize(bytes){
   bytes=Number(bytes)||0;
   if(bytes<1024)return bytes+' B';
@@ -574,9 +691,7 @@ function videoAlbumCoverEmoji(album){
   if(album==='Library')return '🎬';
   if(album==='Favourites')return '⭐';
   if(album==='Family')return '👨‍👩‍👧';
-  if(album==='Travel')return '✈️';
-  if(album==='Downloads')return '⬇️';
-  if(album==='Work')return '💼';
+  if(album==='Other')return '📁';
   return '📁';
 }
 async function videosVault(){
@@ -584,31 +699,33 @@ async function videosVault(){
   ensureVideoVault();
   state.videoActiveAlbum='Albums';
   save();
-  drawVideoAlbums();
+  await drawVideoAlbums();
 }
-function drawVideoAlbums(){
+async function drawVideoAlbums(){
   ensureVideoVault();
   const total=(state.videos||[]).length;
-  const albums=state.videoAlbums||[];
-  const cards=albums.map(function(a){
+  const albums=videoSmartAlbumList();
+  const covers=await Promise.all(albums.map(a=>videoAlbumCoverSrc(a)));
+  const cards=albums.map(function(a,n){
     const count=videoAlbumIndexes(a).length;
+    const cover=covers[n]||videoGhostFallback();
     return `<div class="videoAlbumCard" onclick="openVideoAlbum('${a.replace(/'/g,"\\'")}')">
       <button class="videoDots" onclick="event.stopPropagation();videoAlbumMenu('${a.replace(/'/g,"\\'")}')">⋮</button>
-      <div class="videoCover"><div class="videoCoverIcon">${videoAlbumCoverEmoji(a)}</div><div class="playBubble">▶</div></div>
+      <div class="videoCover"><img class="videoCoverImg" src="${cover}" alt=""><div class="playBubble">▶</div></div>
       <div class="videoAlbumMeta"><h3>${videoAlbumCoverEmoji(a)} ${a}</h3><p>${count} video${count===1?'':'s'}</p></div>
     </div>`;
   }).join('');
   shell(`<div class="videoVaultPage">
     <div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Videos</h2><button class="iconBtn" style="margin-left:auto" onclick="settings()">⚙</button></div>
     <div class="videoVaultHero">
-      <div class="videoVaultIcon"><img src="icon-videos.svg" alt=""></div>
+      <div class="videoVaultIcon ghostVideoIcon"><img src="video-ghost-icon.png" alt="Ghost Videos"></div>
       <div><h3>Ghost Videos</h3><p>${total} video${total===1?'':'s'} stored</p></div>
       <label class="videoUpload" for="videoUploadInput">+ Video</label>
       <input id="videoUploadInput" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" multiple onchange="addVideos(this.files)" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
     </div>
     <div class="videoStats"><div><b>${total}</b><span>Videos</span></div><div><b>${Math.max(0,albums.length-2)}</b><span>Albums</span></div><div><b>${formatVideoSize(totalVideoSize()).replace(' ','')}</b><span>Storage</span></div></div>
     <div class="videoAlbumGrid">${cards}</div>
-    ${!total?`<div class="videoEmpty"><div class="bigVideo">🎥</div><h3>No videos yet</h3><p>Tap + Video to import your first video.</p></div>`:''}
+    ${!total?`<div class="videoEmpty"><div class="bigVideo"><img class="emptyGhostVideo" src="video-ghost-icon.png" alt=""></div><h3>No videos yet</h3><p>Tap + Video to import your first video.</p></div>`:''}
     ${nav()}
   </div>`);
 }
@@ -618,12 +735,14 @@ function openVideoAlbum(album){
   save();
   drawVideoAlbum(album);
 }
-function drawVideoAlbum(album){
+async function drawVideoAlbum(album){
   const indexes=videoAlbumIndexes(album);
-  const rows=indexes.map(function(idx){
+  const thumbs=await Promise.all(indexes.map(i=>getVideoThumbnail(i)));
+  const rows=indexes.map(function(idx,pos){
     const v=state.videos[idx];
-    return `<div class="videoTile" onclick="openVideoSheet(${idx})">
-      <div class="videoTileThumb"><span class="videoPlay">▶</span><span class="durationPill">${v.duration||'--:--'}</span></div>
+    const thumb=thumbs[pos]||videoGhostFallback();
+    return `<div class="videoTile" onclick="openVideoPlayer(${idx})">
+      <div class="videoTileThumb"><img class="videoThumbImg" src="${thumb}" alt=""><span class="videoPlay">▶</span><span class="durationPill">${v.duration||'--:--'}</span></div>
       <div class="videoTileName">${v.name||('Video '+(idx+1))}</div>
       <div class="videoTileMeta">${formatVideoSize(v.size)}</div>
     </div>`;
@@ -631,7 +750,7 @@ function drawVideoAlbum(album){
   shell(`<div class="videoVaultPage">
     <div class="photosTop"><button class="iconBtn" onclick="drawVideoAlbums()">←</button><div><h2 style="margin:0">${album}</h2><p style="margin:2px 0 0;color:#aaa2b7">${indexes.length} video${indexes.length===1?'':'s'}</p></div><button class="iconBtn" style="margin-left:auto" onclick="videoAlbumMenu('${album.replace(/'/g,"\\'")}')">⋯</button></div>
     <div class="videoTileGrid">${rows}</div>
-    ${!indexes.length?`<div class="videoEmpty"><div class="bigVideo">🎬</div><h3>No videos here</h3><p>Add videos or move existing videos into this album.</p></div>`:''}
+    ${!indexes.length?`<div class="videoEmpty"><div class="bigVideo"><img class="emptyGhostVideo" src="video-ghost-icon.png" alt=""></div><h3>No videos here</h3><p>Add videos or move existing videos into this album.</p></div>`:''}
     ${nav()}
   </div>`);
 }
@@ -654,7 +773,13 @@ function addVideos(files){
         state.videos=(state.videos||[]).concat(metas);
         save();
         flash(metas.length+' video'+(metas.length!==1?'s':'')+' added');
-        setTimeout(function(){drawVideoAlbums()},150);
+        setTimeout(async function(){
+          // Generate first visible thumbnails in the background, then redraw.
+          for(let n=Math.max(0,state.videos.length-metas.length); n<state.videos.length; n++){
+            try{await getVideoThumbnail(n)}catch(e){}
+          }
+          await drawVideoAlbums();
+        },150);
       }
     };
     reader.onerror=function(){
@@ -668,9 +793,10 @@ function openVideoSheet(i){
   const v=state.videos[i];
   if(!v)return;
   viewer.className='videoSheetBack';
-  viewer.innerHTML=`<div class="videoSheet">
+  viewer.onclick=function(e){if(e.target===viewer)closeVideoSheet()};
+  viewer.innerHTML=`<div class="videoSheet" onclick="event.stopPropagation()">
     <button class="sheetClose" onclick="closeVideoSheet()">×</button>
-    <div class="sheetHead"><div class="sheetThumb"><span>▶</span></div><div><strong>${v.name||'Video'}</strong><p>${v.type||'Video'} • ${formatVideoSize(v.size)}</p></div></div>
+    <div class="sheetHead"><div class="sheetThumb"><img src="${v.thumb||videoGhostFallback()}" alt=""></div><div><strong>${v.name||'Video'}</strong><p>${v.type||'Video'} • ${formatVideoSize(v.size)}</p></div></div>
     <button onclick="openVideoPlayer(${i})">▷ Play</button>
     <button onclick="renameVideo(${i})">✎ Rename</button>
     <button onclick="moveVideo(${i})">📁 Move</button>
@@ -678,18 +804,25 @@ function openVideoSheet(i){
     <button class="danger" onclick="deleteVideo(${i},true)">🗑 Delete</button>
   </div>`;
 }
-function closeVideoSheet(){viewer.className='hidden';viewer.innerHTML=''}
+function closeVideoSheet(){viewer.onclick=null;viewer.className='hidden';viewer.innerHTML=''}
 async function openVideoPlayer(i){
   const v=state.videos[i];
   if(!v)return;
   const src=await dbGetVideo(v.id);
   if(!src){alert('Video file missing from device storage');return}
+  viewer.onclick=null;
   viewer.className='videoPlayer';
   viewer.innerHTML=`<div class="videoPlayerTop"><button onclick="closeVideoPlayer()">←</button><strong>${v.name||'Video'}</strong><button onclick="toggleVideoFav(${i})">${v.fav?'★':'☆'}</button><button onclick="openVideoSheet(${i})">⋯</button></div>
-  <video src="${src}" controls playsinline autoplay></video>
-  <div class="ghostPlayerBar"><button onclick="closeVideoPlayer()">Back</button><button onclick="renameVideo(${i})">Rename</button><button onclick="moveVideo(${i})">Move</button></div>`;
+  <video id="ghostVideoEl" src="${src}" controls playsinline autoplay></video>`;
+  setTimeout(function(){
+    const vid=document.querySelector('#ghostVideoEl');
+    if(vid){
+      const p=vid.play();
+      if(p&&p.catch)p.catch(function(){});
+    }
+  },80);
 }
-function closeVideoPlayer(){viewer.className='hidden';viewer.innerHTML=''; if(state.videoActiveAlbum&&state.videoActiveAlbum!=='Albums')drawVideoAlbum(state.videoActiveAlbum);else drawVideoAlbums();}
+function closeVideoPlayer(){viewer.onclick=null;viewer.className='hidden';viewer.innerHTML=''; if(state.videoActiveAlbum&&state.videoActiveAlbum!=='Albums')drawVideoAlbum(state.videoActiveAlbum);else drawVideoAlbums();}
 function renameVideo(i){
   const v=state.videos[i]; if(!v)return;
   const name=prompt('Video name?',v.name||('Video '+(i+1)));
@@ -732,25 +865,63 @@ async function deleteVideo(i,fromSheet){
   drawVideoAlbum(state.videoActiveAlbum||'Library');
 }
 function videoAlbumMenu(album){
-  if(album==='Library'||album==='Favourites'){
-    alert(album+' is a smart album and cannot be renamed or deleted.');
-    return;
-  }
-  const action=prompt(album+' options:\\n\\n1. Rename album\\n2. Delete album\\n3. New album','1');
-  if(action==='1'){
-    const n=prompt('New album name?',album);
-    if(!n)return;
-    state.videos.forEach(function(v){if(v.album===album)v.album=n.trim()});
-    state.videoAlbums=state.videoAlbums.map(function(a){return a===album?n.trim():a});
-    save(); drawVideoAlbums();
-  }else if(action==='2'){
-    if(!confirm('Delete album? Videos will move to Library.'))return;
-    state.videos.forEach(function(v){if(v.album===album)v.album='Library'});
-    state.videoAlbums=state.videoAlbums.filter(function(a){return a!==album});
-    save(); drawVideoAlbums();
-  }else if(action==='3'){
-    newVideoAlbum();
-  }
+  ensureVideoVault();
+  const smart=(album==='Library'||album==='Favourites');
+  viewer.className='videoSheetBack';
+  viewer.onclick=function(e){if(e.target===viewer)closeVideoSheet()};
+  viewer.innerHTML=`<div class="videoSheet" onclick="event.stopPropagation()">
+    <button class="sheetClose" onclick="closeVideoSheet()">×</button>
+    <div class="sheetHead"><div class="sheetThumb"><img src="video-ghost-icon.png" alt=""></div><div><strong>${album}</strong><p>${smart?'Smart album':'Album options'}</p></div></div>
+    ${smart?'':`<button onclick="renameVideoAlbumFlow('${album.replace(/'/g,"\\'")}')">✎ Rename Album</button><button class="danger" onclick="deleteVideoAlbumFlow('${album.replace(/'/g,"\\'")}')">🗑 Delete Album</button>`}
+    <label class="videoSheetUpload" for="videoUploadInputMenu">＋ Add Video</label>
+    <input id="videoUploadInputMenu" type="file" accept="video/mp4,video/webm,video/quicktime,video/*" multiple onchange="addVideosToAlbum(this.files,'${album.replace(/'/g,"\\'")}')" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+  </div>`;
+}
+function renameVideoAlbumFlow(album){
+  const n=prompt('New album name?',album);
+  if(!n)return;
+  const name=n.trim();
+  if(!name)return;
+  state.videos.forEach(function(v){if(v.album===album)v.album=name});
+  state.videoAlbums=state.videoAlbums.map(function(a){return a===album?name:a});
+  if(state.videoActiveAlbum===album)state.videoActiveAlbum=name;
+  save(); closeVideoSheet(); drawVideoAlbums();
+}
+function deleteVideoAlbumFlow(album){
+  if(!confirm('Delete album? Videos will move to Other.'))return;
+  state.videos.forEach(function(v){if(v.album===album)v.album='Other'});
+  state.videoAlbums=state.videoAlbums.filter(function(a){return a!==album});
+  save(); closeVideoSheet(); drawVideoAlbums();
+}
+function addVideosToAlbum(files,album){
+  ensureVideoVault();
+  const selected=Array.from(files||[]);
+  if(!selected.length){flash('No videos selected');return}
+  closeVideoSheet();
+  flash('Importing '+selected.length+' video'+(selected.length>1?'s':'')+'...');
+  let done=0, metas=[];
+  selected.forEach(function(file){
+    const reader=new FileReader();
+    reader.onload=async function(e){
+      if(e.target&&e.target.result){
+        const id=videoId();
+        await dbPutVideo(id,e.target.result);
+        metas.push({id:id,name:file.name||'Video',size:file.size||0,type:file.type||'video',created:Date.now(),album:(album==='Favourites'?'Library':album),fav:(album==='Favourites'),duration:'--:--'});
+      }
+      done++;
+      if(done===selected.length){
+        state.videos=(state.videos||[]).concat(metas);
+        save();
+        for(let n=Math.max(0,state.videos.length-metas.length); n<state.videos.length; n++){
+          try{await getVideoThumbnail(n)}catch(e){}
+        }
+        flash(metas.length+' video'+(metas.length!==1?'s':'')+' added');
+        setTimeout(function(){drawVideoAlbums()},150);
+      }
+    };
+    reader.onerror=function(){done++; if(done===selected.length){state.videos=(state.videos||[]).concat(metas);save();drawVideoAlbums();}};
+    reader.readAsDataURL(file);
+  });
 }
 function newVideoAlbum(){
   ensureVideoVault();
