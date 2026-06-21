@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.5B Recovery Clean</title>
+<title>Ghost v2.5C Polish & Album Management</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -515,6 +515,22 @@ button,input,textarea{font:inherit}
   .videoVaultHero .vaultHeroActions .secondaryHeroBtn{min-width:96px!important;height:46px!important;font-size:13px!important}
 }
 
+
+/* Ghost v2.5C Polish & Album Management */
+.phone{padding-bottom:108px!important}
+.screen{padding-bottom:96px!important}
+.nav.v21Nav{position:fixed!important;left:50%!important;transform:translateX(-50%)!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;width:min(386px,calc(100vw - 32px))!important;z-index:999!important;margin:0!important}
+.viewerClean,.videoPlayer,.videoSheetBack,.albumModal,.modalBack{z-index:1000!important}
+.albumCards,.videoAlbumGrid{padding-bottom:88px!important}
+.albumCard,.videoAlbumCard{min-height:164px!important}
+.albumCover,.videoCover{height:112px!important}
+.galleryHero .photoHeroActions,.videoVaultHero .vaultHeroActions{margin-left:auto!important;display:grid!important;grid-template-rows:1fr 1fr!important;gap:8px!important;min-width:112px!important}
+.galleryHero .photoHeroActions .uploadLabel,.galleryHero .photoHeroActions .secondaryHeroBtn,.videoVaultHero .vaultHeroActions .videoUpload,.videoVaultHero .vaultHeroActions .secondaryHeroBtn{margin-left:0!important;width:100%!important;min-width:112px!important;height:50px!important;display:grid!important;place-items:center!important;text-align:center!important;border-radius:16px!important;padding:0 12px!important;font-weight:900!important;line-height:1!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important;border:0!important;box-shadow:0 0 15px #873cff77!important;cursor:pointer!important}
+.videoCover img,.videoCoverImg,.videoThumbImg{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
+.videoCover::after{content:''!important;position:absolute!important;inset:0!important;background:radial-gradient(circle at center,transparent 35%,rgba(0,0,0,.55))!important;pointer-events:none!important}
+.playBubble{z-index:2!important}
+@media(max-width:390px){.galleryHero .photoHeroActions,.videoVaultHero .vaultHeroActions{min-width:96px!important;gap:7px!important}.galleryHero .photoHeroActions .uploadLabel,.galleryHero .photoHeroActions .secondaryHeroBtn,.videoVaultHero .vaultHeroActions .videoUpload,.videoVaultHero .vaultHeroActions .secondaryHeroBtn{min-width:96px!important;height:46px!important;font-size:13px!important}.albumCard,.videoAlbumCard{min-height:146px!important}.albumCover,.videoCover{height:100px!important}}
+
 </style>
 
 </head>
@@ -522,7 +538,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.5B-recovery-clean';
+const GHOST_BUILD='v2.5C-polish-album-management';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -652,6 +668,7 @@ function filteredPhotoIndexes(){
 async function photoSrc(i){const p=state.photos[i];if(!p)return '';if(p.src)return p.src;return await dbGetPhoto(p.id)||''}
 async function albumCoverSrc(album){const coverId=state.albumCovers&&state.albumCovers[album];if(coverId){const s=await dbGetPhoto(coverId);if(s)return s}const idxs=albumPhotoIndexes(album);if(!idxs.length)return '';return await photoSrc(idxs[idxs.length-1])}
 async function drawPhotos(){await ensurePhotoStorage();const active=state.activeAlbum||'Library';if(active==='Library'&&!selectMode){await drawAlbumHome();return}await drawAlbumPhotos(active)}
+
 
 
 async function drawAlbumHome(){
@@ -1038,14 +1055,11 @@ function videoId(){return 'v_'+Date.now()+'_'+Math.random().toString(36).slice(2
 function ensureVideoVault(){
   state.videos=state.videos||[];
   const coreAlbums=['Library','Favourites','Family','Private'];
-  const oldDefaults=['Travel','Downloads','Work','Private'];
+  const oldDefaults=['Travel','Downloads','Work','Other'];
   let existing=Array.isArray(state.videoAlbums)?state.videoAlbums:[];
   existing=existing.filter(a=>a && !oldDefaults.includes(a));
   coreAlbums.forEach(a=>{if(!existing.includes(a))existing.push(a)});
-  state.videoAlbums=[
-    ...coreAlbums,
-    ...existing.filter(a=>!coreAlbums.includes(a))
-  ];
+  state.videoAlbums=[...coreAlbums,...existing.filter(a=>!coreAlbums.includes(a))];
   state.videoActiveAlbum=state.videoActiveAlbum||'Albums';
   state.videos=state.videos.map(function(v){
     if(!v.album)v.album='Library';
