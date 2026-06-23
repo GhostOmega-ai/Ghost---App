@@ -770,44 +770,6 @@ async function drawPhotos(){await ensurePhotoStorage();const active=state.active
 
 
 
-async function drawAlbumHome(){
-  await ensurePhotoStorage();
-  const albums=albumList();
-  const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));
-  shell(`<div class="photosShell">
-    <div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div>
-    <div class="galleryHero photoVaultHeroFixed">
-      <div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div>
-      <div class="photoHeroText"><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div>
-      <div class="photoHeroStack">
-        <button type="button" onclick="document.getElementById('photoAlbumUploadInput').click()">+ Picture</button>
-        <button type="button" onclick="openCreatePhotoAlbumModal()">+ Album</button>
-      </div>
-      <input id="photoAlbumUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-    </div>
-    <div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length}</b><span>Albums</span></div><div><b>${photoStorageLabel()}</b><span>Storage</span></div></div>
-    <div class="albumCards">${albums.map((a,n)=>{
-      const count=albumPhotoIndexes(a).length;
-      const cover=covers[n];
-      const coverHtml=a==='Private'
-        ? `<img class="privateVaultCover" src="private-vault-cover.png" alt="Private Vault">`
-        : cover
-          ? `<img src="${cover}">`
-          : albumEmoji(a);
-      return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${coverHtml}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`;
-    }).join('')}</div>
-    ${nav()}
-  </div>`);
-}
-function photoStorageLabel(){
-  try{
-    const total=(state.photos||[]).reduce((a,p)=>a+(Number(p.size)||0),0);
-    if(!total)return '0 B';
-    if(total<1024)return total+' B';
-    if(total<1024*1024)return (total/1024).toFixed(1)+' KB';
-    return (total/1024/1024).toFixed(1)+' MB';
-  }catch(e){return '0 B'}
-}
 
 function openAlbum(a){if(a==='Private')return showPrivateUnlock('photo');state.activeAlbum=a;save();if(a==='Library'||a==='All'||a==='All Photos'){drawAlbumPhotos('Library')}else{drawPhotos()}}
 async function drawAlbumPhotos(active){const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">Stable storage enabled: photos are stored outside normal settings.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Private'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No photos here yet</h3><p>Tap Upload to add photos to this album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
