@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.5E Private Folder Security</title>
+<title>Ghost v2.5F Photo Vault Hotfix</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -556,6 +556,52 @@ button,input,textarea{font:inherit}
   .photoHeroStack button{min-width:96px!important;height:46px!important;font-size:13px!important}
 }
 
+
+/* Ghost v2.5F Photo Vault Hotfix */
+.photoVaultHeroFixed{
+  display:grid!important;
+  grid-template-columns:72px minmax(0,1fr) 112px!important;
+  align-items:center!important;
+  gap:12px!important;
+}
+.photoVaultHeroFixed .photoHeroText{min-width:0!important}
+.photoVaultHeroFixed .photoHeroStack{
+  margin-left:0!important;
+  display:grid!important;
+  grid-template-rows:1fr 1fr!important;
+  gap:8px!important;
+  min-width:112px!important;
+}
+.photoVaultHeroFixed .photoHeroStack button{
+  width:100%!important;
+  height:50px!important;
+  display:grid!important;
+  place-items:center!important;
+  text-align:center!important;
+  border-radius:16px!important;
+  padding:0 12px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  background:linear-gradient(180deg,#a75bff,#6620ed)!important;
+  color:white!important;
+  border:0!important;
+  box-shadow:0 0 15px #873cff77!important;
+}
+.albumCover img.privateVaultCover{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  display:block!important;
+}
+@media(max-width:390px){
+  .photoVaultHeroFixed{
+    grid-template-columns:64px minmax(0,1fr) 96px!important;
+    gap:10px!important;
+  }
+  .photoVaultHeroFixed .photoHeroStack{min-width:96px!important;gap:7px!important}
+  .photoVaultHeroFixed .photoHeroStack button{height:46px!important;font-size:13px!important}
+}
+
 </style>
 
 </head>
@@ -563,7 +609,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.5E-private-folder-security';
+const GHOST_BUILD='v2.5F-photo-vault-hotfix';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -723,33 +769,44 @@ async function drawPhotos(){await ensurePhotoStorage();const active=state.active
 
 
 
+
 async function drawAlbumHome(){
   await ensurePhotoStorage();
   const albums=albumList();
   const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));
   shell(`<div class="photosShell">
     <div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div>
-    <div class="galleryHero">
+    <div class="galleryHero photoVaultHeroFixed">
       <div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div>
-      <div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div>
+      <div class="photoHeroText"><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div>
       <div class="photoHeroStack">
-        <button onclick="document.getElementById('photoAlbumUploadInput').click()">+ Picture</button>
-        <button onclick="openCreatePhotoAlbumModal()">+ Album</button>
+        <button type="button" onclick="document.getElementById('photoAlbumUploadInput').click()">+ Picture</button>
+        <button type="button" onclick="openCreatePhotoAlbumModal()">+ Album</button>
       </div>
       <input id="photoAlbumUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
     </div>
     <div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length}</b><span>Albums</span></div><div><b>${photoStorageLabel()}</b><span>Storage</span></div></div>
-    <div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];const isPrivate=a==='Private';return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${isPrivate?`<img src="private-vault-cover.png">`:cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>
+    <div class="albumCards">${albums.map((a,n)=>{
+      const count=albumPhotoIndexes(a).length;
+      const cover=covers[n];
+      const coverHtml=a==='Private'
+        ? `<img class="privateVaultCover" src="private-vault-cover.png" alt="Private Vault">`
+        : cover
+          ? `<img src="${cover}">`
+          : albumEmoji(a);
+      return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${coverHtml}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`;
+    }).join('')}</div>
     ${nav()}
   </div>`);
 }
 function photoStorageLabel(){
   try{
     const total=(state.photos||[]).reduce((a,p)=>a+(Number(p.size)||0),0);
-    if(!total)return '0 MB';
+    if(!total)return '0 B';
+    if(total<1024)return total+' B';
     if(total<1024*1024)return (total/1024).toFixed(1)+' KB';
     return (total/1024/1024).toFixed(1)+' MB';
-  }catch(e){return '0 MB'}
+  }catch(e){return '0 B'}
 }
 
 function openAlbum(a){if(a==='Private')return showPrivateUnlock('photo');state.activeAlbum=a;save();if(a==='Library'||a==='All'||a==='All Photos'){drawAlbumPhotos('Library')}else{drawPhotos()}}
