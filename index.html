@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.6A Browser + Contact Chat</title>
+<title>Ghost v2.6B Dashboard Layout</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -660,6 +660,34 @@ button,input,textarea{font:inherit}
 .chatComposer{position:fixed!important;left:50%!important;transform:translateX(-50%)!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;width:min(386px,calc(100vw - 32px))!important;display:grid!important;grid-template-columns:1fr auto!important;gap:8px!important;background:#090611ee!important;border:1px solid #5b279088!important;border-radius:22px!important;padding:9px!important;z-index:1001!important;backdrop-filter:blur(12px)!important}.chatComposer input{background:#11101c!important;border:1px solid #4b2574!important;color:white!important;border-radius:16px!important;padding:13px!important;min-width:0!important}.chatComposer button{border:0!important;border-radius:16px!important;padding:0 14px!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important;font-weight:900!important}
 .browserVaultPage .webFrame{min-height:360px!important}
 
+
+/* Ghost v2.6B Dashboard Layout */
+.v26BGrid{
+  grid-template-columns:repeat(2,1fr)!important;
+}
+.v26BGrid .vaultBtn{
+  grid-column:auto!important;
+  min-height:112px!important;
+  display:block!important;
+  text-align:center!important;
+  padding:14px 6px 11px!important;
+}
+.v26BGrid .vaultBtn .big{
+  margin:0 auto 7px!important;
+}
+.v26BGrid .vaultBtn span{
+  text-align:center!important;
+}
+.v26BGrid .vaultBtn small{
+  text-align:center!important;
+}
+@media(max-width:390px){
+  .v26BGrid .vaultBtn{
+    min-height:101px!important;
+    padding:12px 6px 10px!important;
+  }
+}
+
 </style>
 
 </head>
@@ -667,7 +695,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.6A-browser-contact-chat';
+const GHOST_BUILD='v2.6B-dashboard-layout';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -738,7 +766,7 @@ function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','I
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
 function vault(){
   current='vault';
-  shell(`<div class="vaultPage v21Dash"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultGear" onclick="settings()">⚙</button><button class="vaultClose" onclick="hideNow()">×</button><section class="targetHero"><img class="targetHeroGhost" src="ghost-hero-target.png" alt="Ghost"><h1 class="targetGhostTitle">GHOST</h1><div class="targetGhostSub">— SECRET VAULT —</div></section><div class="vaultDashGrid v21Grid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span><small>${(state.photos||[]).length} Items</small></div><div class="vaultBtn" onclick="videosVault()"><div class="big"><img src="icon-videos.svg" alt=""></div><span>Videos</span><small>${(state.videos||[]).length} Items</small></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span><small>Private tabs</small></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span><small>${(state.files||[]).length} Items</small></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span><small>${(state.notes||[]).length} Notes</small></div><div class="vaultBtn contactWide" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span><small>${(state.contacts||[]).length} Contacts</small></div></div>${nav()}</div>`);
+  shell(`<div class="vaultPage v21Dash"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultGear" onclick="settings()">⚙</button><button class="vaultClose" onclick="hideNow()">×</button><section class="targetHero"><img class="targetHeroGhost" src="ghost-hero-target.png" alt="Ghost"><h1 class="targetGhostTitle">GHOST</h1><div class="targetGhostSub">— SECRET VAULT —</div></section><div class="vaultDashGrid v21Grid v26BGrid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span><small>${(state.photos||[]).length} Items</small></div><div class="vaultBtn" onclick="videosVault()"><div class="big"><img src="icon-videos.svg" alt=""></div><span>Videos</span><small>${(state.videos||[]).length} Items</small></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span><small>Private tabs</small></div><div class="vaultBtn" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span><small>${(state.contacts||[]).length} Contacts</small></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span><small>${(state.files||[]).length} Items</small></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span><small>${(state.notes||[]).length} Notes</small></div></div>${nav()}</div>`);
 }
 function nav(){return `<div class="nav v21Nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg" alt=""></span>Home</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.svg" alt=""></span>Hide</button></div>`}
 
