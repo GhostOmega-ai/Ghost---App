@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.6 Clean Photo Foundation</title>
+<title>Ghost v2.6A Browser + Contact Chat</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -649,8 +649,16 @@ button,input,textarea{font:inherit}
 }
 
 
-/* Ghost v2.6 Clean Photo Foundation */
-.photoVaultHeroFinal{display:grid!important;grid-template-columns:72px minmax(0,1fr) 116px!important;align-items:center!important;gap:12px!important;min-height:128px!important}.photoVaultHeroFinal .photoHeroText{min-width:0!important}.photoHeroButtonsFinal{display:grid!important;grid-template-rows:50px 50px!important;gap:8px!important;min-width:116px!important;margin-left:0!important}.photoHeroButtonsFinal label,.photoHeroButtonsFinal button{width:100%!important;height:50px!important;display:grid!important;place-items:center!important;text-align:center!important;border-radius:16px!important;padding:0 10px!important;font-weight:900!important;line-height:1!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important;border:0!important;box-shadow:0 0 15px #873cff77!important}.albumCover img.privateVaultCover{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}@media(max-width:390px){.photoVaultHeroFinal{grid-template-columns:62px minmax(0,1fr) 98px!important;gap:9px!important;min-height:120px!important}.photoHeroButtonsFinal{grid-template-rows:46px 46px!important;gap:7px!important;min-width:98px!important}.photoHeroButtonsFinal label,.photoHeroButtonsFinal button{height:46px!important;font-size:13px!important}}
+/* Ghost v2.6A Browser + Contact Chat */
+.browserHero .heroIcon,.contactHero .heroIcon{width:66px!important;height:66px!important;min-width:66px!important;border-radius:20px!important;display:grid!important;place-items:center!important;font-size:30px!important;background:#13081f!important;border:1px solid #7d32ff66!important;box-shadow:0 0 18px #873cff66!important}
+.ghostContactList{display:grid!important;gap:10px!important}
+.ghostContactRow{width:100%!important;border:1px solid #4b2574!important;background:linear-gradient(145deg,#181229,#090713)!important;color:white!important;border-radius:20px!important;padding:12px!important;display:grid!important;grid-template-columns:48px 1fr auto!important;gap:12px!important;align-items:center!important;text-align:left!important}
+.contactAvatar{width:48px!important;height:48px!important;border-radius:16px!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;display:grid!important;place-items:center!important;font-weight:900!important;font-size:20px!important;box-shadow:0 0 15px #873cff66!important}
+.contactMain strong{display:block!important;font-size:16px!important}.contactMain small{display:block!important;color:#aaa2b7!important;margin-top:4px!important;max-width:180px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.contactSide{color:#8f86a3!important;font-size:11px!important;max-width:92px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.chatPage{min-height:100vh;display:flex;flex-direction:column;padding-bottom:84px!important}.chatTop{position:sticky!important;top:0!important;background:#05030bea!important;z-index:20!important;padding-bottom:10px!important;backdrop-filter:blur(12px)!important}.chatTitle{min-width:0!important}.chatTitle strong{display:block!important;font-size:17px!important}.chatTitle small{display:block!important;color:#aaa2b7!important;font-size:12px!important;margin-top:2px!important}
+.chatStream{flex:1!important;overflow:auto!important;display:flex!important;flex-direction:column!important;gap:8px!important;padding:10px 0 100px!important}.chatBubble{max-width:78%!important;border-radius:18px!important;padding:10px 12px!important;display:grid!important;gap:4px!important}.chatBubble.me{align-self:flex-end!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important}.chatBubble.them{align-self:flex-start!important;background:#11101c!important;border:1px solid #4b2574!important}.chatBubble span{font-size:15px!important;line-height:1.25!important}.chatBubble small{font-size:10px!important;opacity:.75!important;justify-self:end!important}
+.chatComposer{position:fixed!important;left:50%!important;transform:translateX(-50%)!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;width:min(386px,calc(100vw - 32px))!important;display:grid!important;grid-template-columns:1fr auto!important;gap:8px!important;background:#090611ee!important;border:1px solid #5b279088!important;border-radius:22px!important;padding:9px!important;z-index:1001!important;backdrop-filter:blur(12px)!important}.chatComposer input{background:#11101c!important;border:1px solid #4b2574!important;color:white!important;border-radius:16px!important;padding:13px!important;min-width:0!important}.chatComposer button{border:0!important;border-radius:16px!important;padding:0 14px!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important;font-weight:900!important}
+.browserVaultPage .webFrame{min-height:360px!important}
 
 </style>
 
@@ -659,7 +667,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.6-clean-photo-foundation';
+const GHOST_BUILD='v2.6A-browser-contact-chat';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -667,7 +675,7 @@ let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
-state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Private']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Family','Private']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; state.privateVaultPass=state.privateVaultPass||'1234'; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.contactChats=state.contactChats||{}; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Private']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Family','Private']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; state.privateVaultPass=state.privateVaultPass||'1234'; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
@@ -728,7 +736,10 @@ function notesDecoy(){shell(`<div class="fakeTitle">Notes</div><textarea id="dno
 function checkNote(){let v=document.querySelector('#dnote').value;if(v.includes(state.unlock.notes))vault();else alert('Note saved')}
 function filesDecoy(){let folders=['Downloads','Pictures','Documents','Music','Invoices 2026','Receipts'];shell(`<div class="fakeTitle">Files</div><div class="fileList">${folders.map(f=>`<button onclick="fileOpen('${f}')">📁 ${f}</button>`).join('')}</div>`)}
 function fileOpen(f){if(f===state.unlock.files)vault();else alert('Folder opened')}
-function vault(){current='vault';shell(`<div class="vaultPage v21Dash"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultGear" onclick="settings()">⚙</button><button class="vaultClose" onclick="hideNow()">×</button><section class="targetHero"><img class="targetHeroGhost" src="ghost-hero-target.png" alt="Ghost"><h1 class="targetGhostTitle">GHOST</h1><div class="targetGhostSub">— SECRET VAULT —</div></section><div class="vaultDashGrid v21Grid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span><small>${(state.photos||[]).length} Items</small></div><div class="vaultBtn" onclick="videosVault()"><div class="big"><img src="icon-videos.svg" alt=""></div><span>Videos</span><small>${(state.videos||[]).length} Items</small></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span><small>${(state.files||[]).length} Items</small></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span><small>${(state.notes||[]).length} Notes</small></div><div class="vaultBtn contactWide" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span><small>${(state.contacts||[]).length} Contacts</small></div></div>${nav()}</div>`)}
+function vault(){
+  current='vault';
+  shell(`<div class="vaultPage v21Dash"><img class="vaultMiniLogo" src="ghost-main-logo.png" alt="Ghost"><button class="vaultGear" onclick="settings()">⚙</button><button class="vaultClose" onclick="hideNow()">×</button><section class="targetHero"><img class="targetHeroGhost" src="ghost-hero-target.png" alt="Ghost"><h1 class="targetGhostTitle">GHOST</h1><div class="targetGhostSub">— SECRET VAULT —</div></section><div class="vaultDashGrid v21Grid"><div class="vaultBtn" onclick="photos()"><div class="big"><img src="icon-photos.svg" alt=""></div><span>Photos</span><small>${(state.photos||[]).length} Items</small></div><div class="vaultBtn" onclick="videosVault()"><div class="big"><img src="icon-videos.svg" alt=""></div><span>Videos</span><small>${(state.videos||[]).length} Items</small></div><div class="vaultBtn" onclick="browserVault()"><div class="big"><img src="icon-browser.svg" alt=""></div><span>Browser</span><small>Private tabs</small></div><div class="vaultBtn" onclick="filesVault()"><div class="big"><img src="icon-files.svg" alt=""></div><span>Files</span><small>${(state.files||[]).length} Items</small></div><div class="vaultBtn" onclick="notesVault()"><div class="big"><img src="icon-notes.svg" alt=""></div><span>Notes</span><small>${(state.notes||[]).length} Notes</small></div><div class="vaultBtn contactWide" onclick="contactsVault()"><div class="big"><img src="icon-contacts.svg" alt=""></div><span>Contacts</span><small>${(state.contacts||[]).length} Contacts</small></div></div>${nav()}</div>`);
+}
 function nav(){return `<div class="nav v21Nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg" alt=""></span>Home</button><button onclick="hideNow()"><span class="nI"><img src="icon-hide.svg" alt=""></span>Hide</button></div>`}
 
 
@@ -814,11 +825,50 @@ function filteredPhotoIndexes(){
   return state.photos.map((p,i)=>({p,i})).filter(x=>(x.p.album||'Private')===a).map(x=>x.i);
 }
 async function photoSrc(i){const p=state.photos[i];if(!p)return '';if(p.src)return p.src;return await dbGetPhoto(p.id)||''}
-async function albumCoverSrc(album){if(album==='Private')return 'private-vault-cover.png';const coverId=state.albumCovers&&state.albumCovers[album];if(coverId){const s=await dbGetPhoto(coverId);if(s)return s}const idxs=albumPhotoIndexes(album);if(!idxs.length)return '';return await photoSrc(idxs[idxs.length-1])}
+async function albumCoverSrc(album){const coverId=state.albumCovers&&state.albumCovers[album];if(coverId){const s=await dbGetPhoto(coverId);if(s)return s}const idxs=albumPhotoIndexes(album);if(!idxs.length)return '';return await photoSrc(idxs[idxs.length-1])}
 async function drawPhotos(){await ensurePhotoStorage();const active=state.activeAlbum||'Library';if(active==='Library'&&!selectMode){await drawAlbumHome();return}await drawAlbumPhotos(active)}
 
 
 
+
+async function drawAlbumHome(){
+  await ensurePhotoStorage();
+  const albums=albumList();
+  const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));
+  shell(`<div class="photosShell">
+    <div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div>
+    <div class="galleryHero photoVaultHeroFixed">
+      <div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div>
+      <div class="photoHeroText"><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div>
+      <div class="photoHeroStack">
+        <button type="button" onclick="document.getElementById('photoAlbumUploadInput').click()">+ Picture</button>
+        <button type="button" onclick="openCreatePhotoAlbumModal()">+ Album</button>
+      </div>
+      <input id="photoAlbumUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    </div>
+    <div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length}</b><span>Albums</span></div><div><b>${photoStorageLabel()}</b><span>Storage</span></div></div>
+    <div class="albumCards">${albums.map((a,n)=>{
+      const count=albumPhotoIndexes(a).length;
+      const cover=covers[n];
+      const coverHtml=a==='Private'
+        ? `<img class="privateVaultCover" src="private-vault-cover.png" alt="Private Vault">`
+        : cover
+          ? `<img src="${cover}">`
+          : albumEmoji(a);
+      return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${coverHtml}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`;
+    }).join('')}</div>
+    ${nav()}
+  </div>`);
+}
+function photoStorageLabel(){
+  try{
+    const total=(state.photos||[]).reduce((a,p)=>a+(Number(p.size)||0),0);
+    if(!total)return '0 B';
+    if(total<1024)return total+' B';
+    if(total<1024*1024)return (total/1024).toFixed(1)+' KB';
+    return (total/1024/1024).toFixed(1)+' MB';
+  }catch(e){return '0 B'}
+}
 
 function openAlbum(a){if(a==='Private')return showPrivateUnlock('photo');state.activeAlbum=a;save();if(a==='Library'||a==='All'||a==='All Photos'){drawAlbumPhotos('Library')}else{drawPhotos()}}
 async function drawAlbumPhotos(active){const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">Stable storage enabled: photos are stored outside normal settings.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Private'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No photos here yet</h3><p>Tap Upload to add photos to this album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
@@ -1086,14 +1136,7 @@ function setPhotoSearch(v){
   },120);
 }
 function setPhotoSort(v){state.photoSort=v;save();drawAlbumPhotos(state.activeAlbum||'Library')}
-
-async function drawAlbumHome(){
-  await cleanupAlbumCovers();
-  const albums=albumList();
-  const covers=await Promise.all(albums.map(a=>a==='Private'?'private-vault-cover.png':albumCoverSrc(a)));
-  const totalBytes=await storageBytes();
-  shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div><div class="galleryHero photoVaultHeroFinal"><div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div><div class="photoHeroText"><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div><div class="photoHeroButtonsFinal"><label for="photoMainUploadInput">+ Picture</label><button type="button" onclick="openCreatePhotoAlbumModal()">+ Album</button></div><input id="photoMainUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div><div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length}</b><span>Albums</span></div><div><b>${formatBytes(totalBytes)}</b><span>Storage</span></div></div><div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];const coverHtml=a==='Private'?`<img class="privateVaultCover" src="private-vault-cover.png?v=26" alt="Private Vault">`:cover?`<img src="${cover}">`:albumEmoji(a);return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${coverHtml}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>${nav()}</div>`)
-}
+async function drawAlbumHome(){await cleanupAlbumCovers();const albums=albumList();const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));const totalBytes=await storageBytes();shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div><div class="galleryHero"><div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div><div><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div><button class="uploadLabel" onclick="createAlbum()">＋ Album</button></div><div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length-2}</b><span>Albums</span></div><div><b>${formatBytes(totalBytes)}</b><span>Storage</span></div></div><div class="albumCards">${albums.map((a,n)=>{const count=albumPhotoIndexes(a).length;const cover=covers[n];return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${cover?`<img src="${cover}">`:albumEmoji(a)}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`}).join('')}</div>${nav()}</div>`)}
 async function drawAlbumPhotos(active){await cleanupAlbumCovers();const idxs=filteredPhotoIndexes();const thumbs=await Promise.all(idxs.map(i=>photoSrc(i)));shell(`<div class="photosShell"><div class="photosTop"><button class="iconBtn" onclick="state.activeAlbum='Library';state.photoSearch='';save();drawAlbumHome()">←</button><h2>${active==='Library'?'📚 Library':albumEmoji(active)+' '+active}</h2><button class="iconBtn" style="margin-left:auto" onclick="albumOptions('${active}')">⋮</button></div><div class="galleryTools"><input id="photoSearchInput" value="${(state.photoSearch||'').replace(/"/g,'&quot;')}" oninput="setPhotoSearch(this.value)" placeholder="🔍 Search photos"><select onchange="setPhotoSort(this.value)"><option value="newest" ${state.photoSort==='newest'?'selected':''}>Newest</option><option value="oldest" ${state.photoSort==='oldest'?'selected':''}>Oldest</option><option value="az" ${state.photoSort==='az'?'selected':''}>A-Z</option><option value="za" ${state.photoSort==='za'?'selected':''}>Z-A</option></select></div>${selectMode?`<div class="selectBar"><button onclick="exitSelectMode()">✕</button><strong>${selectedPhotos.length} Selected</strong><button onclick="showAlbumPicker('selected')">📁 Move</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button></div>`:''}<div class="albumActionRow"><label class="primary" for="photoUploadInput">Upload</label><input id="photoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><button onclick="startAlbumSelect()">Select</button></div><p class="storageNote">v0.7B: favourites, search, sort and storage stats enabled.</p><div class="photoGridNew">${idxs.map((i,pos)=>{const p=state.photos[i];const selected=selectedPhotos.includes(i);return `<div class="photoTile ${selected?'selected':''}" onclick="${selectMode?`togglePhotoSelect(${i})`:`openViewerByPosition(${pos})`}" oncontextmenu="event.preventDefault();startSelectMode(${i})"><button class="photoFav ${p.fav?'on':''}" onclick="event.stopPropagation();toggleFav(${i})">${p.fav?'⭐':'☆'}</button><img src="${thumbs[pos]}">${selected?'<div class="photoTick">✓</div>':''}<div class="photoMeta">${p.album||'Private'}</div></div>`}).join('')}</div>${!idxs.length?`<div class="searchEmpty"><div class="bigGhost">👻</div><h3>No photos found</h3><p>Try a different search, sort, or album.</p></div>`:''}${nav()}</div>`);document.querySelectorAll('.photoTile').forEach((tile,n)=>{let timer=null;tile.addEventListener('touchstart',()=>{timer=setTimeout(()=>{const idx=idxs[n];startSelectMode(idx)},550)},{passive:true});tile.addEventListener('touchend',()=>{clearTimeout(timer)},{passive:true});tile.addEventListener('touchmove',()=>{clearTimeout(timer)},{passive:true})})}
 function toggleFav(i){state.photos[i].fav=!state.photos[i].fav;save();flash(state.photos[i].fav?'Added to favourites':'Removed from favourites');drawPhotos()}
 async function drawViewer(){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();let pos=idxs.indexOf(currentPhoto);if(pos<0)pos=0;const p=state.photos[currentPhoto];const src=await photoSrc(currentPhoto);viewer.className='viewerClean';viewer.innerHTML=`<div class="viewerCleanTop" id="viewerUI"><button onclick="closeViewer()">←</button><div class="viewerCount">${pos+1} / ${idxs.length||state.photos.length}<small>${p.album||'Private'}</small></div><button onclick="viewerMenu()">⋮</button></div><button class="viewerFav ${p.fav?'on':''}" onclick="toggleViewerFav()">${p.fav?'⭐':'☆'}</button><div class="viewerStage" id="viewerStage"><img id="viewerImg" src="${src}"></div>`;setupViewerGestures()}
@@ -1198,7 +1241,97 @@ function setPrivateVaultPassword(){
 function filesVault(){current='filesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Files</h2></div><input type="file" multiple onchange="addFiles(this.files)" class="input"><div class="fileList">${state.files.map(f=>`<button>📄 ${f.name}<span style="margin-left:auto;color:#aaa">${Math.round(f.size/1024)}kb</span></button>`).join('')||'<p class="sub">No files yet.</p>'}</div>${nav()}`)}
 function addFiles(files){[...files].forEach(f=>state.files.push({name:f.name,size:f.size,type:f.type}));save();filesVault()}
 function notesVault(){current='notesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Notes</h2></div><textarea id="newNote" class="noteArea" placeholder="Write a private note..."></textarea><button class="btn" onclick="state.notes.unshift(document.querySelector('#newNote').value);save();notesVault()">Save Note</button>${state.notes.map((n,i)=>`<div class="card" style="margin-top:12px">${n}<button class="btn danger" onclick="state.notes.splice(${i},1);save();notesVault()">Delete</button></div>`).join('')}${nav()}`)}
-function contactsVault(){current='contacts';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Contacts</h2></div><input id="cName" class="input" placeholder="Name"><input id="cNum" class="input" style="margin-top:10px" placeholder="Number"><button class="btn" onclick="addContact()">Save Contact</button><h3 style="margin-top:18px">Saved Contacts</h3><div class="contactList">${state.contacts.map((c,i)=>`<button onclick="if(confirm('Delete contact?')){state.contacts.splice(${i},1);save();contactsVault()}">👤 ${c.name}<span style="margin-left:auto;color:#aaa">${c.num}</span></button>`).join('')||'<p class="sub">No contacts saved yet.</p>'}</div><p class="privacyNote">This web version stores contacts inside Ghost only.</p>${nav()}`)}
+
+function contactsVault(){
+  current='contacts';
+  state.contactChats=state.contactChats||{};
+  shell(`<div class="photosShell contactsPage"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Contacts</h2><button class="iconBtn" style="margin-left:auto" onclick="addContact()">＋</button></div><div class="galleryHero contactHero"><div class="heroIcon">💬</div><div><h3>Ghost Chats</h3><p>${(state.contacts||[]).length} hidden contact${(state.contacts||[]).length===1?'':'s'}</p></div></div><div class="contactList ghostContactList">${(state.contacts||[]).map((c,i)=>contactRow(c,i)).join('')}</div>${!(state.contacts||[]).length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No contacts yet</h3><p>Tap + to add a hidden contact.</p></div>`:''}${nav()}</div>`);
+}
+function contactRow(c,i){
+  const name=typeof c==='string'?c:(c.name||'Unknown');
+  const number=typeof c==='string'?'':(c.number||'');
+  const key=contactKey(c,i);
+  const msgs=(state.contactChats&&state.contactChats[key])||[];
+  const last=msgs.length?msgs[msgs.length-1].text:'Tap to open chat';
+  return `<button class="ghostContactRow" onclick="openContactChat(${i})"><div class="contactAvatar">${escapeHtml(name).slice(0,1).toUpperCase()||'?'}</div><div class="contactMain"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(last)}</small></div><div class="contactSide">${escapeHtml(number)}</div></button>`;
+}
+function contactKey(c,i){
+  if(typeof c==='string')return 'contact_'+i+'_'+c;
+  return c.id||('contact_'+i+'_'+(c.name||'unknown'));
+}
+function addContact(){
+  const name=prompt('Contact name');
+  if(!name)return;
+  const number=prompt('Number or handle')||'';
+  const contact={id:'c_'+Date.now()+'_'+Math.random().toString(36).slice(2),name:name.trim(),number:number.trim(),created:Date.now()};
+  state.contacts=state.contacts||[];
+  state.contacts.push(contact);
+  state.contactChats=state.contactChats||{};
+  state.contactChats[contact.id]=[];
+  save();
+  contactsVault();
+}
+function openContactChat(i){
+  state.contactChats=state.contactChats||{};
+  const c=state.contacts[i];
+  if(!c)return contactsVault();
+  const key=contactKey(c,i);
+  state.contactChats[key]=state.contactChats[key]||[];
+  const name=typeof c==='string'?c:(c.name||'Unknown');
+  const number=typeof c==='string'?'':(c.number||'');
+  const msgs=state.contactChats[key];
+  shell(`<div class="chatPage"><div class="photosTop chatTop"><button class="iconBtn" onclick="contactsVault()">←</button><div class="chatTitle"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(number)}</small></div><button class="iconBtn" style="margin-left:auto" onclick="contactChatMenu(${i})">⋮</button></div><div class="chatStream" id="chatStream">${msgs.map(m=>`<div class="chatBubble ${m.me?'me':'them'}"><span>${escapeHtml(m.text)}</span><small>${new Date(m.time).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</small></div>`).join('')}${!msgs.length?`<div class="emptyGallery"><div class="bigGhost">💬</div><h3>No messages yet</h3><p>Start a private local chat note.</p></div>`:''}</div><div class="chatComposer"><input id="chatInput" placeholder="Message ${escapeHtml(name)}"><button onclick="sendContactMessage(${i})">Send</button></div></div>`);
+  setTimeout(()=>{const s=document.querySelector('#chatStream'); if(s)s.scrollTop=s.scrollHeight},80);
+}
+function sendContactMessage(i){
+  const input=document.querySelector('#chatInput');
+  const text=(input&&input.value?input.value:'').trim();
+  if(!text)return;
+  const c=state.contacts[i];
+  const key=contactKey(c,i);
+  state.contactChats=state.contactChats||{};
+  state.contactChats[key]=state.contactChats[key]||[];
+  state.contactChats[key].push({text,me:true,time:Date.now()});
+  input.value='';
+  save();
+  openContactChat(i);
+}
+function contactChatMenu(i){
+  const c=state.contacts[i];
+  if(!c)return;
+  const name=typeof c==='string'?c:(c.name||'Unknown');
+  closeAlbumModal();
+  const modal=document.createElement('div');
+  modal.className='albumModal';
+  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>${escapeHtml(name)}</h2><button class="albumChoice" onclick="clearContactChat(${i})">Clear Chat</button><button class="albumChoice" onclick="deleteContact(${i})">Delete Contact</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;
+  document.body.appendChild(modal);
+}
+function clearContactChat(i){
+  const c=state.contacts[i];
+  const key=contactKey(c,i);
+  state.contactChats=state.contactChats||{};
+  state.contactChats[key]=[];
+  save();
+  closeAlbumModal();
+  openContactChat(i);
+  flash('Chat cleared');
+}
+function deleteContact(i){
+  const c=state.contacts[i];
+  if(!confirm('Delete contact?'))return;
+  const key=contactKey(c,i);
+  state.contacts.splice(i,1);
+  if(state.contactChats)delete state.contactChats[key];
+  save();
+  closeAlbumModal();
+  contactsVault();
+}
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+
 function addContact(){
   const nameEl=document.querySelector('#cName');
   const numEl=document.querySelector('#cNum');
@@ -1211,7 +1344,28 @@ function addContact(){
   flash('Contact added');
   contactsVault();
 }
-function browserVault(){current='browser';let hist=JSON.parse(localStorage.ghostBrowserHistoryV03||'[]');shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Ghost Browser</h2></div><div class="browserBar"><input id="url" placeholder="Search Google or type URL"><button onclick="searchWeb()" class="btn" style="width:auto;margin:0;padding:12px 16px;border-radius:16px">Go</button></div><div class="webFrame"><div class="google">Google</div><div class="searchPill">Search opens in Chrome in this web version</div><h3>Ghost search history</h3>${hist.map(h=>`<p>↗ ${h}</p>`).join('')||'<p class="hint">No Ghost browser history yet.</p>'}</div><button class="btn danger" onclick="burnBrowser()">Burn Ghost Browser History</button><p class="privacyNote">Important: this cannot delete Chrome, Google account, phone provider, or other app history.</p>${nav()}`)}
+
+function browserVault(){
+  current='browser';
+  shell(`<div class="photosShell browserVaultPage"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Browser</h2><button class="iconBtn" style="margin-left:auto" onclick="burnBrowser()">🔥</button></div><div class="galleryHero browserHero"><div class="heroIcon">🌐</div><div><h3>Ghost Browser</h3><p>Private browser-style search page</p></div></div><div class="browserBar"><input id="ghostBrowserQuery" placeholder="Search or enter website"><button class="iconBtn" onclick="ghostBrowserSearch()">➜</button></div><div class="webFrame" id="ghostBrowserFrame"><div class="google">Ghost</div><div class="searchPill">Search privately inside Ghost...</div><p class="privacyNote">Burn clears the current page and search text.</p></div>${nav()}</div>`);
+}
+function ghostBrowserSearch(){
+  const input=document.querySelector('#ghostBrowserQuery');
+  const q=(input&&input.value?input.value:'').trim();
+  const frame=document.querySelector('#ghostBrowserFrame');
+  if(!q)return flash('Type something first');
+  const safe=escapeHtml(q);
+  frame.innerHTML=`<div class="google">Ghost</div><div class="searchPill">${safe}</div><p class="privacyNote">Prototype preview only — external web loading comes later.</p><button class="btn dark" onclick="burnBrowser()">Burn Page</button>`;
+}
+function burnBrowser(){
+  const input=document.querySelector('#ghostBrowserQuery');
+  if(input)input.value='';
+  const frame=document.querySelector('#ghostBrowserFrame');
+  if(frame)frame.innerHTML=`<div class="google">Ghost</div><div class="searchPill">Burned clean.</div><p class="privacyNote">No browser history stored.</p>`;
+  flash('Browser burned');
+}
+
+
 function searchWeb(){let q=document.querySelector('#url').value.trim();if(!q)return;let hist=JSON.parse(localStorage.ghostBrowserHistoryV03||'[]');hist.unshift(q);localStorage.ghostBrowserHistoryV03=JSON.stringify(hist.slice(0,20));window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank')}
 function burnBrowser(){if(confirm('Delete Ghost browser history only?')){localStorage.removeItem('ghostBrowserHistoryV03');browserVault()}}
 function settings(){current='settings';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Settings</h2></div><div class="card"><p>Disguise: <b>${state.disguise}</b></p><p>Emergency hide: <b style="color:#8dffb1">On</b></p></div><button class="btn dark" onclick="chooseDisguise()">Change Disguise</button><button class="btn dark" onclick="unlockSetup()">Change Unlock</button><button class="btn danger" onclick="resetApp()">Reset Setup</button>${nav()}`)}
@@ -1654,6 +1808,69 @@ function ghostSafeBoot(){
 window.addEventListener('DOMContentLoaded',ghostSafeBoot);
 setTimeout(function(){try{var a=document.querySelector('#app');if(a&&!a.innerHTML.trim())ghostSafeBoot();}catch(e){}},300);
 
+
+/* Ghost v2.5G Photo Vault Force Fix
+   This deliberately overrides the photo album home renderer at the END of the script,
+   so older duplicated render blocks cannot win. */
+
+albumCoverSrc = async function(album){
+  if(album==='Private') return 'private-vault-cover.png';
+  const coverId=state.albumCovers&&state.albumCovers[album];
+  if(coverId){
+    const s=await dbGetPhoto(coverId);
+    if(s)return s;
+  }
+  const idxs=albumPhotoIndexes(album);
+  if(!idxs.length)return '';
+  return await photoSrc(idxs[idxs.length-1]);
+};
+
+drawAlbumHome = async function(){
+  await ensurePhotoStorage();
+  const albums=albumList();
+  const covers=await Promise.all(albums.map(a=>albumCoverSrc(a)));
+  shell(`<div class="photosShell ghostPhotoForce">
+    <div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Albums</h2><button class="iconBtn" style="margin-left:auto" onclick="photoSettings()">⚙</button></div>
+    <div class="galleryHero forcePhotoHero">
+      <div class="heroIcon photosPortalIcon"><img src="photos-portal-ghost.png" alt="Ghost Photos"></div>
+      <div class="forcePhotoText"><h3>Ghost Photos</h3><p>${state.photos.length} photo${state.photos.length===1?'':'s'} stored</p></div>
+      <div class="forcePhotoButtons">
+        <label for="forcePhotoUploadInput">+ Picture</label>
+        <button type="button" onclick="openCreatePhotoAlbumModal()">+ Album</button>
+      </div>
+      <input id="forcePhotoUploadInput" type="file" accept="image/*" multiple onchange="addPhotos(this.files)" onclick="isPickingPhotos=true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+    </div>
+    <div class="statsCard"><div><b>${state.photos.length}</b><span>Photos</span></div><div><b>${albums.length}</b><span>Albums</span></div><div><b>${photoStorageLabel()}</b><span>Storage</span></div></div>
+    <div class="albumCards">${albums.map((a,n)=>{
+      const count=albumPhotoIndexes(a).length;
+      const cover=covers[n];
+      const coverHtml=a==='Private'
+        ? `<img class="privateVaultCover" src="private-vault-cover.png?v=25g" alt="Private Vault">`
+        : cover
+          ? `<img src="${cover}">`
+          : albumEmoji(a);
+      return `<div class="albumCard" onclick="openAlbum('${a}')" oncontextmenu="event.preventDefault();albumOptions('${a}')"><button class="albumDots" onclick="event.stopPropagation();albumOptions('${a}')">⋮</button><div class="albumCover">${coverHtml}</div><div class="albumInfo"><h3>${albumEmoji(a)} ${a}</h3><p>${count} photo${count===1?'':'s'}</p></div></div>`;
+    }).join('')}</div>
+    ${nav()}
+  </div>`);
+};
+
+photos = async function(){
+  current='photos';
+  await ensurePhotoStorage();
+  selectedPhotos=[];
+  selectMode=false;
+  state.activeAlbum='Library';
+  save();
+  await drawAlbumHome();
+};
+
+openAlbum = function(a){
+  if(a==='Private')return showPrivateUnlock('photo');
+  state.activeAlbum=a;
+  save();
+  if(a==='Library'||a==='All'||a==='All Photos'){drawAlbumPhotos('Library')}else{drawPhotos()}
+};
 
 </script>
 </body>
