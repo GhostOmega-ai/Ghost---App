@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.6B Dashboard Layout</title>
+<title>Ghost v2.6C Contact Add Hotfix</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -688,6 +688,14 @@ button,input,textarea{font:inherit}
   }
 }
 
+
+/* Ghost v2.6C Contact Add Hotfix */
+.contactsPage .photosTop .iconBtn{
+  pointer-events:auto!important;
+  position:relative!important;
+  z-index:30!important;
+}
+
 </style>
 
 </head>
@@ -695,7 +703,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.6B-dashboard-layout';
+const GHOST_BUILD='v2.6C-contact-add-hotfix';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -1273,7 +1281,7 @@ function notesVault(){current='notesVault';shell(`<div class="appHead"><button c
 function contactsVault(){
   current='contacts';
   state.contactChats=state.contactChats||{};
-  shell(`<div class="photosShell contactsPage"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Contacts</h2><button class="iconBtn" style="margin-left:auto" onclick="addContact()">＋</button></div><div class="galleryHero contactHero"><div class="heroIcon">💬</div><div><h3>Ghost Chats</h3><p>${(state.contacts||[]).length} hidden contact${(state.contacts||[]).length===1?'':'s'}</p></div></div><div class="contactList ghostContactList">${(state.contacts||[]).map((c,i)=>contactRow(c,i)).join('')}</div>${!(state.contacts||[]).length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No contacts yet</h3><p>Tap + to add a hidden contact.</p></div>`:''}${nav()}</div>`);
+  shell(`<div class="photosShell contactsPage"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Contacts</h2><button class="iconBtn" style="margin-left:auto" onclick="ghostAddContactSafe()">＋</button></div><div class="galleryHero contactHero"><div class="heroIcon">💬</div><div><h3>Ghost Chats</h3><p>${(state.contacts||[]).length} hidden contact${(state.contacts||[]).length===1?'':'s'}</p></div></div><div class="contactList ghostContactList">${(state.contacts||[]).map((c,i)=>contactRow(c,i)).join('')}</div>${!(state.contacts||[]).length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No contacts yet</h3><p>Tap + to add a hidden contact.</p></div>`:''}${nav()}</div>`);
 }
 function contactRow(c,i){
   const name=typeof c==='string'?c:(c.name||'Unknown');
@@ -1899,6 +1907,42 @@ openAlbum = function(a){
   save();
   if(a==='Library'||a==='All'||a==='All Photos'){drawAlbumPhotos('Library')}else{drawPhotos()}
 };
+
+
+/* Ghost v2.6C Contact Add Hotfix */
+function ghostAddContactSafe(){
+  try{
+    state.contacts=Array.isArray(state.contacts)?state.contacts:[];
+    state.contactChats=state.contactChats||{};
+
+    const name=prompt('Contact name');
+    if(!name || !name.trim())return;
+
+    const number=prompt('Number or handle')||'';
+    const id='c_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+
+    const contact={
+      id:id,
+      name:name.trim(),
+      number:number.trim(),
+      created:Date.now()
+    };
+
+    state.contacts.push(contact);
+    state.contactChats[id]=[];
+    save();
+
+    if(typeof contactsVault==='function'){
+      contactsVault();
+    }else{
+      vault();
+    }
+
+    flash('Contact added');
+  }catch(e){
+    alert('Could not add contact: '+(e&&e.message?e.message:e));
+  }
+}
 
 </script>
 </body>
