@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.6C Contact Add Hotfix</title>
+<title>Ghost v2.7 Contact & Chat Polish</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -696,6 +696,19 @@ button,input,textarea{font:inherit}
   z-index:30!important;
 }
 
+
+/* Ghost v2.7 Contact & Chat Polish */
+.v26BGrid{grid-template-columns:repeat(2,1fr)!important}.v26BGrid .vaultBtn{grid-column:auto!important;min-height:112px!important;display:block!important;text-align:center!important;padding:14px 6px 11px!important}.v26BGrid .vaultBtn .big{margin:0 auto 7px!important}
+.ghostContactsPremium{padding-bottom:96px!important}.premiumContactsHead{display:grid!important;grid-template-columns:44px 44px 1fr 44px!important;gap:10px!important;align-items:center!important;margin-bottom:14px!important}.premiumContactsHead img{width:40px!important;height:40px!important;border-radius:14px!important;box-shadow:0 0 15px #873cff88!important}.premiumContactsHead h2{margin:0!important;text-align:center!important;letter-spacing:7px!important;font-weight:400!important;color:#b75cff!important;text-shadow:0 0 12px #873cff!important}.premiumPlus{width:44px!important;height:44px!important;border-radius:16px!important;border:0!important;background:transparent!important;color:#b75cff!important;font-size:34px!important;line-height:1!important}
+.contactSearchWrap{height:52px!important;border:1px solid #6d2cb2!important;background:#0d0918dd!important;border-radius:16px!important;display:grid!important;grid-template-columns:36px 1fr!important;align-items:center!important;padding:0 12px!important;margin-bottom:14px!important}.contactSearchWrap span{color:#ad6bff!important;font-size:24px!important}.contactSearchWrap input{background:transparent!important;border:0!important;color:white!important;outline:0!important;font-size:16px!important}
+.ghostContactListPremium{display:grid!important;gap:9px!important}.premiumContactRow{width:100%!important;border:1px solid #4b2574!important;background:linear-gradient(145deg,#151020,#07040c)!important;color:white!important;border-radius:18px!important;padding:10px!important;display:grid!important;grid-template-columns:56px 1fr auto!important;gap:12px!important;align-items:center!important;text-align:left!important;box-shadow:0 8px 22px #0007!important}.premiumContactRow.pinned{border-color:#9d47ff!important;box-shadow:0 0 15px #873cff33!important}
+.premiumAvatar{width:54px!important;height:54px!important;border-radius:50%!important;overflow:hidden!important;border:1px solid #873cff!important;box-shadow:0 0 15px #873cff99!important;background:#10071d!important;display:grid!important;place-items:center!important}.premiumAvatar img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}.ghostLetter span{font-size:22px!important;font-weight:900!important;color:#e9d6ff!important;text-shadow:0 0 10px #873cff!important}.premiumContactMain{min-width:0!important}.premiumContactMain strong{display:block!important;font-size:18px!important}.premiumContactMain small{display:block!important;color:#b974ff!important;margin-top:5px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.premiumContactMeta{display:grid!important;gap:8px!important;justify-items:end!important;color:#c78cff!important}.premiumContactMeta em{font-style:normal!important;font-size:12px!important}
+.premiumChatPage{min-height:100vh!important;display:flex!important;flex-direction:column!important;padding-bottom:94px!important}.premiumChatTop{display:grid!important;grid-template-columns:44px 54px 1fr 44px!important;gap:10px!important;align-items:center!important;margin-bottom:12px!important}.chatBack,.chatIconBtn{width:44px!important;height:44px!important;border:0!important;background:transparent!important;color:#b75cff!important;font-size:36px!important}.chatIconBtn{font-size:28px!important}.chatTitle{min-width:0!important}.chatTitle strong{display:block!important;font-size:19px!important}.chatTitle small{display:block!important;color:#b874ff!important;font-size:12px!important;margin-top:2px!important}
+.pinnedPreview{border:1px solid #39205d!important;background:#120d1e!important;border-radius:16px!important;padding:12px 14px!important;margin:0 0 12px!important;display:grid!important;grid-template-columns:auto 1fr!important;gap:12px!important;align-items:center!important}.pinnedPreview span{color:#b75cff!important}.pinnedPreview strong{font-size:13px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.premiumChatStream{flex:1!important;overflow:auto!important;display:flex!important;flex-direction:column!important;gap:10px!important;padding:6px 0 110px!important}.dayPill{align-self:center!important;background:#120d1e!important;color:#aaa2b7!important;border-radius:999px!important;padding:6px 14px!important;font-size:12px!important;margin:4px 0 8px!important}.chatBubble{max-width:78%!important;border-radius:20px!important;padding:11px 13px!important;display:grid!important;gap:5px!important;box-shadow:0 8px 20px #0006!important}.chatBubble.me{align-self:flex-end!important;background:linear-gradient(180deg,#9d42ff,#621edf)!important;color:white!important;border-bottom-right-radius:7px!important}.chatBubble.them{align-self:flex-start!important;background:#11101c!important;border:1px solid #3b235c!important;border-bottom-left-radius:7px!important}.chatBubble span{font-size:16px!important;line-height:1.28!important}.chatBubble small{font-size:10px!important;opacity:.75!important;justify-self:end!important}
+.premiumChatComposer{position:fixed!important;left:50%!important;transform:translateX(-50%)!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;width:min(386px,calc(100vw - 32px))!important;display:grid!important;grid-template-columns:48px 1fr 48px!important;gap:8px!important;background:#090611ee!important;border:1px solid #5b279088!important;border-radius:24px!important;padding:9px!important;z-index:1001!important;backdrop-filter:blur(12px)!important}.premiumChatComposer input{background:#151020!important;border:1px solid #2f184e!important;color:white!important;border-radius:18px!important;padding:13px!important;min-width:0!important;outline:0!important}.premiumChatComposer button{border:1px solid #873cff!important;border-radius:16px!important;background:#120d1e!important;color:#b75cff!important;font-size:22px!important;font-weight:900!important}
+@media(max-width:390px){.premiumContactsHead h2{letter-spacing:5px!important;font-size:22px!important}.premiumContactRow{grid-template-columns:50px 1fr auto!important;padding:9px!important}.premiumAvatar{width:48px!important;height:48px!important}.premiumContactMain strong{font-size:16px!important}}
+
 </style>
 
 </head>
@@ -703,7 +716,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.6C-contact-add-hotfix';
+const GHOST_BUILD='v2.7-contact-chat-polish';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -711,7 +724,7 @@ let state=JSON.parse(localStorage.ghostStateV03||'{}');
 state.setupDone=state.setupDone||false;
 state.disguise=state.disguise||'calculator';
 state.unlock=state.unlock||{calculator:'7777=',weather:['sun','cloud','rain'],calendar:['28'],notes:'ghostmode',files:'Invoices 2026'};
-state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.contactChats=state.contactChats||{}; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Private']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Family','Private']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; state.privateVaultPass=state.privateVaultPass||'1234'; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
+state.notes=state.notes||[]; state.files=state.files||[]; state.contacts=state.contacts||[]; state.photos=state.photos||[]; state.videos=state.videos||[]; state.pinnedContacts=state.pinnedContacts||{}; state.contactChats=state.contactChats||{}; state.videoAlbums=state.videoAlbums||['Library','Favourites','Family','Private']; state.videoActiveAlbum=state.videoActiveAlbum||'Albums'; state.albums=state.albums||['Family','Private']; state.activeAlbum=state.activeAlbum||'Library'; state.albumCovers=state.albumCovers||{}; state.privateVaultPass=state.privateVaultPass||'1234'; let selectedPhotos=[]; let selectMode=false; let isPickingPhotos=false;
 let current=''; let calcVal=''; let weatherSeq=[]; let calendarSeq=[]; let currentPhoto=0; let imgScale=1; let panX=0; let panY=0;
 function save(){localStorage.ghostStateV03=JSON.stringify(state)}
 function flash(t){
@@ -1278,108 +1291,73 @@ function filesVault(){current='filesVault';shell(`<div class="appHead"><button c
 function addFiles(files){[...files].forEach(f=>state.files.push({name:f.name,size:f.size,type:f.type}));save();filesVault()}
 function notesVault(){current='notesVault';shell(`<div class="appHead"><button class="back" onclick="vault()">←</button><h2>Private Notes</h2></div><textarea id="newNote" class="noteArea" placeholder="Write a private note..."></textarea><button class="btn" onclick="state.notes.unshift(document.querySelector('#newNote').value);save();notesVault()">Save Note</button>${state.notes.map((n,i)=>`<div class="card" style="margin-top:12px">${n}<button class="btn danger" onclick="state.notes.splice(${i},1);save();notesVault()">Delete</button></div>`).join('')}${nav()}`)}
 
-function contactsVault(){
+
+function contactsVault(query=''){
   current='contacts';
   state.contactChats=state.contactChats||{};
-  shell(`<div class="photosShell contactsPage"><div class="photosTop"><button class="iconBtn" onclick="vault()">←</button><h2>Contacts</h2><button class="iconBtn" style="margin-left:auto" onclick="ghostAddContactSafe()">＋</button></div><div class="galleryHero contactHero"><div class="heroIcon">💬</div><div><h3>Ghost Chats</h3><p>${(state.contacts||[]).length} hidden contact${(state.contacts||[]).length===1?'':'s'}</p></div></div><div class="contactList ghostContactList">${(state.contacts||[]).map((c,i)=>contactRow(c,i)).join('')}</div>${!(state.contacts||[]).length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No contacts yet</h3><p>Tap + to add a hidden contact.</p></div>`:''}${nav()}</div>`);
+  state.pinnedContacts=state.pinnedContacts||{};
+  const q=String(query||'').toLowerCase();
+  const rows=(state.contacts||[]).map((c,i)=>({c,i,key:contactKey(c,i)})).filter(x=>{
+    const msgs=state.contactChats[x.key]||[];
+    const last=msgs.length?msgs[msgs.length-1].text:'';
+    return !q || contactName(x.c).toLowerCase().includes(q) || contactNumber(x.c).toLowerCase().includes(q) || last.toLowerCase().includes(q);
+  }).sort((a,b)=>{
+    const pa=!!state.pinnedContacts[a.key], pb=!!state.pinnedContacts[b.key];
+    if(pa!==pb)return pa?-1:1;
+    return lastContactTime(b.key)-lastContactTime(a.key);
+  });
+  shell(`<div class="photosShell ghostContactsPremium">
+    <div class="premiumContactsHead"><button class="iconBtn" onclick="vault()">←</button><img src="ghost-main-logo.png" alt=""><h2>CONTACTS</h2><button class="premiumPlus" onclick="ghostAddContactSafe()">＋</button></div>
+    <div class="contactSearchWrap"><span>⌕</span><input value="${escapeHtml(query)}" placeholder="Search contacts" oninput="contactsVault(this.value)"></div>
+    <div class="ghostContactListPremium">${rows.map(x=>premiumContactRow(x.c,x.i,x.key)).join('')}</div>
+    ${!rows.length?`<div class="emptyGallery"><div class="bigGhost">👻</div><h3>No contacts found</h3><p>Tap + to add a hidden contact.</p></div>`:''}
+    ${nav()}</div>`);
 }
-function contactRow(c,i){
-  const name=typeof c==='string'?c:(c.name||'Unknown');
-  const number=typeof c==='string'?'':(c.number||'');
-  const key=contactKey(c,i);
+function contactName(c){return typeof c==='string'?c:(c.name||'Unknown')}
+function contactNumber(c){return typeof c==='string'?'':(c.number||'')}
+function contactKey(c,i){return typeof c==='string'?'contact_'+i+'_'+c:(c.id||('contact_'+i+'_'+(c.name||'unknown')))}
+function lastContactTime(key){const m=(state.contactChats&&state.contactChats[key])||[];return m.length?(m[m.length-1].time||0):0}
+function lastContactLabel(key){const t=lastContactTime(key);if(!t)return '';const d=new Date(t),n=new Date();if(d.toDateString()===n.toDateString())return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});const y=new Date(n);y.setDate(n.getDate()-1);return d.toDateString()===y.toDateString()?'Yesterday':d.toLocaleDateString([], {day:'2-digit',month:'short'})}
+function premiumContactRow(c,i,key){
   const msgs=(state.contactChats&&state.contactChats[key])||[];
-  const last=msgs.length?msgs[msgs.length-1].text:'Tap to open chat';
-  return `<button class="ghostContactRow" onclick="openContactChat(${i})"><div class="contactAvatar">${escapeHtml(name).slice(0,1).toUpperCase()||'?'}</div><div class="contactMain"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(last)}</small></div><div class="contactSide">${escapeHtml(number)}</div></button>`;
+  const last=msgs.length?msgs[msgs.length-1].text:(contactNumber(c)||'Tap to open chat');
+  const pin=state.pinnedContacts&&state.pinnedContacts[key];
+  return `<button class="premiumContactRow ${pin?'pinned':''}" onclick="openContactChat(${i})" oncontextmenu="event.preventDefault();contactChatMenu(${i})">${contactAvatarHtml(c,i)}<div class="premiumContactMain"><strong>${escapeHtml(contactName(c))}</strong><small>${escapeHtml(last)}</small></div><div class="premiumContactMeta">${pin?'<span>📌</span>':''}<em>${escapeHtml(lastContactLabel(key))}</em></div></button>`;
 }
-function contactKey(c,i){
-  if(typeof c==='string')return 'contact_'+i+'_'+c;
-  return c.id||('contact_'+i+'_'+(c.name||'unknown'));
-}
-function addContact(){
-  const name=prompt('Contact name');
-  if(!name)return;
-  const number=prompt('Number or handle')||'';
-  const contact={id:'c_'+Date.now()+'_'+Math.random().toString(36).slice(2),name:name.trim(),number:number.trim(),created:Date.now()};
-  state.contacts=state.contacts||[];
-  state.contacts.push(contact);
-  state.contactChats=state.contactChats||{};
-  state.contactChats[contact.id]=[];
-  save();
-  contactsVault();
+function contactAvatarHtml(c,i){const av=typeof c==='object'?(c.avatar||''):'';if(av)return `<div class="premiumAvatar"><img src="${av}"></div>`;return `<div class="premiumAvatar ghostLetter"><span>${escapeHtml(contactName(c)).slice(0,1).toUpperCase()||'?'}</span></div>`}
+function ghostAddContactSafe(){
+  try{
+    state.contacts=Array.isArray(state.contacts)?state.contacts:[];
+    state.contactChats=state.contactChats||{};state.pinnedContacts=state.pinnedContacts||{};
+    const name=prompt('Contact name'); if(!name||!name.trim())return;
+    const number=prompt('Number or handle')||'';
+    const id='c_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    state.contacts.push({id,name:name.trim(),number:number.trim(),avatar:'',created:Date.now()});
+    state.contactChats[id]=[]; save(); contactsVault(); flash('Contact added');
+  }catch(e){alert('Could not add contact: '+(e&&e.message?e.message:e))}
 }
 function openContactChat(i){
-  state.contactChats=state.contactChats||{};
-  const c=state.contacts[i];
-  if(!c)return contactsVault();
-  const key=contactKey(c,i);
-  state.contactChats[key]=state.contactChats[key]||[];
-  const name=typeof c==='string'?c:(c.name||'Unknown');
-  const number=typeof c==='string'?'':(c.number||'');
-  const msgs=state.contactChats[key];
-  shell(`<div class="chatPage"><div class="photosTop chatTop"><button class="iconBtn" onclick="contactsVault()">←</button><div class="chatTitle"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(number)}</small></div><button class="iconBtn" style="margin-left:auto" onclick="contactChatMenu(${i})">⋮</button></div><div class="chatStream" id="chatStream">${msgs.map(m=>`<div class="chatBubble ${m.me?'me':'them'}"><span>${escapeHtml(m.text)}</span><small>${new Date(m.time).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</small></div>`).join('')}${!msgs.length?`<div class="emptyGallery"><div class="bigGhost">💬</div><h3>No messages yet</h3><p>Start a private local chat note.</p></div>`:''}</div><div class="chatComposer"><input id="chatInput" placeholder="Message ${escapeHtml(name)}"><button onclick="sendContactMessage(${i})">Send</button></div></div>`);
-  setTimeout(()=>{const s=document.querySelector('#chatStream'); if(s)s.scrollTop=s.scrollHeight},80);
+  state.contactChats=state.contactChats||{};state.pinnedContacts=state.pinnedContacts||{};
+  const c=state.contacts[i]; if(!c)return contactsVault();
+  const key=contactKey(c,i); state.contactChats[key]=state.contactChats[key]||[];
+  const msgs=state.contactChats[key]; const pin=!!state.pinnedContacts[key];
+  shell(`<div class="premiumChatPage"><div class="premiumChatTop"><button class="chatBack" onclick="contactsVault()">‹</button>${contactAvatarHtml(c,i)}<div class="chatTitle"><strong>${escapeHtml(contactName(c))}</strong><small>${escapeHtml(contactNumber(c)||'Private contact')}</small></div><button class="chatIconBtn" onclick="contactChatMenu(${i})">⋮</button></div>
+  ${pin&&msgs.length?`<div class="pinnedPreview"><span>📌 Pinned</span><strong>${escapeHtml(msgs[msgs.length-1].text)}</strong></div>`:''}
+  <div class="premiumChatStream" id="chatStream">${msgs.length?'<div class="dayPill">Today</div>':''}${msgs.map((m,mi)=>messageBubble(m,i,mi)).join('')}${!msgs.length?`<div class="emptyGallery"><div class="bigGhost">💬</div><h3>No messages yet</h3><p>Start a private local chat.</p></div>`:''}</div>
+  <div class="premiumChatComposer"><button onclick="contactChatMenu(${i})">＋</button><input id="chatInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendContactMessage(${i})"><button onclick="sendContactMessage(${i})">➤</button></div></div>`);
+  setTimeout(()=>{const s=document.querySelector('#chatStream');if(s)s.scrollTop=s.scrollHeight},80);
 }
-function sendContactMessage(i){
-  const input=document.querySelector('#chatInput');
-  const text=(input&&input.value?input.value:'').trim();
-  if(!text)return;
-  const c=state.contacts[i];
-  const key=contactKey(c,i);
-  state.contactChats=state.contactChats||{};
-  state.contactChats[key]=state.contactChats[key]||[];
-  state.contactChats[key].push({text,me:true,time:Date.now()});
-  input.value='';
-  save();
-  openContactChat(i);
-}
-function contactChatMenu(i){
-  const c=state.contacts[i];
-  if(!c)return;
-  const name=typeof c==='string'?c:(c.name||'Unknown');
-  closeAlbumModal();
-  const modal=document.createElement('div');
-  modal.className='albumModal';
-  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
-  modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>${escapeHtml(name)}</h2><button class="albumChoice" onclick="clearContactChat(${i})">Clear Chat</button><button class="albumChoice" onclick="deleteContact(${i})">Delete Contact</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;
-  document.body.appendChild(modal);
-}
-function clearContactChat(i){
-  const c=state.contacts[i];
-  const key=contactKey(c,i);
-  state.contactChats=state.contactChats||{};
-  state.contactChats[key]=[];
-  save();
-  closeAlbumModal();
-  openContactChat(i);
-  flash('Chat cleared');
-}
-function deleteContact(i){
-  const c=state.contacts[i];
-  if(!confirm('Delete contact?'))return;
-  const key=contactKey(c,i);
-  state.contacts.splice(i,1);
-  if(state.contactChats)delete state.contactChats[key];
-  save();
-  closeAlbumModal();
-  contactsVault();
-}
-function escapeHtml(s){
-  return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
-
-
-function addContact(){
-  const nameEl=document.querySelector('#cName');
-  const numEl=document.querySelector('#cNum');
-  const name=(nameEl.value||'').trim();
-  const num=(numEl.value||'').trim();
-  if(!name || !num){alert('Add name and number');return;}
-  state.contacts = state.contacts || [];
-  state.contacts.push({name:name,num:num});
-  save();
-  flash('Contact added');
-  contactsVault();
-}
+function messageBubble(m,ci,mi){const t=m.time?new Date(m.time).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}):'';return `<div class="chatBubble ${m.me?'me':'them'}" oncontextmenu="event.preventDefault();deleteContactMessage(${ci},${mi})" ontouchstart="startMsgHold(${ci},${mi})" ontouchend="clearMsgHold()" ontouchmove="clearMsgHold()"><span>${escapeHtml(m.text)}</span><small>${escapeHtml(t)} ${m.me?'✓✓':''}</small></div>`}
+let ghostMsgHoldTimer=null;function startMsgHold(ci,mi){clearMsgHold();ghostMsgHoldTimer=setTimeout(()=>deleteContactMessage(ci,mi),650)}function clearMsgHold(){if(ghostMsgHoldTimer){clearTimeout(ghostMsgHoldTimer);ghostMsgHoldTimer=null}}
+function deleteContactMessage(ci,mi){const c=state.contacts[ci];if(!c)return;const key=contactKey(c,ci);const msgs=(state.contactChats&&state.contactChats[key])||[];if(!msgs[mi])return;if(!confirm('Delete this message?'))return;msgs.splice(mi,1);save();openContactChat(ci)}
+function sendContactMessage(i){const input=document.querySelector('#chatInput');const text=(input&&input.value?input.value:'').trim();if(!text)return;const c=state.contacts[i],key=contactKey(c,i);state.contactChats=state.contactChats||{};state.contactChats[key]=state.contactChats[key]||[];state.contactChats[key].push({text,me:true,time:Date.now()});input.value='';save();openContactChat(i)}
+function contactChatMenu(i){const c=state.contacts[i];if(!c)return;const key=contactKey(c,i);const pin=state.pinnedContacts&&state.pinnedContacts[key];closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>${escapeHtml(contactName(c))}</h2><button class="albumChoice" onclick="togglePinContact(${i})">${pin?'Unpin Chat':'Pin Chat'}</button><button class="albumChoice" onclick="pickContactAvatar(${i})">Change Avatar</button><button class="albumChoice" onclick="clearContactChat(${i})">Clear Chat</button><button class="albumChoice" onclick="deleteContact(${i})">Delete Contact</button><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button><input id="contactAvatarPicker" type="file" accept="image/*" onchange="saveContactAvatar(${i},this.files[0])" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"></div>`;document.body.appendChild(modal)}
+function togglePinContact(i){const c=state.contacts[i],key=contactKey(c,i);state.pinnedContacts=state.pinnedContacts||{};if(state.pinnedContacts[key])delete state.pinnedContacts[key];else state.pinnedContacts[key]=true;save();closeAlbumModal();contactsVault()}
+function pickContactAvatar(i){const p=document.querySelector('#contactAvatarPicker');if(p)p.click()}
+function saveContactAvatar(i,file){if(!file)return;const r=new FileReader();r.onload=e=>{const c=state.contacts[i];if(typeof c==='string')state.contacts[i]={id:'c_'+Date.now(),name:c,number:'',avatar:e.target.result,created:Date.now()};else c.avatar=e.target.result;save();closeAlbumModal();contactsVault();flash('Avatar updated')};r.readAsDataURL(file)}
+function clearContactChat(i){const c=state.contacts[i],key=contactKey(c,i);state.contactChats=state.contactChats||{};state.contactChats[key]=[];save();closeAlbumModal();openContactChat(i);flash('Chat cleared')}
+function deleteContact(i){const c=state.contacts[i];if(!confirm('Delete contact?'))return;const key=contactKey(c,i);state.contacts.splice(i,1);if(state.contactChats)delete state.contactChats[key];if(state.pinnedContacts)delete state.pinnedContacts[key];save();closeAlbumModal();contactsVault()}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 
 function browserVault(){
   current='browser';
