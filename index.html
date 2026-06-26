@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.7B Premium Composer + Attachments</title>
+<title>Ghost v2.7C Premium Composer Polish</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -721,6 +721,123 @@ button,input,textarea{font:inherit}
 .chatBubble{animation:ghostBubblePop .14s ease!important;white-space:pre-wrap!important}@keyframes ghostBubblePop{from{opacity:.65;transform:translateY(5px) scale(.98)}to{opacity:1;transform:none}}.chatBubble.hasAttachment{padding:8px!important;min-width:180px!important}.chatAttachmentImage{width:100%!important;max-width:230px!important;max-height:280px!important;object-fit:cover!important;border-radius:15px!important;display:block!important}.chatAttachmentVideo{width:100%!important;max-width:240px!important;max-height:280px!important;border-radius:15px!important;display:block!important;background:#000!important}.chatFileCard{display:grid!important;gap:5px!important;padding:10px 12px!important;border-radius:14px!important;background:#08061088!important;border:1px solid #ffffff22!important}.chatFileCard b{font-size:14px!important}.chatFileCard small{font-size:11px!important;color:#d8c7ff!important;justify-self:start!important}
 @media(max-width:390px){.premiumChatComposer.premiumComposer27B{grid-template-columns:44px minmax(0,1fr) 36px 36px 44px!important;gap:6px!important}.premiumComposer27B button{height:44px!important}.premiumComposer27B textarea{min-height:44px!important;padding:12px!important}}
 
+
+/* Ghost v2.7C Premium Composer Polish — UI only */
+.premiumChatComposer.premiumComposer27B{
+  grid-template-columns:48px minmax(0,1fr) 40px 40px 48px!important;
+  align-items:end!important;
+  gap:8px!important;
+  transition:grid-template-columns .18s ease,gap .18s ease,box-shadow .18s ease!important;
+}
+.premiumChatComposer.premiumComposer27B.typing{
+  grid-template-columns:48px minmax(0,1fr) 40px 0 48px!important;
+  gap:8px!important;
+  box-shadow:0 0 20px #873cff22, inset 0 0 12px #873cff12!important;
+}
+.premiumComposer27B textarea{
+  width:100%!important;
+  min-height:48px!important;
+  max-height:138px!important;
+  resize:none!important;
+  overflow:hidden!important;
+  white-space:pre-wrap!important;
+  word-break:break-word!important;
+  background:#151020!important;
+  border:1px solid #2f184e!important;
+  color:white!important;
+  border-radius:18px!important;
+  padding:13px 14px!important;
+  line-height:1.35!important;
+  outline:0!important;
+  min-width:0!important;
+  transition:height .12s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease!important;
+}
+.premiumComposer27B textarea:focus,
+.premiumComposer27B.typing textarea{
+  border-color:#9d47ffcc!important;
+  box-shadow:0 0 15px #873cff33!important;
+  background:#171126!important;
+}
+.premiumComposer27B button{
+  height:48px!important;
+  display:grid!important;
+  place-items:center!important;
+  transition:transform .14s ease,opacity .14s ease,box-shadow .14s ease,background .14s ease!important;
+}
+.premiumComposer27B button:active{
+  transform:scale(.92)!important;
+}
+.premiumComposer27B .composerMic{
+  width:40px!important;
+  min-width:40px!important;
+  overflow:hidden!important;
+  opacity:1!important;
+  transform:scale(1)!important;
+  transition:opacity .16s ease,transform .16s ease,width .16s ease,min-width .16s ease,border-color .16s ease!important;
+}
+.premiumComposer27B.typing .composerMic{
+  width:0!important;
+  min-width:0!important;
+  padding:0!important;
+  border-color:transparent!important;
+  opacity:0!important;
+  transform:scale(.5)!important;
+  pointer-events:none!important;
+}
+.premiumComposer27B.typing .composerEmoji{
+  box-shadow:0 0 13px #873cff44!important;
+}
+.premiumComposer27B .composerSend{
+  background:linear-gradient(180deg,#c477ff 0%,#8b32ff 48%,#5c18dc 100%)!important;
+  border-color:#b76dff!important;
+  box-shadow:0 0 18px #9d47ff99,0 0 34px #873cff44!important;
+  opacity:1!important;
+}
+.premiumComposer27B .composerSend svg path{
+  fill:#ffffff!important;
+  stroke:none!important;
+  filter:drop-shadow(0 0 8px #fff8)!important;
+}
+.premiumComposer27B .composerSend.isEmpty{
+  opacity:.38!important;
+  box-shadow:none!important;
+  background:#120d1e!important;
+  border-color:#873cff66!important;
+}
+.premiumComposer27B .composerSend.isEmpty svg path{
+  fill:#b75cff!important;
+  filter:none!important;
+}
+.premiumComposer27B.typing .composerSend:not(.isEmpty){
+  transform:scale(1.04)!important;
+  animation:ghostSendWake .22s ease!important;
+}
+@keyframes ghostSendWake{
+  0%{transform:scale(.94)}
+  70%{transform:scale(1.07)}
+  100%{transform:scale(1.04)}
+}
+@media(max-width:390px){
+  .premiumChatComposer.premiumComposer27B{
+    grid-template-columns:44px minmax(0,1fr) 36px 36px 44px!important;
+    gap:6px!important;
+  }
+  .premiumChatComposer.premiumComposer27B.typing{
+    grid-template-columns:44px minmax(0,1fr) 36px 0 44px!important;
+    gap:6px!important;
+  }
+  .premiumComposer27B .composerMic{
+    width:36px!important;
+    min-width:36px!important;
+  }
+  .premiumComposer27B.typing .composerMic{
+    width:0!important;
+    min-width:0!important;
+  }
+  .premiumComposer27B button{height:44px!important}
+  .premiumComposer27B textarea{min-height:44px!important;padding:12px!important}
+}
+
 </style>
 
 </head>
@@ -728,7 +845,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.7B-premium-composer-attachments';
+const GHOST_BUILD='v2.7C-premium-composer-polish';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
