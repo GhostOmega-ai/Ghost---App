@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.9A Premium Photo Viewer</title>
+<title>Ghost v2.9A Hotfix 1</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -852,6 +852,79 @@ button,input,textarea{font:inherit}
 .premiumInfoCard{background:linear-gradient(160deg,#151126f4,#090713f4)!important;backdrop-filter:blur(18px)!important}.infoRows{display:grid!important;gap:9px!important;margin:12px 0!important}.infoRows div{display:grid!important;grid-template-columns:92px 1fr!important;gap:10px!important;align-items:center!important;border:1px solid #3a1d5d!important;background:#080610!important;border-radius:14px!important;padding:11px 12px!important}.infoRows span{color:#b57cff!important;font-size:12px!important}.infoRows b{color:white!important;font-size:13px!important;word-break:break-word!important}
 @media(max-width:390px){.premiumViewerBottom{grid-template-columns:repeat(4,42px)!important;gap:9px!important}.premiumViewerTop button,.premiumViewerBottom button{width:42px!important;height:42px!important;font-size:21px!important}}
 
+
+/* Ghost v2.9A Hotfix 1 */
+.albumModal.viewerModalFix,
+.albumModal.ghostDeleteModal{
+  z-index:3200!important;
+}
+.premiumViewerBottom{
+  grid-template-columns:repeat(4,48px)!important;
+  background:rgba(7,4,12,.62)!important;
+  border-color:#873cff44!important;
+}
+.premiumViewerBottom button{
+  border-radius:14px!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  color:#c77dff!important;
+  text-shadow:0 0 10px #873cff!important;
+  font-size:25px!important;
+}
+.premiumViewerBottom button.on{
+  color:#ffffff!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  text-shadow:0 0 8px #fff,0 0 18px #a75bff,0 0 32px #873cff!important;
+}
+.premiumViewerTop button{
+  z-index:5!important;
+}
+.ghostDeleteCard{
+  background:linear-gradient(160deg,#140d22f7,#06030bf7)!important;
+  border:1px solid #a75bff!important;
+  box-shadow:0 0 30px #873cff99,0 0 70px #000!important;
+  text-align:center!important;
+}
+.ghostDeleteCard img{
+  width:100%!important;
+  max-height:190px!important;
+  object-fit:cover!important;
+  border-radius:18px!important;
+  border:1px solid #873cff55!important;
+  box-shadow:0 0 18px #873cff66!important;
+  margin-bottom:12px!important;
+}
+.ghostDeleteCard h2{
+  margin:4px 0 6px!important;
+  color:#fff!important;
+  text-shadow:0 0 12px #873cff!important;
+}
+.ghostDeleteCard p{
+  margin:0 0 12px!important;
+  color:#cfc2e8!important;
+}
+.ghostDeleteButtons{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px!important;
+  margin-top:10px!important;
+}
+.ghostDeleteButtons button{
+  border-radius:16px!important;
+  padding:14px!important;
+  font-weight:900!important;
+  color:white!important;
+  border:1px solid #5b2790!important;
+  background:#171126!important;
+}
+.ghostDeleteButtons .deleteConfirm{
+  background:linear-gradient(180deg,#b038ff,#6f1eff)!important;
+  border-color:#b76dff!important;
+  box-shadow:0 0 16px #873cff88!important;
+}
+
 </style>
 
 </head>
@@ -859,7 +932,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.9A-premium-photo-viewer';
+const GHOST_BUILD='v2.9A-hotfix1';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2112,6 +2185,186 @@ function viewerMovePhoto(){const st=ghostPhotoViewerState,i=st.positions[st.pos]
 function moveViewerPhotoToAlbum(album,i){if(!state.photos[i])return;state.photos[i].album=album;save();closeAlbumModal();drawPremiumPhotoViewer();drawPhotos();flash('Moved to '+album)}
 function showPhotoInfoPanel(){const st=ghostPhotoViewerState,i=st.positions[st.pos],p=state.photos[i]||{};closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard premiumInfoCard" onclick="event.stopPropagation()"><h2>Photo Info</h2><div class="infoRows"><div><span>Album</span><b>${escapeHtml(p.album||'Library')}</b></div><div><span>Favourite</span><b>${p.fav?'Yes':'No'}</b></div><div><span>Name</span><b>${escapeHtml(p.name||'Photo')}</b></div><div><span>Size</span><b>${formatPhotoBytes(p.size||0)}</b></div><div><span>Date</span><b>${p.created?new Date(p.created).toLocaleString():'Unknown'}</b></div></div><button class="albumChoice" onclick="closeAlbumModal()">Close</button></div>`;document.body.appendChild(modal)}
 function formatPhotoBytes(bytes){bytes=Number(bytes)||0;if(bytes<1024)return bytes+' B';if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';return (bytes/1024/1024).toFixed(1)+' MB'}
+
+
+/* Ghost v2.9A Hotfix 1 */
+function ghostNormalPhotoAlbum(){
+  const a=state.activeAlbum||'Library';
+  if(a&&a!=='Library'&&a!=='All'&&a!=='All Photos'&&a!=='Favourites'&&a!=='Private')return a;
+  return 'Family';
+}
+function normalizePhotos(){
+  state.albumCovers=state.albumCovers||{};
+  const protectedNames=['Library','All','All Photos','Favourites','Default','Work','Documents'];
+  state.albums=(state.albums||[]).filter(a=>a && !protectedNames.includes(a));
+  ['Family','Private'].forEach(a=>{if(!state.albums.includes(a))state.albums.push(a)});
+  state.albums=['Family','Private',...state.albums.filter(a=>!['Family','Private'].includes(a))];
+
+  state.photos=(state.photos||[]).map(p=>{
+    let obj=typeof p==='string'
+      ? {src:p,album:ghostNormalPhotoAlbum(),fav:false,created:Date.now()}
+      : Object.assign({album:ghostNormalPhotoAlbum(),fav:false,created:Date.now()},p);
+    if(!obj.album || obj.album==='Default' || obj.album==='Work' || obj.album==='Documents') obj.album=ghostNormalPhotoAlbum();
+    obj.fav=!!obj.fav;
+    return obj;
+  });
+
+  if(state.albumCovers['Default']){
+    state.albumCovers['Family']=state.albumCovers['Family']||state.albumCovers['Default'];
+    delete state.albumCovers['Default'];
+  }
+  delete state.albumCovers['Work'];
+  delete state.albumCovers['Documents'];
+  if(state.activeAlbum==='Default'||state.activeAlbum==='Work'||state.activeAlbum==='Documents')state.activeAlbum='Family';
+}
+async function ensurePhotoStorage(){
+  state.albumCovers=state.albumCovers||{};
+  const fixed=[];
+  let changed=false;
+  for(const p of (state.photos||[])){
+    if(typeof p==='string'){
+      const id=photoId();
+      await dbPutPhoto(id,p);
+      fixed.push({id,album:ghostNormalPhotoAlbum(),fav:false,created:Date.now()});
+      changed=true;
+    }else if(p&&p.src){
+      const id=p.id||photoId();
+      await dbPutPhoto(id,p.src);
+      let album=p.album||ghostNormalPhotoAlbum();
+      if(album==='Default'||album==='Work'||album==='Documents')album=ghostNormalPhotoAlbum();
+      fixed.push({id,album,fav:!!p.fav,created:p.created||Date.now(),name:p.name||'',size:p.size||0,type:p.type||'',lastModified:p.lastModified||0,width:p.width,height:p.height});
+      changed=true;
+    }else if(p&&p.id){
+      let obj=Object.assign({album:ghostNormalPhotoAlbum(),fav:false,created:Date.now()},p);
+      if(!obj.album||obj.album==='Default'||obj.album==='Work'||obj.album==='Documents'){obj.album=ghostNormalPhotoAlbum();changed=true}
+      obj.fav=!!obj.fav;
+      fixed.push(obj);
+    }
+  }
+  state.photos=fixed;
+  normalizePhotos();
+  if(changed)save();
+}
+async function addPhotos(files){
+  if(!files||!files.length)return;
+  await ensurePhotoStorage();
+  const targetAlbum=ghostNormalPhotoAlbum();
+  const list=[...files];
+  let remaining=list.length;
+  for(const file of list){
+    const reader=new FileReader();
+    reader.onload=async e=>{
+      const id=photoId();
+      await dbPutPhoto(id,e.target.result);
+      state.photos.push({
+        id,
+        album:targetAlbum,
+        fav:false,
+        created:Date.now(),
+        name:file.name||'Photo',
+        size:file.size||0,
+        type:file.type||'image',
+        lastModified:file.lastModified||0
+      });
+      remaining--;
+      if(remaining===0){
+        save();
+        await drawPhotos();
+        flash('Photo added');
+      }
+    };
+    reader.onerror=()=>{remaining--; if(remaining===0){save();drawPhotos()}};
+    reader.readAsDataURL(file);
+  }
+}
+async function toggleViewerFav(){
+  const st=ghostPhotoViewerState;
+  const i=st.positions[st.pos];
+  if(!state.photos[i])return;
+  state.photos[i].fav=!state.photos[i].fav;
+  save();
+  await drawPremiumPhotoViewer();
+  if(typeof drawPhotos==='function')drawPhotos();
+  flash(state.photos[i].fav?'Favourite added':'Favourite removed');
+}
+function viewerMovePhoto(){
+  const st=ghostPhotoViewerState;
+  const i=st.positions[st.pos];
+  closeAlbumModal();
+  const albums=albumList().filter(a=>!['Library','All','All Photos','Favourites'].includes(a));
+  const modal=document.createElement('div');
+  modal.className='albumModal viewerModalFix';
+  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>Move Photo</h2>${albums.map(a=>`<button class="albumChoice" onclick="moveViewerPhotoToAlbum('${a.replace(/'/g,"\\'")}',${i})">${albumEmoji(a)} ${escapeHtml(a)}</button>`).join('')}<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;
+  document.body.appendChild(modal);
+}
+async function moveViewerPhotoToAlbum(album,i){
+  if(!state.photos[i])return;
+  state.photos[i].album=album;
+  save();
+  closeAlbumModal();
+  await drawPremiumPhotoViewer();
+  if(typeof drawPhotos==='function')drawPhotos();
+  flash('Moved to '+album);
+}
+function showPhotoInfoPanel(){
+  const st=ghostPhotoViewerState,i=st.positions[st.pos],p=state.photos[i]||{};
+  closeAlbumModal();
+  const modal=document.createElement('div');
+  modal.className='albumModal viewerModalFix';
+  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard premiumInfoCard" onclick="event.stopPropagation()">
+    <h2>Photo Info</h2>
+    <div class="infoRows">
+      <div><span>Album</span><b>${escapeHtml(p.album||'Library')}</b></div>
+      <div><span>Favourite</span><b>${p.fav?'Yes':'No'}</b></div>
+      <div><span>Name</span><b>${escapeHtml(p.name||'Photo')}</b></div>
+      <div><span>Size</span><b>${formatPhotoBytes(p.size||0)}</b></div>
+      <div><span>Date</span><b>${p.created?new Date(p.created).toLocaleString():'Unknown'}</b></div>
+    </div>
+    <button class="albumChoice" onclick="closeAlbumModal()">Close</button>
+  </div>`;
+  document.body.appendChild(modal);
+}
+function viewerDeletePhoto(){
+  const st=ghostPhotoViewerState;
+  const i=st.positions[st.pos];
+  if(!state.photos[i])return;
+  closeAlbumModal();
+  const modal=document.createElement('div');
+  modal.className='albumModal ghostDeleteModal';
+  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard ghostDeleteCard" onclick="event.stopPropagation()">
+    <img src="ghost-delete-theme.png" alt="Delete Ghost">
+    <h2>Delete this photo?</h2>
+    <p>This will permanently remove it from Ghost.</p>
+    <div class="ghostDeleteButtons">
+      <button onclick="closeAlbumModal()">Cancel</button>
+      <button class="deleteConfirm" onclick="confirmViewerDeletePhoto(${i})">Delete</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+}
+async function confirmViewerDeletePhoto(i){
+  const st=ghostPhotoViewerState;
+  if(!state.photos[i]){closeAlbumModal();return}
+  const p=state.photos[i];
+  if(p.id)await dbDeletePhoto(p.id);
+  state.photos.splice(i,1);
+  save();
+  closeAlbumModal();
+  const newIdxs=filteredPhotoIndexes();
+  if(!newIdxs.length){
+    closePremiumPhotoViewer();
+    drawPhotos();
+    return;
+  }
+  st.positions=newIdxs;
+  st.pos=Math.min(st.pos,newIdxs.length-1);
+  await drawPremiumPhotoViewer();
+  drawPhotos();
+  flash('Photo deleted');
+}
 
 </script>
 </body>
