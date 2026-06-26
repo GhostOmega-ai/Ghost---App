@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.7C Premium Composer Polish</title>
+<title>Ghost v2.9A Premium Photo Viewer</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -838,6 +838,20 @@ button,input,textarea{font:inherit}
   .premiumComposer27B textarea{min-height:44px!important;padding:12px!important}
 }
 
+
+/* Ghost v2.9A Premium Photo Viewer */
+.premiumPhotoViewer{position:fixed!important;inset:0!important;background:radial-gradient(circle at top,#1a0930 0,#030205 45%,#000 100%)!important;z-index:2500!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;user-select:none!important;-webkit-user-select:none!important;touch-action:none!important}
+.premiumViewerTop{position:absolute!important;top:0!important;left:0!important;right:0!important;z-index:4!important;display:grid!important;grid-template-columns:50px 1fr 50px!important;align-items:center!important;gap:10px!important;padding:calc(14px + env(safe-area-inset-top)) 16px 18px!important;background:linear-gradient(180deg,rgba(0,0,0,.82),rgba(0,0,0,0))!important;transition:opacity .22s ease,transform .22s ease!important}
+.premiumViewerTop button,.premiumViewerBottom button{width:46px!important;height:46px!important;border-radius:16px!important;border:1px solid #873cff77!important;background:#090611bb!important;color:#fff!important;display:grid!important;place-items:center!important;font-size:24px!important;box-shadow:0 0 14px #873cff33!important;backdrop-filter:blur(10px)!important}
+.premiumViewerBottom button.on{background:linear-gradient(180deg,#c477ff,#621edf)!important;box-shadow:0 0 18px #9d47ff99!important;animation:viewerFavPop .2s ease!important}@keyframes viewerFavPop{0%{transform:scale(.82)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.premiumViewerTitle{text-align:center!important;min-width:0!important}.premiumViewerTitle strong{display:block!important;font-size:15px!important}.premiumViewerTitle small{display:block!important;color:#c9a9ff!important;font-size:12px!important;margin-top:2px!important}
+.premiumViewerStage{flex:1!important;display:grid!important;place-items:center!important;width:100%!important;height:100%!important;overflow:hidden!important;touch-action:none!important}.premiumViewerStage img{max-width:100%!important;max-height:100%!important;object-fit:contain!important;border-radius:12px!important;transform-origin:center center!important;transition:transform .08s linear,opacity .16s ease!important;box-shadow:0 0 28px #000!important}
+.premiumViewerBottom{position:absolute!important;left:50%!important;transform:translateX(-50%)!important;bottom:calc(18px + env(safe-area-inset-bottom))!important;z-index:4!important;display:grid!important;grid-template-columns:repeat(4,46px)!important;gap:12px!important;padding:10px!important;border-radius:24px!important;border:1px solid #873cff55!important;background:#090611aa!important;box-shadow:0 0 22px #000a,0 0 20px #873cff22!important;backdrop-filter:blur(14px)!important;transition:opacity .22s ease,transform .22s ease!important}
+.premiumViewerHint{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;color:#dbc8ff!important;background:#07040c88!important;border:1px solid #873cff44!important;border-radius:999px!important;padding:9px 14px!important;font-size:12px!important;pointer-events:none!important;opacity:.75!important;animation:hintFade 2.4s ease forwards!important}@keyframes hintFade{0%,45%{opacity:.75}100%{opacity:0}}
+.premiumPhotoViewer.uiHidden .viewerUi{opacity:0!important;pointer-events:none!important}.premiumPhotoViewer.uiHidden .premiumViewerTop{transform:translateY(-20px)!important}.premiumPhotoViewer.uiHidden .premiumViewerBottom{transform:translateX(-50%) translateY(20px)!important}
+.premiumInfoCard{background:linear-gradient(160deg,#151126f4,#090713f4)!important;backdrop-filter:blur(18px)!important}.infoRows{display:grid!important;gap:9px!important;margin:12px 0!important}.infoRows div{display:grid!important;grid-template-columns:92px 1fr!important;gap:10px!important;align-items:center!important;border:1px solid #3a1d5d!important;background:#080610!important;border-radius:14px!important;padding:11px 12px!important}.infoRows span{color:#b57cff!important;font-size:12px!important}.infoRows b{color:white!important;font-size:13px!important;word-break:break-word!important}
+@media(max-width:390px){.premiumViewerBottom{grid-template-columns:repeat(4,42px)!important;gap:9px!important}.premiumViewerTop button,.premiumViewerBottom button{width:42px!important;height:42px!important;font-size:21px!important}}
+
 </style>
 
 </head>
@@ -845,7 +859,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.7C-premium-composer-polish';
+const GHOST_BUILD='v2.9A-premium-photo-viewer';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2076,6 +2090,28 @@ function ghostAddContactSafe(){
     alert('Could not add contact: '+(e&&e.message?e.message:e));
   }
 }
+
+
+/* Ghost v2.9A Premium Photo Viewer */
+let ghostPhotoViewerState={positions:[],pos:0,scale:1,panX:0,panY:0,dragging:false,lastX:0,lastY:0,startDist:0,startScale:1,uiTimer:null,touchStartX:0,touchStartY:0,lastTap:0};
+async function openViewerByPosition(pos){await ensurePhotoStorage();const idxs=filteredPhotoIndexes();if(!idxs.length)return;ghostPhotoViewerState.positions=idxs;ghostPhotoViewerState.pos=Math.max(0,Math.min(pos,idxs.length-1));ghostPhotoViewerState.scale=1;ghostPhotoViewerState.panX=0;ghostPhotoViewerState.panY=0;await drawPremiumPhotoViewer()}
+async function drawPremiumPhotoViewer(){const st=ghostPhotoViewerState;const photoIndex=st.positions[st.pos];const p=state.photos[photoIndex];const src=await photoSrc(photoIndex);const count=st.positions.length;const fav=p&&p.fav;viewer.className='';viewer.innerHTML=`<div class="premiumPhotoViewer" id="premiumPhotoViewer"><div class="premiumViewerTop viewerUi"><button onclick="closePremiumPhotoViewer()">‹</button><div class="premiumViewerTitle"><strong>${st.pos+1} / ${count}</strong><small>${escapeHtml((p&&p.album)||'Library')}</small></div><button onclick="showPhotoInfoPanel()">ⓘ</button></div><div class="premiumViewerStage" id="premiumViewerStage" onclick="premiumViewerTap(event)" ontouchstart="premiumViewerTouchStart(event)" ontouchmove="premiumViewerTouchMove(event)" ontouchend="premiumViewerTouchEnd(event)"><img id="premiumViewerImg" src="${src}" alt="Photo" draggable="false"></div><div class="premiumViewerBottom viewerUi"><button class="${fav?'on':''}" onclick="toggleViewerFav()">★</button><button onclick="viewerMovePhoto()">📁</button><button onclick="viewerDeletePhoto()">🗑</button><button onclick="showPhotoInfoPanel()">ℹ</button></div><div class="premiumViewerHint">Pinch to zoom • Swipe photos • Double tap reset</div></div>`;applyPremiumPhotoTransform();scheduleViewerUiHide()}
+function closePremiumPhotoViewer(){viewer.className='hidden';viewer.innerHTML='';ghostPhotoViewerState.scale=1}
+function applyPremiumPhotoTransform(){const img=document.querySelector('#premiumViewerImg');if(!img)return;const st=ghostPhotoViewerState;img.style.transform=`translate(${st.panX}px,${st.panY}px) scale(${st.scale})`}
+function scheduleViewerUiHide(){clearTimeout(ghostPhotoViewerState.uiTimer);document.querySelector('#premiumPhotoViewer')?.classList.remove('uiHidden');ghostPhotoViewerState.uiTimer=setTimeout(()=>document.querySelector('#premiumPhotoViewer')?.classList.add('uiHidden'),2200)}
+function premiumViewerTap(e){if(e.target.closest('button'))return;const now=Date.now();if(now-ghostPhotoViewerState.lastTap<280){ghostPhotoViewerState.scale=ghostPhotoViewerState.scale>1?1:2.6;ghostPhotoViewerState.panX=0;ghostPhotoViewerState.panY=0;applyPremiumPhotoTransform()}else{const el=document.querySelector('#premiumPhotoViewer');el?.classList.toggle('uiHidden');scheduleViewerUiHide()}ghostPhotoViewerState.lastTap=now}
+function premiumViewerTouchStart(e){scheduleViewerUiHide();const st=ghostPhotoViewerState;if(e.touches.length===1){st.dragging=true;st.lastX=e.touches[0].clientX;st.lastY=e.touches[0].clientY;st.touchStartX=st.lastX;st.touchStartY=st.lastY}else if(e.touches.length===2){st.dragging=false;st.startDist=touchDistance(e.touches);st.startScale=st.scale}}
+function premiumViewerTouchMove(e){const st=ghostPhotoViewerState;if(e.touches.length===2){e.preventDefault();const d=touchDistance(e.touches);st.scale=Math.max(1,Math.min(8,st.startScale*(d/st.startDist)));if(st.scale===1){st.panX=0;st.panY=0}applyPremiumPhotoTransform()}else if(e.touches.length===1&&st.dragging){const x=e.touches[0].clientX,y=e.touches[0].clientY,dx=x-st.lastX,dy=y-st.lastY;if(st.scale>1){e.preventDefault();st.panX+=dx;st.panY+=dy;applyPremiumPhotoTransform()}st.lastX=x;st.lastY=y}}
+function premiumViewerTouchEnd(e){const st=ghostPhotoViewerState;if(e.touches.length)return;st.dragging=false;const dx=st.lastX-st.touchStartX,dy=st.lastY-st.touchStartY;if(st.scale<=1&&Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*1.4){dx<0?nextPremiumPhoto():prevPremiumPhoto()}}
+function touchDistance(touches){const a=touches[0],b=touches[1];return Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY)}
+async function nextPremiumPhoto(){const st=ghostPhotoViewerState;if(st.pos>=st.positions.length-1)return flash('Last photo');st.pos++;st.scale=1;st.panX=0;st.panY=0;await drawPremiumPhotoViewer()}
+async function prevPremiumPhoto(){const st=ghostPhotoViewerState;if(st.pos<=0)return flash('First photo');st.pos--;st.scale=1;st.panX=0;st.panY=0;await drawPremiumPhotoViewer()}
+function toggleViewerFav(){const st=ghostPhotoViewerState,i=st.positions[st.pos];if(!state.photos[i])return;state.photos[i].fav=!state.photos[i].fav;save();drawPremiumPhotoViewer();flash(state.photos[i].fav?'Favourite added':'Favourite removed')}
+async function viewerDeletePhoto(){const st=ghostPhotoViewerState,i=st.positions[st.pos];if(!state.photos[i])return;if(!confirm('Delete this photo?'))return;const p=state.photos[i];if(p.id)await dbDeletePhoto(p.id);state.photos.splice(i,1);save();const newIdxs=filteredPhotoIndexes();if(!newIdxs.length){closePremiumPhotoViewer();drawPhotos();return}st.positions=newIdxs;st.pos=Math.min(st.pos,newIdxs.length-1);await drawPremiumPhotoViewer();drawPhotos()}
+function viewerMovePhoto(){const st=ghostPhotoViewerState,i=st.positions[st.pos];closeAlbumModal();const albums=albumList().filter(a=>!['Library','Favourites'].includes(a));const modal=document.createElement('div');modal.className='albumModal';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>Move Photo</h2>${albums.map(a=>`<button class="albumChoice" onclick="moveViewerPhotoToAlbum('${a.replace(/'/g,"\\'")}',${i})">${albumEmoji(a)} ${escapeHtml(a)}</button>`).join('')}<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;document.body.appendChild(modal)}
+function moveViewerPhotoToAlbum(album,i){if(!state.photos[i])return;state.photos[i].album=album;save();closeAlbumModal();drawPremiumPhotoViewer();drawPhotos();flash('Moved to '+album)}
+function showPhotoInfoPanel(){const st=ghostPhotoViewerState,i=st.positions[st.pos],p=state.photos[i]||{};closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard premiumInfoCard" onclick="event.stopPropagation()"><h2>Photo Info</h2><div class="infoRows"><div><span>Album</span><b>${escapeHtml(p.album||'Library')}</b></div><div><span>Favourite</span><b>${p.fav?'Yes':'No'}</b></div><div><span>Name</span><b>${escapeHtml(p.name||'Photo')}</b></div><div><span>Size</span><b>${formatPhotoBytes(p.size||0)}</b></div><div><span>Date</span><b>${p.created?new Date(p.created).toLocaleString():'Unknown'}</b></div></div><button class="albumChoice" onclick="closeAlbumModal()">Close</button></div>`;document.body.appendChild(modal)}
+function formatPhotoBytes(bytes){bytes=Number(bytes)||0;if(bytes<1024)return bytes+' B';if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';return (bytes/1024/1024).toFixed(1)+' MB'}
 
 </script>
 </body>
