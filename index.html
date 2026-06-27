@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.9C.1 Hint Hotfix</title>
+<title>Ghost v2.9C.2 Favourite + Hint Fix</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -942,6 +942,65 @@ button,input,textarea{font:inherit}
 .premiumViewerHint{opacity:.78!important;animation:none!important;transition:opacity .24s ease,transform .24s ease!important}
 .premiumViewerHint.ghostHintGone{opacity:0!important;transform:translate(-50%,-50%) scale(.96)!important}
 
+
+/* Ghost v2.9C.2 Favourite + Hint Fix */
+.photoFav,
+.photoFav:not(.on),
+.photoTile .photoFav,
+.photoWrap .photoFav{
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.photoFav.on,
+.photoTile .photoFav.on,
+.photoWrap .photoFav.on,
+.ghostFavMiniStar{
+  display:grid!important;
+  visibility:visible!important;
+  opacity:.68!important;
+  position:absolute!important;
+  top:7px!important;
+  left:7px!important;
+  width:14px!important;
+  height:14px!important;
+  min-width:14px!important;
+  min-height:14px!important;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  color:#b477ff!important;
+  font-size:14px!important;
+  line-height:14px!important;
+  z-index:8!important;
+  place-items:center!important;
+  box-shadow:none!important;
+  text-shadow:0 0 4px #7d32ff,0 0 8px #873cff!important;
+  pointer-events:none!important;
+}
+.photoFav.on::before,
+.ghostFavMiniStar::before{
+  content:'★'!important;
+}
+.photoFav.on{
+  font-size:0!important;
+}
+.premiumViewerHint{
+  opacity:.82!important;
+  animation:none!important;
+  transition:opacity .28s ease,transform .28s ease!important;
+  pointer-events:none!important;
+}
+.premiumViewerHint.ghostHintGone{
+  opacity:0!important;
+  transform:translate(-50%,-50%) scale(.96)!important;
+}
+
 </style>
 
 </head>
@@ -949,7 +1008,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.9C.1-hint-hotfix';
+const GHOST_BUILD='v2.9C.2-favourite-hint-fix';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2481,6 +2540,144 @@ const v29c1Close=typeof closePremiumPhotoViewer==='function'?closePremiumPhotoVi
 const v29c1Tap=typeof premiumViewerTap==='function'?premiumViewerTap:null;if(v29c1Tap){premiumViewerTap=function(e){v29c1DismissHintByUser();return v29c1Tap.apply(this,arguments)}}
 const v29c1TS=typeof premiumViewerTouchStart==='function'?premiumViewerTouchStart:null;if(v29c1TS){premiumViewerTouchStart=function(e){v29c1DismissHintByUser();return v29c1TS.apply(this,arguments)}}
 const v29c1TM=typeof premiumViewerTouchMove==='function'?premiumViewerTouchMove:null;if(v29c1TM){premiumViewerTouchMove=function(e){v29c1DismissHintByUser();return v29c1TM.apply(this,arguments)}}
+
+
+/* Ghost v2.9C.2 Favourite + Hint Fix */
+function v29c2IsTileFavourite(tile){
+  const img=tile&&tile.querySelector&&tile.querySelector('img');
+  if(!img||!Array.isArray(state.photos))return false;
+  const src=img.getAttribute('src')||'';
+  const meta=(tile.querySelector('.photoMeta')?.textContent||'').trim();
+  const onclick=(tile.getAttribute('onclick')||'')+' '+(tile.getAttribute('oncontextmenu')||'');
+  let idxMatch=onclick.match(/\((\d+)\)/)||onclick.match(/,(\d+)\)/);
+  if(idxMatch){
+    const idx=Number(idxMatch[1]);
+    if(state.photos[idx]&&state.photos[idx].fav)return true;
+  }
+  return state.photos.some(p=>{
+    if(!p||!p.fav)return false;
+    if(p.src&&src&&p.src===src)return true;
+    if(p.id&&src&&src.includes(p.id))return true;
+    if(p.album&&meta&&p.album===meta&&p.fav&&p.name&&img.alt&&p.name===img.alt)return true;
+    return false;
+  });
+}
+function v29c2ApplyFavouriteBadges(){
+  document.querySelectorAll('.photoTile,.photoWrap').forEach(tile=>{
+    tile.querySelectorAll('.photoFav,.ghostFavMiniStar').forEach(x=>x.remove());
+    if(v29c2IsTileFavourite(tile)){
+      const s=document.createElement('div');
+      s.className='ghostFavMiniStar';
+      tile.appendChild(s);
+    }
+  });
+}
+const v29c2OldDrawPhotos=typeof drawPhotos==='function'?drawPhotos:null;
+if(v29c2OldDrawPhotos){
+  drawPhotos=async function(){
+    await v29c2OldDrawPhotos.apply(this,arguments);
+    setTimeout(v29c2ApplyFavouriteBadges,80);
+  };
+}
+setTimeout(v29c2ApplyFavouriteBadges,300);
+
+function v29c2RemoveHint(){
+  const h=document.querySelector('.premiumViewerHint');
+  if(h)h.remove();
+}
+function v29c2FadeHint(){
+  const h=document.querySelector('.premiumViewerHint');
+  if(h)h.classList.add('ghostHintGone');
+}
+function v29c2PrepareHintSession(){
+  if(typeof ghostPhotoViewerState!=='object')return;
+  clearTimeout(ghostPhotoViewerState.hintTimer);
+  clearTimeout(ghostPhotoViewerState.hintRemoveTimer);
+  ghostPhotoViewerState.v29c2HintShown=false;
+  ghostPhotoViewerState.v29c2HintDone=false;
+}
+function v29c2ShowHintOnce(){
+  if(typeof ghostPhotoViewerState!=='object')return;
+  const h=document.querySelector('.premiumViewerHint');
+  if(!h)return;
+  if(ghostPhotoViewerState.v29c2HintShown||ghostPhotoViewerState.v29c2HintDone){
+    h.remove();
+    return;
+  }
+  ghostPhotoViewerState.v29c2HintShown=true;
+  h.classList.remove('ghostHintGone');
+  clearTimeout(ghostPhotoViewerState.hintTimer);
+  clearTimeout(ghostPhotoViewerState.hintRemoveTimer);
+  ghostPhotoViewerState.hintTimer=setTimeout(()=>{
+    ghostPhotoViewerState.v29c2HintDone=true;
+    v29c2FadeHint();
+    ghostPhotoViewerState.hintRemoveTimer=setTimeout(v29c2RemoveHint,320);
+  },2500);
+}
+function v29c2DismissHint(){
+  if(typeof ghostPhotoViewerState!=='object')return;
+  const h=document.querySelector('.premiumViewerHint');
+  if(!h||ghostPhotoViewerState.v29c2HintDone)return;
+  ghostPhotoViewerState.v29c2HintDone=true;
+  clearTimeout(ghostPhotoViewerState.hintTimer);
+  v29c2FadeHint();
+  ghostPhotoViewerState.hintRemoveTimer=setTimeout(v29c2RemoveHint,320);
+}
+const v29c2Open=typeof openViewerByPosition==='function'?openViewerByPosition:null;
+if(v29c2Open){
+  openViewerByPosition=async function(pos){
+    v29c2PrepareHintSession();
+    await v29c2Open.apply(this,arguments);
+    setTimeout(v29c2ShowHintOnce,140);
+  };
+}
+const v29c2Draw=typeof drawPremiumPhotoViewer==='function'?drawPremiumPhotoViewer:null;
+if(v29c2Draw){
+  drawPremiumPhotoViewer=async function(){
+    const alreadyShown=ghostPhotoViewerState&&ghostPhotoViewerState.v29c2HintShown;
+    await v29c2Draw.apply(this,arguments);
+    setTimeout(()=>{
+      const h=document.querySelector('.premiumViewerHint');
+      if(!h)return;
+      if(alreadyShown || (ghostPhotoViewerState&&(ghostPhotoViewerState.v29c2HintShown||ghostPhotoViewerState.v29c2HintDone))){
+        h.remove();
+      }else{
+        v29c2ShowHintOnce();
+      }
+    },90);
+  };
+}
+const v29c2Close=typeof closePremiumPhotoViewer==='function'?closePremiumPhotoViewer:null;
+if(v29c2Close){
+  closePremiumPhotoViewer=function(){
+    if(typeof ghostPhotoViewerState==='object'){
+      clearTimeout(ghostPhotoViewerState.hintTimer);
+      clearTimeout(ghostPhotoViewerState.hintRemoveTimer);
+    }
+    return v29c2Close.apply(this,arguments);
+  };
+}
+const v29c2Tap=typeof premiumViewerTap==='function'?premiumViewerTap:null;
+if(v29c2Tap){
+  premiumViewerTap=function(e){
+    v29c2DismissHint();
+    return v29c2Tap.apply(this,arguments);
+  };
+}
+const v29c2TouchStart=typeof premiumViewerTouchStart==='function'?premiumViewerTouchStart:null;
+if(v29c2TouchStart){
+  premiumViewerTouchStart=function(e){
+    v29c2DismissHint();
+    return v29c2TouchStart.apply(this,arguments);
+  };
+}
+const v29c2TouchMove=typeof premiumViewerTouchMove==='function'?premiumViewerTouchMove:null;
+if(v29c2TouchMove){
+  premiumViewerTouchMove=function(e){
+    v29c2DismissHint();
+    return v29c2TouchMove.apply(this,arguments);
+  };
+}
 
 </script>
 </body>
