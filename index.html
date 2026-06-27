@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.9B Photo Polish</title>
+<title>Ghost v2.9C Photo Favourite + Hint Polish</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -926,20 +926,17 @@ button,input,textarea{font:inherit}
 }
 
 
-/* Ghost v2.9B Photo Polish */
-.photoFav,.photoFav.on{width:auto!important;height:auto!important;min-width:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#c477ff!important;font-size:25px!important;line-height:1!important;text-shadow:0 0 7px #fff,0 0 14px #a75bff,0 0 26px #873cff!important;top:8px!important;left:8px!important;z-index:6!important}
-.photoTile .photoFav,.photoWrap .photoFav{pointer-events:none!important}
-.photoTile,.photoWrap{transition:transform .14s ease,box-shadow .14s ease,filter .14s ease!important}
-.photoTile.selected,.photoWrap.selected{transform:scale(.985)!important;box-shadow:0 0 0 2px #a75bff,0 0 18px #873cff77!important}
-.photoTile.selected img,.photoWrap.selected img{filter:brightness(.66)!important}
-.photoTick,.selBadge{background:linear-gradient(180deg,#c477ff,#6620ed)!important;box-shadow:0 0 13px #873cffaa!important;animation:ghostSelectPop .15s ease!important}
-@keyframes ghostSelectPop{0%{transform:scale(.75);opacity:.5}70%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:1}}
-.infoRows .infoNameRow{grid-template-columns:92px 1fr 42px!important}
-.infoRenameBtn{width:38px!important;height:38px!important;border-radius:13px!important;border:1px solid #873cff77!important;background:#171126!important;color:#d8b6ff!important;display:grid!important;place-items:center!important;font-size:18px!important;box-shadow:0 0 12px #873cff33!important}
-.renamePhotoCard{background:linear-gradient(160deg,#151126f7,#080610f7)!important;border:1px solid #a75bff!important;box-shadow:0 0 28px #873cff88!important}
-.renamePhotoCard input{width:100%!important;background:#080610!important;border:1px solid #7d32ff88!important;color:white!important;border-radius:16px!important;padding:14px 16px!important;outline:none!important;box-shadow:inset 0 0 12px #873cff22!important;margin:8px 0 12px!important}
-.floatingSelectCounter{position:sticky!important;top:0!important;z-index:45!important;background:#090611ee!important;border:1px solid #873cff66!important;box-shadow:0 8px 22px #0008,0 0 16px #873cff33!important;border-radius:18px!important;padding:10px 12px!important;display:flex!important;align-items:center!important;gap:9px!important;margin-bottom:10px!important;backdrop-filter:blur(12px)!important}
-.floatingSelectCounter strong{flex:1!important;font-size:15px!important}.floatingSelectCounter button{border:1px solid #4b2574!important;background:#171126!important;color:white!important;border-radius:13px!important;padding:9px 11px!important;font-weight:900!important}.floatingSelectCounter .danger{background:#3b1020!important;border-color:#7d2745!important}
+/* Ghost v2.9C Photo Favourite + Hint Polish */
+.photoFav{display:none!important}
+.photoFav.on,.photoTile .photoFav.on,.photoWrap .photoFav.on{
+  display:grid!important;width:auto!important;height:auto!important;min-width:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;color:#b66cff!important;font-size:17px!important;line-height:1!important;
+  top:7px!important;left:7px!important;z-index:6!important;opacity:.78!important;
+  text-shadow:0 0 5px #b66cff,0 0 10px #873cff!important;pointer-events:none!important
+}
+.photoTile .photoFav:not(.on),.photoWrap .photoFav:not(.on){display:none!important}
+.premiumViewerHint{transition:opacity .22s ease,transform .22s ease!important;opacity:.72!important}
+.premiumViewerHint.ghostHintGone{opacity:0!important;transform:translate(-50%,-50%) scale(.96)!important}
 
 </style>
 
@@ -948,7 +945,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.9B-photo-polish';
+const GHOST_BUILD='v2.9C-photo-favourite-hint-polish';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2383,19 +2380,90 @@ async function confirmViewerDeletePhoto(i){
 }
 
 
-/* Ghost v2.9B Photo Polish */
-function ghostEsc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function v29bPhotoName(i){const p=state.photos&&state.photos[i];return (p&&(p.name||p.fileName||p.title))||'Photo'}
-function openRenamePhotoFromInfo(i){const p=state.photos&&state.photos[i];if(!p)return;closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal viewerModalFix';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard renamePhotoCard" onclick="event.stopPropagation()"><h2>Rename Photo</h2><p style="color:#aaa2b7;margin:0 0 12px">Change the display name inside Ghost.</p><input id="renamePhotoInput" value="${ghostEsc(v29bPhotoName(i))}" placeholder="Photo name"><div class="ghostModalRow"><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button><button class="albumChoice primaryChoice" onclick="saveRenamedPhoto(${i})">Save</button></div></div>`;document.body.appendChild(modal);setTimeout(()=>{const x=document.querySelector('#renamePhotoInput');if(x){x.focus();x.select()}},80)}
-function saveRenamedPhoto(i){const p=state.photos&&state.photos[i];if(!p)return;const name=(document.querySelector('#renamePhotoInput')?.value||'').trim();if(!name)return flash('Add a photo name');p.name=name;p.renamed=true;save();closeAlbumModal();try{drawPremiumPhotoViewer()}catch(e){}try{drawPhotos()}catch(e){}flash('Photo renamed')}
-function showPhotoInfoPanel(){const st=ghostPhotoViewerState,i=st.positions[st.pos],p=state.photos[i]||{};closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal viewerModalFix';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard premiumInfoCard" onclick="event.stopPropagation()"><h2>Photo Info</h2><div class="infoRows"><div><span>Album</span><b>${ghostEsc(p.album||'Library')}</b></div><div><span>Favourite</span><b>${p.fav?'Yes':'No'}</b></div><div class="infoNameRow"><span>Name</span><b>${ghostEsc(v29bPhotoName(i))}</b><button class="infoRenameBtn" onclick="openRenamePhotoFromInfo(${i})">✎</button></div><div><span>Size</span><b>${formatPhotoBytes(p.size||0)}</b></div><div><span>Date</span><b>${p.created?new Date(p.created).toLocaleString():'Unknown'}</b></div></div><button class="albumChoice" onclick="closeAlbumModal()">Close</button></div>`;document.body.appendChild(modal)}
-function v29bPatchGalleryFavStars(){document.querySelectorAll('.photoFav').forEach(x=>{x.classList.add('on');x.textContent='★'})}
-function v29bUpdateSelectCounter(){let bar=document.querySelector('.floatingSelectCounter');const count=(selectedPhotos||[]).length;if(!selectMode||!count){if(bar)bar.remove();return}if(!bar){bar=document.createElement('div');bar.className='floatingSelectCounter';const grid=document.querySelector('.photoGridNew,.picGrid');if(grid&&grid.parentNode)grid.parentNode.insertBefore(bar,grid)}bar.innerHTML=`<strong>✓ ${count} selected</strong><button onclick="showAlbumPicker('selected')">📁</button><button onclick="selectedPhotos.forEach(i=>{if(state.photos[i])state.photos[i].fav=true});save();drawPhotos();flash('Added to favourites')">★</button><button class="danger" onclick="deleteSelectedPhotos()">🗑</button>`}
-function v29bSoftSelectToggle(i){if(!Array.isArray(selectedPhotos))selectedPhotos=[];const pos=selectedPhotos.indexOf(i);if(pos>=0)selectedPhotos.splice(pos,1);else selectedPhotos.push(i);const tiles=[...document.querySelectorAll('.photoTile,.photoWrap')];const tile=tiles.find(t=>{const s=(t.getAttribute('onclick')||'')+' '+(t.getAttribute('oncontextmenu')||'');return s.includes('('+i+')')||s.includes(','+i+')')});if(tile){tile.classList.toggle('selected',selectedPhotos.includes(i));let b=tile.querySelector('.photoTick,.selBadge');if(selectedPhotos.includes(i)&&!b){b=document.createElement('div');b.className='photoTick';b.textContent='✓';tile.appendChild(b)}else if(!selectedPhotos.includes(i)&&b)b.remove();v29bUpdateSelectCounter()}else drawPhotos()}
-function togglePhotoSelect(i){v29bSoftSelectToggle(i)}
-function startSelectMode(i){selectMode=true;selectedPhotos=[];if(typeof i==='number')selectedPhotos=[i];drawPhotos();setTimeout(()=>{v29bPatchGalleryFavStars();v29bUpdateSelectCounter()},80)}
-function startAlbumSelect(){selectMode=true;selectedPhotos=[];drawPhotos();setTimeout(()=>{v29bPatchGalleryFavStars();v29bUpdateSelectCounter()},80)}
-const v29bOldDrawPhotos=typeof drawPhotos==='function'?drawPhotos:null;if(v29bOldDrawPhotos){drawPhotos=async function(){await v29bOldDrawPhotos.apply(this,arguments);setTimeout(()=>{v29bPatchGalleryFavStars();v29bUpdateSelectCounter()},60)}}
+/* Ghost v2.9C Photo Favourite + Hint Polish */
+function v29cPatchGalleryFavouriteStars(){
+  document.querySelectorAll('.photoFav').forEach(fav=>{
+    if(fav.classList.contains('on')){
+      fav.textContent='★';
+    }else{
+      fav.remove();
+    }
+  });
+}
+const v29cOldDrawPhotos = typeof drawPhotos==='function' ? drawPhotos : null;
+if(v29cOldDrawPhotos){
+  drawPhotos = async function(){
+    await v29cOldDrawPhotos.apply(this,arguments);
+    setTimeout(v29cPatchGalleryFavouriteStars,80);
+  };
+}
+function v29cBeginViewerSession(){
+  if(typeof ghostPhotoViewerState!=='object')return;
+  ghostPhotoViewerState.hintShownThisSession=false;
+  ghostPhotoViewerState.hintDismissedThisSession=false;
+}
+function v29cDismissViewerHint(){
+  if(typeof ghostPhotoViewerState!=='object')return;
+  ghostPhotoViewerState.hintDismissedThisSession=true;
+  clearTimeout(ghostPhotoViewerState.hintTimer);
+  const hint=document.querySelector('.premiumViewerHint');
+  if(hint)hint.classList.add('ghostHintGone');
+}
+function v29cScheduleViewerHint(){
+  if(typeof ghostPhotoViewerState!=='object')return;
+  clearTimeout(ghostPhotoViewerState.hintTimer);
+  const hint=document.querySelector('.premiumViewerHint');
+  if(!hint)return;
+  if(ghostPhotoViewerState.hintDismissedThisSession || ghostPhotoViewerState.hintShownThisSession){
+    hint.remove();
+    return;
+  }
+  ghostPhotoViewerState.hintShownThisSession=true;
+  ghostPhotoViewerState.hintTimer=setTimeout(()=>v29cDismissViewerHint(),2100);
+}
+const v29cOldOpenViewerByPosition = typeof openViewerByPosition==='function' ? openViewerByPosition : null;
+if(v29cOldOpenViewerByPosition){
+  openViewerByPosition = async function(pos){
+    v29cBeginViewerSession();
+    await v29cOldOpenViewerByPosition.apply(this,arguments);
+    setTimeout(v29cScheduleViewerHint,100);
+  };
+}
+const v29cOldDrawPremiumPhotoViewer = typeof drawPremiumPhotoViewer==='function' ? drawPremiumPhotoViewer : null;
+if(v29cOldDrawPremiumPhotoViewer){
+  drawPremiumPhotoViewer = async function(){
+    await v29cOldDrawPremiumPhotoViewer.apply(this,arguments);
+    setTimeout(()=>{
+      const hint=document.querySelector('.premiumViewerHint');
+      if(!hint)return;
+      if(ghostPhotoViewerState.hintShownThisSession || ghostPhotoViewerState.hintDismissedThisSession){
+        hint.remove();
+      }else{
+        v29cScheduleViewerHint();
+      }
+    },70);
+  };
+}
+const v29cOldClosePremiumPhotoViewer = typeof closePremiumPhotoViewer==='function' ? closePremiumPhotoViewer : null;
+if(v29cOldClosePremiumPhotoViewer){
+  closePremiumPhotoViewer = function(){
+    if(typeof ghostPhotoViewerState==='object')clearTimeout(ghostPhotoViewerState.hintTimer);
+    v29cOldClosePremiumPhotoViewer.apply(this,arguments);
+  };
+}
+const v29cOldPremiumViewerTap = typeof premiumViewerTap==='function' ? premiumViewerTap : null;
+if(v29cOldPremiumViewerTap){
+  premiumViewerTap = function(e){v29cDismissViewerHint();return v29cOldPremiumViewerTap.apply(this,arguments)};
+}
+const v29cOldPremiumViewerTouchStart = typeof premiumViewerTouchStart==='function' ? premiumViewerTouchStart : null;
+if(v29cOldPremiumViewerTouchStart){
+  premiumViewerTouchStart = function(e){v29cDismissViewerHint();return v29cOldPremiumViewerTouchStart.apply(this,arguments)};
+}
+const v29cOldPremiumViewerTouchMove = typeof premiumViewerTouchMove==='function' ? premiumViewerTouchMove : null;
+if(v29cOldPremiumViewerTouchMove){
+  premiumViewerTouchMove = function(e){v29cDismissViewerHint();return v29cOldPremiumViewerTouchMove.apply(this,arguments)};
+}
+setTimeout(v29cPatchGalleryFavouriteStars,300);
 
 </script>
 </body>
