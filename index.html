@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.9C Photo Favourite + Hint Polish</title>
+<title>Ghost v2.9C.1 Hint Hotfix</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -938,6 +938,10 @@ button,input,textarea{font:inherit}
 .premiumViewerHint{transition:opacity .22s ease,transform .22s ease!important;opacity:.72!important}
 .premiumViewerHint.ghostHintGone{opacity:0!important;transform:translate(-50%,-50%) scale(.96)!important}
 
+/* Ghost v2.9C.1 Hint Hotfix */
+.premiumViewerHint{opacity:.78!important;animation:none!important;transition:opacity .24s ease,transform .24s ease!important}
+.premiumViewerHint.ghostHintGone{opacity:0!important;transform:translate(-50%,-50%) scale(.96)!important}
+
 </style>
 
 </head>
@@ -945,7 +949,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.9C-photo-favourite-hint-polish';
+const GHOST_BUILD='v2.9C.1-hint-hotfix';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2464,6 +2468,19 @@ if(v29cOldPremiumViewerTouchMove){
   premiumViewerTouchMove = function(e){v29cDismissViewerHint();return v29cOldPremiumViewerTouchMove.apply(this,arguments)};
 }
 setTimeout(v29cPatchGalleryFavouriteStars,300);
+
+/* Ghost v2.9C.1 Hint Hotfix */
+function v29c1RemoveHint(){const h=document.querySelector('.premiumViewerHint');if(h)h.remove()}
+function v29c1FadeHint(){const h=document.querySelector('.premiumViewerHint');if(h)h.classList.add('ghostHintGone')}
+function v29c1PrepareViewerHint(){if(typeof ghostPhotoViewerState!=='object')return;ghostPhotoViewerState.hintHasShown=false;ghostPhotoViewerState.hintCanDismiss=false;clearTimeout(ghostPhotoViewerState.hintTimer);clearTimeout(ghostPhotoViewerState.hintArmTimer)}
+function v29c1ShowHintOnce(){if(typeof ghostPhotoViewerState!=='object')return;const h=document.querySelector('.premiumViewerHint');if(!h)return;if(ghostPhotoViewerState.hintHasShown){h.remove();return}ghostPhotoViewerState.hintHasShown=true;ghostPhotoViewerState.hintCanDismiss=false;h.classList.remove('ghostHintGone');clearTimeout(ghostPhotoViewerState.hintTimer);clearTimeout(ghostPhotoViewerState.hintArmTimer);ghostPhotoViewerState.hintArmTimer=setTimeout(()=>{ghostPhotoViewerState.hintCanDismiss=true},500);ghostPhotoViewerState.hintTimer=setTimeout(()=>{v29c1FadeHint();setTimeout(v29c1RemoveHint,280)},2400)}
+function v29c1DismissHintByUser(){if(typeof ghostPhotoViewerState!=='object')return;if(!ghostPhotoViewerState.hintCanDismiss)return;clearTimeout(ghostPhotoViewerState.hintTimer);v29c1FadeHint();setTimeout(v29c1RemoveHint,280)}
+const v29c1Open=typeof openViewerByPosition==='function'?openViewerByPosition:null;if(v29c1Open){openViewerByPosition=async function(pos){v29c1PrepareViewerHint();await v29c1Open.apply(this,arguments);setTimeout(v29c1ShowHintOnce,150)}}
+const v29c1Draw=typeof drawPremiumPhotoViewer==='function'?drawPremiumPhotoViewer:null;if(v29c1Draw){drawPremiumPhotoViewer=async function(){const shown=ghostPhotoViewerState&&ghostPhotoViewerState.hintHasShown;await v29c1Draw.apply(this,arguments);setTimeout(()=>{const h=document.querySelector('.premiumViewerHint');if(!h)return;if(shown||ghostPhotoViewerState.hintHasShown)h.remove();else v29c1ShowHintOnce()},90)}}
+const v29c1Close=typeof closePremiumPhotoViewer==='function'?closePremiumPhotoViewer:null;if(v29c1Close){closePremiumPhotoViewer=function(){if(typeof ghostPhotoViewerState==='object'){clearTimeout(ghostPhotoViewerState.hintTimer);clearTimeout(ghostPhotoViewerState.hintArmTimer)}return v29c1Close.apply(this,arguments)}}
+const v29c1Tap=typeof premiumViewerTap==='function'?premiumViewerTap:null;if(v29c1Tap){premiumViewerTap=function(e){v29c1DismissHintByUser();return v29c1Tap.apply(this,arguments)}}
+const v29c1TS=typeof premiumViewerTouchStart==='function'?premiumViewerTouchStart:null;if(v29c1TS){premiumViewerTouchStart=function(e){v29c1DismissHintByUser();return v29c1TS.apply(this,arguments)}}
+const v29c1TM=typeof premiumViewerTouchMove==='function'?premiumViewerTouchMove:null;if(v29c1TM){premiumViewerTouchMove=function(e){v29c1DismissHintByUser();return v29c1TM.apply(this,arguments)}}
 
 </script>
 </body>
