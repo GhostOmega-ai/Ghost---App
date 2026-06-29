@@ -1,0 +1,12 @@
+{
+  "source": "/mnt/data/Ghost-v3.0B1-css-cleanup-pass1/index.html",
+  "build": "v3.0B.2-safe-css-cleanup",
+  "javascript_changed": false,
+  "removed_exact_duplicate_non_protected_rules": 3,
+  "css_before": 66185,
+  "css_after": 66106,
+  "html_before": 198553,
+  "html_after": 198471,
+  "syntax_check": "JavaScript syntax check passed.",
+  "missing_assets": []
+}

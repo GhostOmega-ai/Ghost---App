@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v3.0B.2 CSS Cleanup Pass 2</title>
+<title>Ghost v3.0B.2 Safe CSS Cleanup</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -414,6 +414,54 @@ button,input,textarea{font:inherit}
 }
 
 
+/* Ghost v2.4B3 Photo Vault + Photo/+Album Fix */
+.galleryHero .photoHeroActions,
+.videoVaultHero .vaultHeroActions{
+  margin-left:auto!important;
+  display:grid!important;
+  grid-template-rows:1fr 1fr!important;
+  gap:8px!important;
+  min-width:112px!important;
+}
+.galleryHero .photoHeroActions .uploadLabel,
+.galleryHero .photoHeroActions .secondaryHeroBtn,
+.videoVaultHero .vaultHeroActions .videoUpload,
+.videoVaultHero .vaultHeroActions .secondaryHeroBtn{
+  margin-left:0!important;
+  width:100%!important;
+  min-width:112px!important;
+  height:50px!important;
+  display:grid!important;
+  place-items:center!important;
+  text-align:center!important;
+  border-radius:16px!important;
+  padding:0 12px!important;
+  font-weight:900!important;
+  line-height:1!important;
+  background:linear-gradient(180deg,#a75bff,#6620ed)!important;
+  color:white!important;
+  border:0!important;
+  box-shadow:0 0 15px #873cff77!important;
+  cursor:pointer!important;
+}
+@media(max-width:390px){
+  .galleryHero .photoHeroActions,
+  .videoVaultHero .vaultHeroActions{min-width:96px!important;gap:7px!important}
+  .galleryHero .photoHeroActions .uploadLabel,
+  .galleryHero .photoHeroActions .secondaryHeroBtn,
+  .videoVaultHero .vaultHeroActions .videoUpload,
+  .videoVaultHero .vaultHeroActions .secondaryHeroBtn{min-width:96px!important;height:46px!important;font-size:13px!important}
+}
+
+
+/* Ghost v2.5A Album Refactor */
+.galleryHero .photoHeroActions,
+.videoVaultHero .vaultHeroActions{margin-left:auto!important;display:grid!important;grid-template-rows:1fr 1fr!important;gap:8px!important;min-width:112px!important}
+.galleryHero .photoHeroActions .uploadLabel,
+.galleryHero .photoHeroActions .secondaryHeroBtn,
+.videoVaultHero .vaultHeroActions .videoUpload,
+.videoVaultHero .vaultHeroActions .secondaryHeroBtn{margin-left:0!important;width:100%!important;min-width:112px!important;height:50px!important;display:grid!important;place-items:center!important;text-align:center!important;border-radius:16px!important;padding:0 12px!important;font-weight:900!important;line-height:1!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important;border:0!important;box-shadow:0 0 15px #873cff77!important;cursor:pointer!important}
+@media(max-width:390px){.galleryHero .photoHeroActions,.videoVaultHero .vaultHeroActions{min-width:96px!important;gap:7px!important}.galleryHero .photoHeroActions .uploadLabel,.galleryHero .photoHeroActions .secondaryHeroBtn,.videoVaultHero .vaultHeroActions .videoUpload,.videoVaultHero .vaultHeroActions .secondaryHeroBtn{min-width:96px!important;height:46px!important;font-size:13px!important}}
 
 
 /* Ghost v2.5B Recovery Safe Patch */
@@ -670,7 +718,7 @@ button,input,textarea{font:inherit}
 /* Ghost v2.7B Premium Composer + Working Attachments */
 .modernCallBtn svg,.composerEmoji svg,.composerMic svg,.composerSend svg{width:23px!important;height:23px!important;fill:none!important;stroke:#c77dff!important;stroke-width:2.2!important;stroke-linecap:round!important;stroke-linejoin:round!important;filter:drop-shadow(0 0 6px #873cff)!important}.modernCallBtn svg path,.composerSend svg path{fill:#b75cff!important;stroke:none!important}.modernCallBtn{display:grid!important;place-items:center!important;border-radius:999px!important;background:#120d1e99!important;border:1px solid #873cff55!important;box-shadow:0 0 12px #873cff33!important}
 .premiumChatComposer.premiumComposer27B{grid-template-columns:48px minmax(0,1fr) 40px 40px 48px!important;align-items:end!important;transition:all .16s ease!important}.premiumComposer27B textarea{width:100%!important;min-height:48px!important;max-height:138px!important;resize:none!important;overflow:hidden!important;background:#151020!important;border:1px solid #2f184e!important;color:white!important;border-radius:18px!important;padding:13px 14px!important;line-height:1.35!important;outline:0!important;min-width:0!important;transition:height .12s ease,border-color .16s ease,box-shadow .16s ease!important}.premiumComposer27B textarea:focus{border-color:#873cffaa!important;box-shadow:0 0 14px #873cff33!important}.premiumComposer27B button{height:48px!important;display:grid!important;place-items:center!important}.premiumComposer27B .composerSend{background:linear-gradient(180deg,#a75bff,#6620ed)!important;box-shadow:0 0 15px #873cff77!important;transition:opacity .15s ease,transform .15s ease,box-shadow .15s ease!important}.premiumComposer27B .composerSend.isEmpty{opacity:.42!important;box-shadow:none!important}.premiumComposer27B.typing .composerMic{opacity:0!important;transform:scale(.82)!important;pointer-events:none!important}.premiumComposer27B .composerMic{transition:opacity .15s ease,transform .15s ease!important}
-.chatBubble{animation:ghostBubblePop .14s ease!important;white-space:pre-wrap!important}@keyframes ghostBubblePop{from{opacity:.65;transform:translateY(5px) scale(.98)}to{opacity:1;transform:none}}.chatBubble.hasAttachment{padding:8px!important;min-width:180px!important}.chatAttachmentImage{width:100%!important;max-width:230px!important;max-height:280px!important;object-fit:cover!important;border-radius:15px!important;display:block!important}.chatAttachmentVideo{width:100%!important;max-width:240px!important;max-height:280px!important;border-radius:15px!important;display:block!important;background:#000!important}.chatFileCard{display:grid!important;gap:5px!important;padding:10px 12px!important;border-radius:14px!important;background:#08061088!important;border:1px solid #ffffff22!important}.chatFileCard b{font-size:14px!important}.chatFileCard small{font-size:11px!important;color:#d8c7ff!important;justify-self:start!important}
+.chatBubble{animation:ghostBubblePop .14s ease!important;white-space:pre-wrap!important}@keyframes ghostBubblePop{from{opacity:.65;transform:translateY(5px) scale(.98)}}.chatBubble.hasAttachment{padding:8px!important;min-width:180px!important}.chatAttachmentImage{width:100%!important;max-width:230px!important;max-height:280px!important;object-fit:cover!important;border-radius:15px!important;display:block!important}.chatAttachmentVideo{width:100%!important;max-width:240px!important;max-height:280px!important;border-radius:15px!important;display:block!important;background:#000!important}.chatFileCard{display:grid!important;gap:5px!important;padding:10px 12px!important;border-radius:14px!important;background:#08061088!important;border:1px solid #ffffff22!important}.chatFileCard b{font-size:14px!important}.chatFileCard small{font-size:11px!important;color:#d8c7ff!important;justify-self:start!important}
 @media(max-width:390px){.premiumChatComposer.premiumComposer27B{grid-template-columns:44px minmax(0,1fr) 36px 36px 44px!important;gap:6px!important}.premiumComposer27B button{height:44px!important}.premiumComposer27B textarea{min-height:44px!important;padding:12px!important}}
 
 
@@ -786,8 +834,6 @@ button,input,textarea{font:inherit}
     width:0!important;
     min-width:0!important;
   }
-  .premiumComposer27B button{height:44px!important}
-  .premiumComposer27B textarea{min-height:44px!important;padding:12px!important}
 }
 
 
@@ -883,7 +929,7 @@ button,input,textarea{font:inherit}
 /* Ghost v3.0B.1 CSS Cleanup Pass 1: removed audit-approved candidate CSS blocks only. */
 
 
-/* Ghost v3.0B.2 CSS Cleanup Pass 2: removed another tiny set of superseded CSS blocks only. */
+/* Ghost v3.0B.2-safe: removed exact duplicate non-protected CSS rules only. */
 </style>
 
 </head>
@@ -891,7 +937,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v3.0B.2-css-cleanup-pass2';
+const GHOST_BUILD='v3.0B.2-safe-css-cleanup';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
