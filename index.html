@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v2.9C.2 Favourite + Hint Fix</title>
+<title>Ghost v3.0B.1 CSS Cleanup Pass 1</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -926,81 +926,9 @@ button,input,textarea{font:inherit}
 }
 
 
-/* Ghost v2.9C Photo Favourite + Hint Polish */
-.photoFav{display:none!important}
-.photoFav.on,.photoTile .photoFav.on,.photoWrap .photoFav.on{
-  display:grid!important;width:auto!important;height:auto!important;min-width:0!important;border:0!important;border-radius:0!important;
-  background:transparent!important;box-shadow:none!important;color:#b66cff!important;font-size:17px!important;line-height:1!important;
-  top:7px!important;left:7px!important;z-index:6!important;opacity:.78!important;
-  text-shadow:0 0 5px #b66cff,0 0 10px #873cff!important;pointer-events:none!important
-}
-.photoTile .photoFav:not(.on),.photoWrap .photoFav:not(.on){display:none!important}
-.premiumViewerHint{transition:opacity .22s ease,transform .22s ease!important;opacity:.72!important}
-.premiumViewerHint.ghostHintGone{opacity:0!important;transform:translate(-50%,-50%) scale(.96)!important}
-
-/* Ghost v2.9C.1 Hint Hotfix */
-.premiumViewerHint{opacity:.78!important;animation:none!important;transition:opacity .24s ease,transform .24s ease!important}
-.premiumViewerHint.ghostHintGone{opacity:0!important;transform:translate(-50%,-50%) scale(.96)!important}
 
 
-/* Ghost v2.9C.2 Favourite + Hint Fix */
-.photoFav,
-.photoFav:not(.on),
-.photoTile .photoFav,
-.photoWrap .photoFav{
-  display:none!important;
-  visibility:hidden!important;
-  opacity:0!important;
-  background:transparent!important;
-  border:0!important;
-  box-shadow:none!important;
-}
-.photoFav.on,
-.photoTile .photoFav.on,
-.photoWrap .photoFav.on,
-.ghostFavMiniStar{
-  display:grid!important;
-  visibility:visible!important;
-  opacity:.68!important;
-  position:absolute!important;
-  top:7px!important;
-  left:7px!important;
-  width:14px!important;
-  height:14px!important;
-  min-width:14px!important;
-  min-height:14px!important;
-  padding:0!important;
-  margin:0!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  color:#b477ff!important;
-  font-size:14px!important;
-  line-height:14px!important;
-  z-index:8!important;
-  place-items:center!important;
-  box-shadow:none!important;
-  text-shadow:0 0 4px #7d32ff,0 0 8px #873cff!important;
-  pointer-events:none!important;
-}
-.photoFav.on::before,
-.ghostFavMiniStar::before{
-  content:'★'!important;
-}
-.photoFav.on{
-  font-size:0!important;
-}
-.premiumViewerHint{
-  opacity:.82!important;
-  animation:none!important;
-  transition:opacity .28s ease,transform .28s ease!important;
-  pointer-events:none!important;
-}
-.premiumViewerHint.ghostHintGone{
-  opacity:0!important;
-  transform:translate(-50%,-50%) scale(.96)!important;
-}
-
+/* Ghost v3.0B.1 CSS Cleanup Pass 1: removed audit-approved candidate CSS blocks only. */
 </style>
 
 </head>
@@ -1008,7 +936,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v2.9C.2-favourite-hint-fix';
+const GHOST_BUILD='v3.0B.1-css-cleanup-pass1';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');

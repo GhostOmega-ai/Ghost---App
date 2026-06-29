@@ -1,0 +1,22 @@
+{
+  "source": "index (31).html",
+  "build": "v3.0B.1-css-cleanup-pass1",
+  "javascript_changed": false,
+  "html_size_before": 201034,
+  "html_size_after": 198553,
+  "css_size_before": 68663,
+  "css_size_after": 66185,
+  "candidate_labels_from_audit": [
+    "Ghost v2.9C Photo Favourite + Hint Polish",
+    "Ghost v2.9C.1 Hint Hotfix",
+    "Ghost v2.9C.2 Favourite + Hint Fix"
+  ],
+  "removed_labels": [
+    "Ghost v2.9C Photo Favourite + Hint Polish",
+    "Ghost v2.9C.1 Hint Hotfix",
+    "Ghost v2.9C.2 Favourite + Hint Fix"
+  ],
+  "skipped_candidates": [],
+  "syntax_check": "JavaScript syntax check passed.",
+  "missing_assets": []
+}
