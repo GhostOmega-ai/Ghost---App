@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v3.1A Photo Privacy + Favourites</title>
+<title>Ghost v3.1A.1 Favourite Toggle Fix</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -945,7 +945,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v3.1A-photo-privacy-favourites';
+const GHOST_BUILD='v3.1A.1-favourite-toggle-fix';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2643,6 +2643,65 @@ if(typeof videoAlbumIndexes==='function')videoAlbumIndexes=function(album){retur
 if(typeof videoFilteredIndexes==='function')videoFilteredIndexes=function(){return ghostVideoIndexesForAlbum(state.activeVideoAlbum||'Library')};
 if(typeof filteredVideoIndexes==='function')filteredVideoIndexes=function(){return ghostVideoIndexesForAlbum(state.activeVideoAlbum||state.videoAlbum||'Library')};
 ghostApplyPrivacyRules();try{save()}catch(e){}setTimeout(ghostApplyFavouriteBadges,300);
+
+
+/* Ghost v3.1A.1 — Favourite Toggle Fix */
+function ghostV31A1CurrentViewerPhotoIndex(){
+  try{
+    if(typeof ghostPhotoViewerState==='object' && ghostPhotoViewerState.positions && typeof ghostPhotoViewerState.pos==='number'){
+      return ghostPhotoViewerState.positions[ghostPhotoViewerState.pos];
+    }
+  }catch(e){}
+  return -1;
+}
+function ghostV31A1TogglePhotoFavourite(i){
+  const p=state.photos&&state.photos[i];
+  if(!p)return;
+  if(ghostIsPrivateAlbumName(p.album)){
+    p.fav=false;
+    save();
+    flash('Private photos stay private');
+    return;
+  }
+  p.fav=!p.fav;
+  save();
+  flash(p.fav?'Favourite added':'Favourite removed');
+}
+async function ghostV31A1RefreshPhotoUI(){
+  try{await drawPremiumPhotoViewer()}catch(e){}
+  try{await drawPhotos()}catch(e){}
+  try{setTimeout(ghostApplyFavouriteBadges,80)}catch(e){}
+}
+toggleViewerFav=async function(){
+  const i=ghostV31A1CurrentViewerPhotoIndex();
+  ghostV31A1TogglePhotoFavourite(i);
+  await ghostV31A1RefreshPhotoUI();
+};
+togglePhotoFav=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
+toggleFavourite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
+toggleFavorite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
+photoFavourite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
+photoFavorite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
+function ghostV31A1PatchFavButtons(){
+  document.querySelectorAll('button').forEach(btn=>{
+    const txt=(btn.textContent||'').trim();
+    const oc=btn.getAttribute('onclick')||'';
+    if(txt==='★'||txt==='⭐'||oc.includes('Fav')||oc.includes('Favorite')||oc.includes('Favourite')){
+      if(oc.includes('toggleViewerFav')||oc.includes('togglePhotoFav')||oc.includes('toggleFavourite')||oc.includes('toggleFavorite')||oc.includes('photoFavourite')||oc.includes('photoFavorite')){
+        btn.setAttribute('onclick','toggleViewerFav()');
+      }
+    }
+  });
+}
+const ghostV31A1OldDrawPremiumPhotoViewer=typeof drawPremiumPhotoViewer==='function'?drawPremiumPhotoViewer:null;
+if(ghostV31A1OldDrawPremiumPhotoViewer){
+  drawPremiumPhotoViewer=async function(){
+    const r=await ghostV31A1OldDrawPremiumPhotoViewer.apply(this,arguments);
+    setTimeout(ghostV31A1PatchFavButtons,80);
+    return r;
+  };
+}
+setTimeout(ghostV31A1PatchFavButtons,300);
 
 </script>
 </body>
