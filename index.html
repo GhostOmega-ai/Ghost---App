@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v3.1B Private Vault Engine</title>
+<title>Ghost v3.2A Video Vault Rebuild</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -941,6 +941,15 @@ button,input,textarea{font:inherit}
 
 /* Ghost v3.1B Private Vault Engine */
 .ghostPrivacyHidden{display:none!important}
+
+/* Ghost v3.2A Video Vault Rebuild */
+.videoMoveBtn,.videoGhostMoveBtn,.videoSheet button.videoMoveBtn{background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:#fff!important;border:0!important;box-shadow:0 0 15px #873cff77!important;text-align:center!important}
+.videoPrivateWarn{border:1px solid #873cff88!important;background:linear-gradient(145deg,#151020,#07040c)!important;border-radius:20px!important;padding:16px!important;box-shadow:0 0 28px #873cff44!important}
+.videoPrivateWarn h2{color:#d8b6ff!important;text-shadow:0 0 12px #873cff!important}
+.videoVaultTools{display:grid!important;grid-template-columns:1fr 128px!important;gap:8px!important;margin:10px 0 14px!important}
+.videoVaultTools input,.videoVaultTools select{min-width:0!important;background:#11101c!important;border:1px solid #6b2fb3!important;color:white!important;border-radius:15px!important;padding:12px!important;outline:none!important;box-shadow:inset 0 0 12px #873cff22!important}
+.videoVaultTools input:focus,.videoVaultTools select:focus{border-color:#a75bff!important;box-shadow:0 0 14px #873cff44!important}
+.videoPrivateBadge{position:absolute!important;top:7px!important;left:7px!important;z-index:4!important;border-radius:999px!important;padding:4px 7px!important;font-size:10px!important;font-weight:900!important;color:#f1dcff!important;background:#090611cc!important;border:1px solid #873cff99!important;box-shadow:0 0 10px #873cff55!important}
 </style>
 
 </head>
@@ -948,7 +957,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v3.1B-private-vault-engine';
+const GHOST_BUILD='v3.2A-video-vault-rebuild';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2660,6 +2669,108 @@ if(typeof drawPhotos==='function'){const old=drawPhotos;drawPhotos=async functio
 if(typeof drawAlbumHome==='function'){const old=drawAlbumHome;drawAlbumHome=async function(){ghostB_applyPrivacy();const r=await old.apply(this,arguments);setTimeout(ghostB_refreshFavouriteBadges,80);return r}}
 if(typeof drawAlbumPhotos==='function'){const old=drawAlbumPhotos;drawAlbumPhotos=async function(active){ghostB_applyPrivacy();const r=await old.apply(this,arguments);setTimeout(ghostB_refreshFavouriteBadges,80);return r}}
 ghostB_applyPrivacy();try{save()}catch(e){}setTimeout(ghostB_refreshFavouriteBadges,300);
+
+
+/* Ghost v3.2A — Video Vault Rebuild */
+function ghostV32VideoArray(){if(Array.isArray(state.videos))return state.videos;if(Array.isArray(state.videoItems))return state.videoItems;if(Array.isArray(state.videoFiles))return state.videoFiles;state.videos=[];return state.videos}
+function ghostV32IsPrivate(album){return String(album||'').trim().toLowerCase()==='private'}
+function ghostV32Esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function ghostV32VideoName(v){return String((v&&(v.name||v.fileName||v.title||v.caption))||'Video')}
+function ghostV32VideoDate(v){return Number((v&&(v.created||v.date||v.time||v.added))||0)}
+function ghostV32ApplyVideoPrivacy(){try{ghostV32VideoArray().forEach(v=>{if(v&&ghostV32IsPrivate(v.album)){v.fav=false;v.favorite=false;v.favourite=false}})}catch(e){}}
+function ghostV32VideoSearchTerm(){return String(state.videoSearch||'').toLowerCase().trim()}
+function ghostV32VideoSortMode(){return state.videoSort||'newest'}
+function ghostV32BaseVideoIndexes(album){
+  ghostV32ApplyVideoPrivacy();
+  const vids=ghostV32VideoArray();
+  let indexes=[];
+  if(album==='Library'||album==='All'||album==='All Videos')indexes=vids.map((v,i)=>ghostV32IsPrivate(v&&v.album)?-1:i).filter(i=>i>=0);
+  else if(album==='Favourites')indexes=vids.map((v,i)=>(v&&v.fav&&!ghostV32IsPrivate(v.album))?i:-1).filter(i=>i>=0);
+  else indexes=vids.map((v,i)=>((v&&v.album)||'Family')===album?i:-1).filter(i=>i>=0);
+  const q=ghostV32VideoSearchTerm();
+  if(q)indexes=indexes.filter(i=>ghostV32VideoName(vids[i]).toLowerCase().includes(q));
+  const sort=ghostV32VideoSortMode();
+  indexes.sort((a,b)=>{
+    const A=vids[a]||{},B=vids[b]||{};
+    if(sort==='oldest')return ghostV32VideoDate(A)-ghostV32VideoDate(B);
+    if(sort==='az')return ghostV32VideoName(A).localeCompare(ghostV32VideoName(B));
+    if(sort==='za')return ghostV32VideoName(B).localeCompare(ghostV32VideoName(A));
+    return ghostV32VideoDate(B)-ghostV32VideoDate(A);
+  });
+  return indexes;
+}
+videoAlbumIndexes=function(album){return ghostV32BaseVideoIndexes(album)};
+videoFilteredIndexes=function(){return ghostV32BaseVideoIndexes(state.activeVideoAlbum||state.videoAlbum||'Library')};
+filteredVideoIndexes=function(){return ghostV32BaseVideoIndexes(state.activeVideoAlbum||state.videoAlbum||'Library')};
+
+function ghostV32SetVideoSearch(v){state.videoSearch=String(v||'');save();try{videos()}catch(e){try{drawVideoVault()}catch(e2){}}}
+function ghostV32SetVideoSort(v){state.videoSort=String(v||'newest');save();try{videos()}catch(e){try{drawVideoVault()}catch(e2){}}}
+function ghostV32PatchVideoTools(){
+  try{
+    if(document.querySelector('.videoVaultTools'))return;
+    const anchor=document.querySelector('.videoStats,.videoAlbumGrid,.videoTileGrid');
+    if(!anchor)return;
+    const tools=document.createElement('div');
+    tools.className='videoVaultTools';
+    tools.innerHTML=`<input id="ghostVideoSearchInput" placeholder="Search videos..." value="${ghostV32Esc(state.videoSearch||'')}" oninput="ghostV32SetVideoSearch(this.value)"><select id="ghostVideoSortSelect" onchange="ghostV32SetVideoSort(this.value)"><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="az">A-Z</option><option value="za">Z-A</option></select>`;
+    anchor.parentNode.insertBefore(tools,anchor);
+    const sel=document.querySelector('#ghostVideoSortSelect');if(sel)sel.value=state.videoSort||'newest';
+  }catch(e){}
+}
+function ghostV32PatchVideoButtons(){
+  try{
+    const album=state.activeVideoAlbum||state.videoAlbum||'Library';
+    document.querySelectorAll('.videoSheet button,.ghostPlayerBar button,button').forEach(btn=>{
+      const txt=(btn.textContent||'').trim().toLowerCase();
+      const oc=btn.getAttribute('onclick')||'';
+      if(txt.includes('move')||oc.toLowerCase().includes('movevideo'))btn.classList.add('videoMoveBtn');
+      if(ghostV32IsPrivate(album)&&(txt.includes('favourite')||txt.includes('favorite')||txt==='★'||txt==='⭐'||oc.toLowerCase().includes('videofav')))btn.classList.add('ghostPrivacyHidden');
+    });
+  }catch(e){}
+}
+function ghostV32RefreshVideoUI(){setTimeout(ghostV32PatchVideoTools,80);setTimeout(ghostV32PatchVideoButtons,120)}
+function ghostV32ToggleVideoFav(i){
+  const v=ghostV32VideoArray()[i];if(!v)return;
+  if(ghostV32IsPrivate(v.album)){v.fav=false;v.favorite=false;v.favourite=false;save();flash('Private videos stay private');return}
+  v.fav=!v.fav;v.favorite=v.fav;v.favourite=v.fav;save();flash(v.fav?'Favourite added':'Favourite removed');ghostV32RefreshVideoUI();
+}
+toggleVideoFav=function(i){ghostV32ToggleVideoFav(i);try{videos()}catch(e){}};
+toggleVideoFavourite=function(i){ghostV32ToggleVideoFav(i);try{videos()}catch(e){}};
+toggleVideoFavorite=function(i){ghostV32ToggleVideoFav(i);try{videos()}catch(e){}};
+function ghostV32MoveVideoToAlbum(i,album){
+  const v=ghostV32VideoArray()[i];if(!v)return;
+  if(ghostV32IsPrivate(v.album)&&!ghostV32IsPrivate(album)){ghostV32ConfirmRemovePrivateVideo(i,album);return}
+  if(ghostV32IsPrivate(album)){v.fav=false;v.favorite=false;v.favourite=false}
+  v.album=album;save();flash(ghostV32IsPrivate(album)?'Video moved to Private':'Video moved');try{videos()}catch(e){}
+}
+function ghostV32ConfirmRemovePrivateVideo(i,album){
+  closeAlbumModal();
+  const modal=document.createElement('div');
+  modal.className='albumModal viewerModalFix';
+  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard videoPrivateWarn" onclick="event.stopPropagation()"><h2>Remove from Private?</h2><p class="ghostModalSub">This video will no longer be hidden once moved out of the Private album.</p><div class="ghostModalRow"><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button><button class="albumChoice primaryChoice" onclick="ghostV32ForceMoveVideoOut(${i},'${String(album).replace(/'/g,"\\'")}')">Move Out</button></div></div>`;
+  document.body.appendChild(modal);
+}
+function ghostV32ForceMoveVideoOut(i,album){
+  const v=ghostV32VideoArray()[i];if(!v)return;
+  v.album=album;v.fav=false;v.favorite=false;v.favourite=false;save();closeAlbumModal();flash('Video is no longer hidden');try{videos()}catch(e){}
+}
+function ghostV32OpenVideoMoveMenu(i){
+  const list=(typeof videoAlbumList==='function'?videoAlbumList():['Library','Family','Private']).filter(a=>a!=='Favourites');
+  closeAlbumModal();
+  const modal=document.createElement('div');
+  modal.className='albumModal viewerModalFix';
+  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
+  modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>Move Video</h2><p class="ghostModalSub">Choose where this video should live.</p>${list.map(a=>`<button class="albumChoice videoGhostMoveBtn" onclick="ghostV32MoveVideoToAlbum(${i},'${String(a).replace(/'/g,"\\'")}')">${ghostV32Esc(a)}</button>`).join('')}<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;
+  document.body.appendChild(modal);
+}
+moveVideoToAlbum=function(i,album){ghostV32MoveVideoToAlbum(i,album)};
+openVideoMoveMenu=function(i){ghostV32OpenVideoMoveMenu(i)};
+videoMoveMenu=function(i){ghostV32OpenVideoMoveMenu(i)};
+if(typeof videos==='function'){const old=videos;videos=async function(){ghostV32ApplyVideoPrivacy();const r=await old.apply(this,arguments);ghostV32RefreshVideoUI();return r}}
+if(typeof drawVideoVault==='function'){const old=drawVideoVault;drawVideoVault=async function(){ghostV32ApplyVideoPrivacy();const r=await old.apply(this,arguments);ghostV32RefreshVideoUI();return r}}
+if(typeof drawVideoAlbum==='function'){const old=drawVideoAlbum;drawVideoAlbum=async function(){ghostV32ApplyVideoPrivacy();const r=await old.apply(this,arguments);ghostV32RefreshVideoUI();return r}}
+ghostV32ApplyVideoPrivacy();try{save()}catch(e){}setTimeout(ghostV32RefreshVideoUI,300);
 
 </script>
 </body>
