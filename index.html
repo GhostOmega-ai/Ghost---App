@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v3.1A.1 Favourite Toggle Fix</title>
+<title>Ghost v3.1B Private Vault Engine</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -938,6 +938,9 @@ button,input,textarea{font:inherit}
 .infoRenameBtn{width:38px!important;height:38px!important;border-radius:13px!important;border:1px solid #873cff77!important;background:#171126!important;color:#d8b6ff!important;display:grid!important;place-items:center!important;font-size:18px!important;box-shadow:0 0 12px #873cff33!important}
 .infoRows .infoNameRow{grid-template-columns:92px 1fr 42px!important}
 .renamePhotoCard input{width:100%!important;background:#080610!important;border:1px solid #7d32ff88!important;color:white!important;border-radius:16px!important;padding:14px 16px!important;outline:none!important;box-shadow:inset 0 0 12px #873cff22!important;margin:8px 0 12px!important}
+
+/* Ghost v3.1B Private Vault Engine */
+.ghostPrivacyHidden{display:none!important}
 </style>
 
 </head>
@@ -945,7 +948,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v3.1A.1-favourite-toggle-fix';
+const GHOST_BUILD='v3.1B-private-vault-engine';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2617,91 +2620,46 @@ if(v29c2TouchMove){
 }
 
 
-/* Ghost v3.1A — Photo Privacy + Favourite Rebuild */
-function ghostEsc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function ghostIsPrivateAlbumName(a){return String(a||'').toLowerCase()==='private'}
-function ghostPhotoName(i){const p=state.photos&&state.photos[i];return (p&&(p.name||p.fileName||p.title))||'Photo'}
-function ghostApplyPrivacyRules(){try{if(Array.isArray(state.photos))state.photos.forEach(p=>{if(p&&ghostIsPrivateAlbumName(p.album))p.fav=false});['videos','videoItems','videoFiles'].forEach(k=>{if(Array.isArray(state[k]))state[k].forEach(v=>{if(v&&ghostIsPrivateAlbumName(v.album))v.fav=false})})}catch(e){}}
-function ghostNormalPhotoIndexes(album){ghostApplyPrivacyRules();const photos=state.photos||[];if(album==='Library'||album==='All'||album==='All Photos')return photos.map((p,i)=>ghostIsPrivateAlbumName(p&&p.album)?-1:i).filter(i=>i>=0);if(album==='Favourites')return photos.map((p,i)=>(p&&p.fav&&!ghostIsPrivateAlbumName(p.album))?i:-1).filter(i=>i>=0);return photos.map((p,i)=>((p&&p.album)||'Family')===album?i:-1).filter(i=>i>=0)}
-const ghostV31OldSave=typeof save==='function'?save:null;if(ghostV31OldSave){save=function(){ghostApplyPrivacyRules();return ghostV31OldSave.apply(this,arguments)}}
-if(typeof normalizePhotos==='function'){const old=normalizePhotos;normalizePhotos=function(){const r=old.apply(this,arguments);ghostApplyPrivacyRules();return r}}
-if(typeof albumPhotoIndexes==='function')albumPhotoIndexes=function(album){return ghostNormalPhotoIndexes(album)};
-if(typeof filteredPhotoIndexes==='function')filteredPhotoIndexes=function(){return ghostNormalPhotoIndexes(state.activeAlbum||'Library')};
-function ghostRemoveOldFavouriteBadges(){document.querySelectorAll('.photoFav,.viewerFav,.ghostFavMiniStar,.ghostFavSubtle,.ghostFavouriteBadge').forEach(x=>x.remove())}
-function ghostApplyFavouriteBadges(){try{ghostRemoveOldFavouriteBadges();const visible=typeof filteredPhotoIndexes==='function'?filteredPhotoIndexes():[];const tiles=[...document.querySelectorAll('.photoTile,.photoWrap')];tiles.forEach((tile,pos)=>{const i=visible[pos];const p=state.photos&&state.photos[i];if(p&&p.fav&&!ghostIsPrivateAlbumName(p.album)){const b=document.createElement('div');b.className='ghostFavouriteBadge';tile.appendChild(b)}})}catch(e){}}
-if(typeof drawPhotos==='function'){const old=drawPhotos;drawPhotos=async function(){ghostApplyPrivacyRules();const r=await old.apply(this,arguments);setTimeout(ghostApplyFavouriteBadges,80);setTimeout(ghostApplyFavouriteBadges,260);return r}}
-if(typeof drawAlbumHome==='function'){const old=drawAlbumHome;drawAlbumHome=async function(){ghostApplyPrivacyRules();const r=await old.apply(this,arguments);setTimeout(ghostApplyFavouriteBadges,80);return r}}
-if(typeof drawAlbumPhotos==='function'){const old=drawAlbumPhotos;drawAlbumPhotos=async function(active){ghostApplyPrivacyRules();const r=await old.apply(this,arguments);setTimeout(ghostApplyFavouriteBadges,80);return r}}
-if(typeof toggleViewerFav==='function')toggleViewerFav=async function(){const st=ghostPhotoViewerState;const i=st.positions[st.pos];const p=state.photos&&state.photos[i];if(!p)return;if(ghostIsPrivateAlbumName(p.album)){p.fav=false;save();flash('Private photos stay private')}else{p.fav=!p.fav;save();flash(p.fav?'Favourite added':'Favourite removed')}try{await drawPremiumPhotoViewer()}catch(e){}try{drawPhotos()}catch(e){}setTimeout(ghostApplyFavouriteBadges,80)};
-if(typeof moveViewerPhotoToAlbum==='function'){const old=moveViewerPhotoToAlbum;moveViewerPhotoToAlbum=async function(album,i){if(state.photos&&state.photos[i]&&ghostIsPrivateAlbumName(album))state.photos[i].fav=false;const r=await old.apply(this,arguments);ghostApplyPrivacyRules();try{save()}catch(e){}setTimeout(ghostApplyFavouriteBadges,80);return r}}
-function openRenamePhotoFromInfo(i){const p=state.photos&&state.photos[i];if(!p)return;closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal viewerModalFix';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard renamePhotoCard" onclick="event.stopPropagation()"><h2>Rename Photo</h2><p class="ghostModalSub">Change the display name inside Ghost.</p><input id="renamePhotoInput" value="${ghostEsc(ghostPhotoName(i))}" placeholder="Photo name"><div class="ghostModalRow"><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button><button class="albumChoice primaryChoice" onclick="saveRenamedPhoto(${i})">Save</button></div></div>`;document.body.appendChild(modal);setTimeout(()=>{const x=document.querySelector('#renamePhotoInput');if(x){x.focus();x.select()}},80)}
-function saveRenamedPhoto(i){const p=state.photos&&state.photos[i];if(!p)return;const name=(document.querySelector('#renamePhotoInput')?.value||'').trim();if(!name)return flash('Add a photo name');p.name=name;p.renamed=true;save();closeAlbumModal();try{drawPremiumPhotoViewer()}catch(e){}try{drawPhotos()}catch(e){}flash('Photo renamed')}
-function showPhotoInfoPanel(){const st=ghostPhotoViewerState;const i=st.positions[st.pos];const p=state.photos[i]||{};closeAlbumModal();const modal=document.createElement('div');modal.className='albumModal viewerModalFix';modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};modal.innerHTML=`<div class="albumModalCard premiumInfoCard" onclick="event.stopPropagation()"><h2>Photo Info</h2><div class="infoRows"><div><span>Album</span><b>${ghostEsc(p.album||'Library')}</b></div><div><span>Favourite</span><b>${p.fav&&!ghostIsPrivateAlbumName(p.album)?'Yes':'No'}</b></div><div class="infoNameRow"><span>Name</span><b>${ghostEsc(ghostPhotoName(i))}</b><button class="infoRenameBtn" onclick="openRenamePhotoFromInfo(${i})">✎</button></div><div><span>Size</span><b>${typeof formatPhotoBytes==='function'?formatPhotoBytes(p.size||0):(p.size||0)}</b></div><div><span>Date</span><b>${p.created?new Date(p.created).toLocaleString():'Unknown'}</b></div></div><button class="albumChoice" onclick="closeAlbumModal()">Close</button></div>`;document.body.appendChild(modal)}
-function ghostVideoArray(){return Array.isArray(state.videos)?state.videos:Array.isArray(state.videoItems)?state.videoItems:Array.isArray(state.videoFiles)?state.videoFiles:[]}
-function ghostVideoIndexesForAlbum(album){ghostApplyPrivacyRules();const vids=ghostVideoArray();if(album==='Library'||album==='All'||album==='All Videos')return vids.map((v,i)=>ghostIsPrivateAlbumName(v&&v.album)?-1:i).filter(i=>i>=0);if(album==='Favourites')return vids.map((v,i)=>(v&&v.fav&&!ghostIsPrivateAlbumName(v.album))?i:-1).filter(i=>i>=0);return vids.map((v,i)=>((v&&v.album)||'Family')===album?i:-1).filter(i=>i>=0)}
-if(typeof videoAlbumIndexes==='function')videoAlbumIndexes=function(album){return ghostVideoIndexesForAlbum(album)};
-if(typeof videoFilteredIndexes==='function')videoFilteredIndexes=function(){return ghostVideoIndexesForAlbum(state.activeVideoAlbum||'Library')};
-if(typeof filteredVideoIndexes==='function')filteredVideoIndexes=function(){return ghostVideoIndexesForAlbum(state.activeVideoAlbum||state.videoAlbum||'Library')};
-ghostApplyPrivacyRules();try{save()}catch(e){}setTimeout(ghostApplyFavouriteBadges,300);
 
 
-/* Ghost v3.1A.1 — Favourite Toggle Fix */
-function ghostV31A1CurrentViewerPhotoIndex(){
-  try{
-    if(typeof ghostPhotoViewerState==='object' && ghostPhotoViewerState.positions && typeof ghostPhotoViewerState.pos==='number'){
-      return ghostPhotoViewerState.positions[ghostPhotoViewerState.pos];
-    }
-  }catch(e){}
-  return -1;
-}
-function ghostV31A1TogglePhotoFavourite(i){
-  const p=state.photos&&state.photos[i];
-  if(!p)return;
-  if(ghostIsPrivateAlbumName(p.album)){
-    p.fav=false;
-    save();
-    flash('Private photos stay private');
-    return;
-  }
-  p.fav=!p.fav;
-  save();
-  flash(p.fav?'Favourite added':'Favourite removed');
-}
-async function ghostV31A1RefreshPhotoUI(){
-  try{await drawPremiumPhotoViewer()}catch(e){}
-  try{await drawPhotos()}catch(e){}
-  try{setTimeout(ghostApplyFavouriteBadges,80)}catch(e){}
-}
-toggleViewerFav=async function(){
-  const i=ghostV31A1CurrentViewerPhotoIndex();
-  ghostV31A1TogglePhotoFavourite(i);
-  await ghostV31A1RefreshPhotoUI();
-};
-togglePhotoFav=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
-toggleFavourite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
-toggleFavorite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
-photoFavourite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
-photoFavorite=async function(i){ghostV31A1TogglePhotoFavourite(i);await ghostV31A1RefreshPhotoUI()};
-function ghostV31A1PatchFavButtons(){
-  document.querySelectorAll('button').forEach(btn=>{
-    const txt=(btn.textContent||'').trim();
-    const oc=btn.getAttribute('onclick')||'';
-    if(txt==='★'||txt==='⭐'||oc.includes('Fav')||oc.includes('Favorite')||oc.includes('Favourite')){
-      if(oc.includes('toggleViewerFav')||oc.includes('togglePhotoFav')||oc.includes('toggleFavourite')||oc.includes('toggleFavorite')||oc.includes('photoFavourite')||oc.includes('photoFavorite')){
-        btn.setAttribute('onclick','toggleViewerFav()');
-      }
-    }
-  });
-}
-const ghostV31A1OldDrawPremiumPhotoViewer=typeof drawPremiumPhotoViewer==='function'?drawPremiumPhotoViewer:null;
-if(ghostV31A1OldDrawPremiumPhotoViewer){
-  drawPremiumPhotoViewer=async function(){
-    const r=await ghostV31A1OldDrawPremiumPhotoViewer.apply(this,arguments);
-    setTimeout(ghostV31A1PatchFavButtons,80);
-    return r;
-  };
-}
-setTimeout(ghostV31A1PatchFavButtons,300);
+
+/* Ghost v3.1B — Private Vault Engine */
+function ghostB_isPrivateAlbum(album){return String(album||'').trim().toLowerCase()==='private'}
+function ghostB_photoArray(){return Array.isArray(state.photos)?state.photos:[]}
+function ghostB_videoKeys(){return ['videos','videoItems','videoFiles']}
+function ghostB_videoArray(){for(const k of ghostB_videoKeys()){if(Array.isArray(state[k]))return state[k]}return []}
+function ghostB_normaliseItemPrivacy(item){if(item&&ghostB_isPrivateAlbum(item.album)){item.fav=false;item.favorite=false;item.favourite=false}return item}
+function ghostB_applyPrivacy(){try{ghostB_photoArray().forEach(ghostB_normaliseItemPrivacy);ghostB_videoKeys().forEach(k=>{if(Array.isArray(state[k]))state[k].forEach(ghostB_normaliseItemPrivacy)})}catch(e){}}
+function ghostB_photoIndexesForAlbum(album){ghostB_applyPrivacy();const photos=ghostB_photoArray();if(album==='Library'||album==='All'||album==='All Photos')return photos.map((p,i)=>ghostB_isPrivateAlbum(p&&p.album)?-1:i).filter(i=>i>=0);if(album==='Favourites')return photos.map((p,i)=>(p&&p.fav&&!ghostB_isPrivateAlbum(p.album))?i:-1).filter(i=>i>=0);return photos.map((p,i)=>((p&&p.album)||'Private')===album?i:-1).filter(i=>i>=0)}
+function ghostB_videoIndexesForAlbum(album){ghostB_applyPrivacy();const vids=ghostB_videoArray();if(album==='Library'||album==='All'||album==='All Videos')return vids.map((v,i)=>ghostB_isPrivateAlbum(v&&v.album)?-1:i).filter(i=>i>=0);if(album==='Favourites')return vids.map((v,i)=>(v&&v.fav&&!ghostB_isPrivateAlbum(v.album))?i:-1).filter(i=>i>=0);return vids.map((v,i)=>((v&&v.album)||'Private')===album?i:-1).filter(i=>i>=0)}
+function ghostB_currentPhotoIndex(){try{if(typeof ghostPhotoViewerState==='object'&&ghostPhotoViewerState.positions&&typeof ghostPhotoViewerState.pos==='number')return ghostPhotoViewerState.positions[ghostPhotoViewerState.pos]}catch(e){}return -1}
+function ghostB_refreshFavouriteBadges(){try{if(typeof ghostApplyFavouriteBadges==='function')ghostApplyFavouriteBadges()}catch(e){}}
+function ghostB_togglePhotoFavourite(index){const p=ghostB_photoArray()[index];if(!p)return;if(ghostB_isPrivateAlbum(p.album)){p.fav=false;p.favorite=false;p.favourite=false;save();flash('Private photos stay private');return}p.fav=!p.fav;p.favorite=p.fav;p.favourite=p.fav;save();flash(p.fav?'Favourite added':'Favourite removed')}
+async function ghostB_refreshPhotoViews(){try{await drawPremiumPhotoViewer()}catch(e){}try{await drawPhotos()}catch(e){}setTimeout(ghostB_refreshFavouriteBadges,90)}
+const ghostB_originalSave=typeof save==='function'?save:null;if(ghostB_originalSave){save=function(){ghostB_applyPrivacy();return ghostB_originalSave.apply(this,arguments)}}
+albumPhotoIndexes=function(album){return ghostB_photoIndexesForAlbum(album)};
+filteredPhotoIndexes=function(){return ghostB_photoIndexesForAlbum(state.activeAlbum||'Library')};
+toggleViewerFav=async function(){ghostB_togglePhotoFavourite(ghostB_currentPhotoIndex());await ghostB_refreshPhotoViews()};
+togglePhotoFav=async function(i){ghostB_togglePhotoFavourite(i);await ghostB_refreshPhotoViews()};
+toggleFavourite=async function(i){ghostB_togglePhotoFavourite(i);await ghostB_refreshPhotoViews()};
+toggleFavorite=async function(i){ghostB_togglePhotoFavourite(i);await ghostB_refreshPhotoViews()};
+photoFavourite=async function(i){ghostB_togglePhotoFavourite(i);await ghostB_refreshPhotoViews()};
+photoFavorite=async function(i){ghostB_togglePhotoFavourite(i);await ghostB_refreshPhotoViews()};
+function ghostB_forcePrivateMoveRules(album,index,arrayGetter){const arr=arrayGetter();const item=arr[index];if(item&&ghostB_isPrivateAlbum(album)){item.fav=false;item.favorite=false;item.favourite=false}}
+if(typeof moveViewerPhotoToAlbum==='function'){const old=moveViewerPhotoToAlbum;moveViewerPhotoToAlbum=async function(album,i){ghostB_forcePrivateMoveRules(album,i,ghostB_photoArray);const r=await old.apply(this,arguments);ghostB_applyPrivacy();try{save()}catch(e){}setTimeout(ghostB_refreshFavouriteBadges,90);return r}}
+if(typeof moveSelectedPhotosToAlbum==='function'){const old=moveSelectedPhotosToAlbum;moveSelectedPhotosToAlbum=async function(album){if(ghostB_isPrivateAlbum(album)&&Array.isArray(selectedPhotos))selectedPhotos.forEach(i=>ghostB_forcePrivateMoveRules(album,i,ghostB_photoArray));const r=await old.apply(this,arguments);ghostB_applyPrivacy();try{save()}catch(e){}return r}}
+if(typeof movePhotosToAlbum==='function'){const old=movePhotosToAlbum;movePhotosToAlbum=async function(indexes,album){if(ghostB_isPrivateAlbum(album)&&Array.isArray(indexes))indexes.forEach(i=>ghostB_forcePrivateMoveRules(album,i,ghostB_photoArray));const r=await old.apply(this,arguments);ghostB_applyPrivacy();try{save()}catch(e){}return r}}
+videoAlbumIndexes=function(album){return ghostB_videoIndexesForAlbum(album)};
+videoFilteredIndexes=function(){return ghostB_videoIndexesForAlbum(state.activeVideoAlbum||state.videoAlbum||'Library')};
+filteredVideoIndexes=function(){return ghostB_videoIndexesForAlbum(state.activeVideoAlbum||state.videoAlbum||'Library')};
+function ghostB_toggleVideoFavourite(index){const v=ghostB_videoArray()[index];if(!v)return;if(ghostB_isPrivateAlbum(v.album)){v.fav=false;v.favorite=false;v.favourite=false;save();flash('Private videos stay private');return}v.fav=!v.fav;v.favorite=v.fav;v.favourite=v.fav;save();flash(v.fav?'Favourite added':'Favourite removed')}
+toggleVideoFav=function(i){ghostB_toggleVideoFavourite(i);try{videos()}catch(e){}};
+toggleVideoFavourite=function(i){ghostB_toggleVideoFavourite(i);try{videos()}catch(e){}};
+toggleVideoFavorite=function(i){ghostB_toggleVideoFavourite(i);try{videos()}catch(e){}};
+if(typeof drawPhotos==='function'){const old=drawPhotos;drawPhotos=async function(){ghostB_applyPrivacy();const r=await old.apply(this,arguments);setTimeout(ghostB_refreshFavouriteBadges,80);return r}}
+if(typeof drawAlbumHome==='function'){const old=drawAlbumHome;drawAlbumHome=async function(){ghostB_applyPrivacy();const r=await old.apply(this,arguments);setTimeout(ghostB_refreshFavouriteBadges,80);return r}}
+if(typeof drawAlbumPhotos==='function'){const old=drawAlbumPhotos;drawAlbumPhotos=async function(active){ghostB_applyPrivacy();const r=await old.apply(this,arguments);setTimeout(ghostB_refreshFavouriteBadges,80);return r}}
+ghostB_applyPrivacy();try{save()}catch(e){}setTimeout(ghostB_refreshFavouriteBadges,300);
 
 </script>
 </body>

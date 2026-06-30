@@ -1,0 +1,9 @@
+{
+  "source": "index (34).html",
+  "build": "v3.1B-private-vault-engine",
+  "removed_old_js_blocks": 2,
+  "syntax_check": "JavaScript syntax check passed.",
+  "missing_assets": [],
+  "original_size": 208943,
+  "new_size": 205728
+}
