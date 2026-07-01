@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v3.2A.1 Video Vault Hotfix</title>
+<title>Ghost v3.2A.2 Video Interaction Fix</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -962,6 +962,12 @@ button,input,textarea{font:inherit}
 .videoTile.ghostLongPressReady,.videoTileThumb.ghostLongPressReady{outline:2px solid #873cff77!important;box-shadow:0 0 16px #873cff66!important}
 .videoTile.selected,.videoTileThumb.selected{outline:3px solid #a75bff!important;filter:brightness(.88)!important}
 .videoSelectTick{position:absolute!important;top:7px!important;right:7px!important;width:25px!important;height:25px!important;border-radius:999px!important;background:#a75bff!important;color:#fff!important;display:grid!important;place-items:center!important;font-size:15px!important;font-weight:900!important;z-index:8!important;box-shadow:0 0 12px #873cff!important}
+
+/* Ghost v3.2A.2 Video Interaction Fix */
+.videoFavPrivateHidden{display:none!important}
+.videoTile.ghostVideoSelected,.videoTileThumb.ghostVideoSelected{outline:3px solid #a75bff!important;box-shadow:0 0 18px #873cff99!important;filter:brightness(.82)!important}
+.videoSelectTick{position:absolute!important;top:7px!important;right:7px!important;width:25px!important;height:25px!important;border-radius:999px!important;background:#a75bff!important;color:white!important;display:grid!important;place-items:center!important;font-weight:900!important;z-index:9!important;box-shadow:0 0 12px #873cff!important}
+.videoVaultTools input,.videoVaultTools select{pointer-events:auto!important;touch-action:manipulation!important}
 </style>
 
 </head>
@@ -969,7 +975,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v3.2A.1-video-hotfix';
+const GHOST_BUILD='v3.2A.2-video-interaction-fix';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2807,6 +2813,84 @@ function ghostV321PatchAll(){ghostV321EnsureVideoIcon();ghostV321HidePrivateFav(
 if(typeof videos==='function'){const old=videos;videos=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV321PatchAll,80);setTimeout(ghostV321PatchAll,300);return r}}
 if(typeof drawVideoVault==='function'){const old=drawVideoVault;drawVideoVault=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV321PatchAll,80);return r}}
 setTimeout(ghostV321PatchAll,300);
+
+
+/* Ghost v3.2A.2 — Video Interaction Fix */
+function ghostV322VideoArray(){if(Array.isArray(state.videos))return state.videos;if(Array.isArray(state.videoItems))return state.videoItems;if(Array.isArray(state.videoFiles))return state.videoFiles;state.videos=[];return state.videos}
+function ghostV322IsPrivate(a){return String(a||'').trim().toLowerCase()==='private'}
+function ghostV322Album(){return state.activeVideoAlbum||state.videoAlbum||'Library'}
+function ghostV322Name(v){return String((v&&(v.name||v.fileName||v.title||v.caption))||'Video')}
+function ghostV322Date(v){return Number((v&&(v.created||v.date||v.time||v.added))||0)}
+function ghostV322VisibleIndexes(){
+ const vids=ghostV322VideoArray(), album=ghostV322Album(); let idx=[];
+ if(album==='Library'||album==='All'||album==='All Videos')idx=vids.map((v,i)=>ghostV322IsPrivate(v&&v.album)?-1:i).filter(i=>i>=0);
+ else if(album==='Favourites')idx=vids.map((v,i)=>(v&&v.fav&&!ghostV322IsPrivate(v.album))?i:-1).filter(i=>i>=0);
+ else idx=vids.map((v,i)=>((v&&v.album)||'Family')===album?i:-1).filter(i=>i>=0);
+ const q=String(state.videoSearch||'').toLowerCase().trim(); if(q)idx=idx.filter(i=>ghostV322Name(vids[i]).toLowerCase().includes(q));
+ const s=state.videoSort||'newest';
+ idx.sort((a,b)=>{const A=vids[a]||{},B=vids[b]||{}; if(s==='oldest')return ghostV322Date(A)-ghostV322Date(B); if(s==='az')return ghostV322Name(A).localeCompare(ghostV322Name(B)); if(s==='za')return ghostV322Name(B).localeCompare(ghostV322Name(A)); return ghostV322Date(B)-ghostV322Date(A)});
+ return idx;
+}
+videoAlbumIndexes=function(album){const oa=state.videoAlbum, ob=state.activeVideoAlbum;state.videoAlbum=album;state.activeVideoAlbum=album;const r=ghostV322VisibleIndexes();state.videoAlbum=oa;state.activeVideoAlbum=ob;return r};
+videoFilteredIndexes=function(){return ghostV322VisibleIndexes()};
+filteredVideoIndexes=function(){return ghostV322VisibleIndexes()};
+function ghostV322HidePrivateFavNow(){
+ try{
+  const privateMode=ghostV322IsPrivate(ghostV322Album());
+  document.querySelectorAll('button').forEach(btn=>{
+   const txt=(btn.textContent||'').trim().toLowerCase(), oc=(btn.getAttribute('onclick')||'').toLowerCase();
+   const fav=txt.includes('add to favourite')||txt.includes('add to favorite')||txt.includes('favourite')||txt.includes('favorite')||txt==='☆'||txt==='★'||txt==='⭐'||oc.includes('videofav')||oc.includes('videofavourite')||oc.includes('videofavorite');
+   if(fav&&privateMode){btn.classList.add('videoFavPrivateHidden');btn.style.setProperty('display','none','important')}
+   else if(fav&&!privateMode){btn.classList.remove('videoFavPrivateHidden');btn.style.removeProperty('display')}
+  });
+ }catch(e){}
+}
+let ghostV322Timer=null;
+function ghostV322RenderInstant(){
+ clearTimeout(ghostV322Timer);
+ ghostV322Timer=setTimeout(async()=>{
+  const val=state.videoSearch||'', sortVal=state.videoSort||'newest';
+  try{await videos()}catch(e){try{await drawVideoVault()}catch(e2){}}
+  setTimeout(()=>{const s=document.querySelector('#ghostVideoSearchInput,.videoVaultTools input');const sort=document.querySelector('#ghostVideoSortSelect,.videoVaultTools select');if(s){s.value=val;s.focus();try{s.setSelectionRange(s.value.length,s.value.length)}catch(e){}}if(sort)sort.value=sortVal;ghostV322PatchAll()},50);
+ },90);
+}
+function ghostV322BindTools(){
+ try{
+  const search=document.querySelector('#ghostVideoSearchInput,.videoVaultTools input,input[placeholder*="Search videos"]');
+  const sort=document.querySelector('#ghostVideoSortSelect,.videoVaultTools select');
+  if(search&&search.dataset.ghostV322!=='1'){search.dataset.ghostV322='1';search.oninput=function(){state.videoSearch=this.value||'';try{save()}catch(e){}ghostV322RenderInstant()};}
+  if(sort&&sort.dataset.ghostV322!=='1'){sort.dataset.ghostV322='1';sort.onchange=function(){state.videoSort=this.value||'newest';try{save()}catch(e){}ghostV322RenderInstant()};}
+ }catch(e){}
+}
+if(!Array.isArray(state.selectedVideos))state.selectedVideos=[];
+function ghostV322ToggleSelected(i,tile){
+ const a=state.selectedVideos; const p=a.indexOf(i); if(p>=0)a.splice(p,1); else a.push(i);
+ if(tile){tile.classList.toggle('ghostVideoSelected',a.includes(i));let t=tile.querySelector('.videoSelectTick');if(a.includes(i)){if(!t){t=document.createElement('div');t.className='videoSelectTick';t.textContent='✓';tile.appendChild(t)}}else if(t)t.remove()}
+ try{flash(a.length+' selected')}catch(e){}
+}
+function ghostV322PatchLongPress(){
+ try{
+  const visible=ghostV322VisibleIndexes();
+  document.querySelectorAll('.videoTile,.videoTileThumb').forEach((tile,pos)=>{
+   if(tile.dataset.ghostV322Long==='1')return; tile.dataset.ghostV322Long='1';
+   let timer=null,did=false;
+   const start=()=>{did=false;timer=setTimeout(()=>{did=true;ghostV322ToggleSelected(visible[pos]??pos,tile)},450)};
+   const cancel=()=>{if(timer){clearTimeout(timer);timer=null}};
+   tile.addEventListener('touchstart',start,{passive:true,capture:true});
+   tile.addEventListener('touchmove',cancel,{passive:true,capture:true});
+   tile.addEventListener('touchend',ev=>{cancel();if(did){ev.preventDefault();ev.stopPropagation()}},{capture:true});
+   tile.addEventListener('click',ev=>{if(did){ev.preventDefault();ev.stopImmediatePropagation();did=false}},true);
+   tile.addEventListener('mousedown',start,true); tile.addEventListener('mouseup',cancel,true); tile.addEventListener('mouseleave',cancel,true);
+  });
+ }catch(e){}
+}
+function ghostV322PatchAll(){ghostV322HidePrivateFavNow();ghostV322BindTools();ghostV322PatchLongPress()}
+if(typeof videos==='function'){const old=videos;videos=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV322PatchAll,40);setTimeout(ghostV322PatchAll,180);return r}}
+if(typeof drawVideoVault==='function'){const old=drawVideoVault;drawVideoVault=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV322PatchAll,40);setTimeout(ghostV322PatchAll,180);return r}}
+if(typeof openVideoPlayer==='function'){const old=openVideoPlayer;openVideoPlayer=function(){const r=old.apply(this,arguments);setTimeout(ghostV322HidePrivateFavNow,40);setTimeout(ghostV322HidePrivateFavNow,160);return r}}
+if(typeof openVideoSheet==='function'){const old=openVideoSheet;openVideoSheet=function(){const r=old.apply(this,arguments);setTimeout(ghostV322HidePrivateFavNow,40);setTimeout(ghostV322HidePrivateFavNow,160);return r}}
+setInterval(()=>{try{ghostV322HidePrivateFavNow();ghostV322BindTools()}catch(e){}},700);
+setTimeout(ghostV322PatchAll,250);
 
 </script>
 </body>
