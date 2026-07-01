@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v3.2A.2 Video Interaction Fix</title>
+<title>Ghost v3.3A Video Vault Rebuild</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -968,6 +968,17 @@ button,input,textarea{font:inherit}
 .videoTile.ghostVideoSelected,.videoTileThumb.ghostVideoSelected{outline:3px solid #a75bff!important;box-shadow:0 0 18px #873cff99!important;filter:brightness(.82)!important}
 .videoSelectTick{position:absolute!important;top:7px!important;right:7px!important;width:25px!important;height:25px!important;border-radius:999px!important;background:#a75bff!important;color:white!important;display:grid!important;place-items:center!important;font-weight:900!important;z-index:9!important;box-shadow:0 0 12px #873cff!important}
 .videoVaultTools input,.videoVaultTools select{pointer-events:auto!important;touch-action:manipulation!important}
+
+/* Ghost v3.3A — Clean Video Vault Rebuild */
+.v33VideoPage{padding-bottom:112px!important}.v33VideoHead{display:grid!important;grid-template-columns:52px 1fr 52px!important;gap:10px!important;align-items:center!important;margin:8px 0 14px!important}.v33Btn{height:52px!important;border-radius:17px!important;border:1px solid #642ba5!important;background:#100b19!important;color:white!important;font-size:24px!important;box-shadow:0 0 12px #873cff22!important}.v33Title h2{margin:0!important;font-size:30px!important;line-height:1!important}.v33Title p{margin:6px 0 0!important;color:#aaa2b7!important;font-size:14px!important}
+.v33Tools{display:grid!important;grid-template-columns:1fr 126px!important;gap:9px!important;margin:10px 0 16px!important}.v33Tools input,.v33Tools select{min-width:0!important;background:#100b19!important;border:1px solid #6b2fb3!important;color:white!important;border-radius:16px!important;padding:13px!important;outline:none!important;font-size:15px!important;box-shadow:inset 0 0 12px #873cff22!important}.v33Tools input:focus,.v33Tools select:focus{border-color:#a75bff!important;box-shadow:0 0 16px #873cff55!important}
+.v33Hero{border:1px solid #552681!important;background:linear-gradient(145deg,#181229,#090713)!important;border-radius:24px!important;padding:14px!important;margin:4px 0 14px!important;display:flex!important;align-items:center!important;gap:12px!important;box-shadow:0 10px 30px #0005!important}.v33HeroIcon{width:66px!important;height:66px!important;min-width:66px!important;border-radius:20px!important;background:#05030b!important;border:1px solid #7d32ff66!important;box-shadow:0 0 18px #873cff66!important;overflow:hidden!important;display:grid!important;place-items:center!important}.v33HeroIcon img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}.v33Hero h3{margin:0 0 4px!important;font-size:20px!important}.v33Hero p{margin:0!important;color:#aaa2b7!important;font-size:13px!important}.v33HeroActions{margin-left:auto!important;display:grid!important;gap:8px!important;min-width:98px!important}.v33HeroActions button,.v33HeroActions label{height:45px!important;border-radius:15px!important;border:0!important;background:linear-gradient(180deg,#a75bff,#6620ed)!important;color:white!important;font-weight:900!important;display:grid!important;place-items:center!important;box-shadow:0 0 15px #873cff77!important}
+.v33Albums{display:grid!important;grid-template-columns:repeat(2,1fr)!important;gap:12px!important;margin:12px 0!important}.v33Album{position:relative!important;min-height:160px!important;border:1px solid #4b2574!important;border-radius:22px!important;overflow:hidden!important;background:linear-gradient(145deg,#181229,#090713)!important;box-shadow:0 10px 30px #0006!important;text-align:left!important;color:white!important;padding:0!important}.v33Cover{height:112px!important;background:#05030b!important;display:grid!important;place-items:center!important;position:relative!important;overflow:hidden!important}.v33Cover img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}.v33Cover span{font-size:42px!important;filter:drop-shadow(0 0 12px #873cff)}.v33AlbumMeta{position:absolute!important;left:0!important;right:0!important;bottom:0!important;padding:34px 12px 10px!important;background:linear-gradient(transparent,rgba(0,0,0,.96))!important;z-index:2!important}.v33AlbumMeta h3{margin:0 0 3px!important;font-size:17px!important;text-shadow:0 2px 8px #000!important}.v33AlbumMeta p{margin:0!important;color:#ddd!important;font-size:12px!important}
+.v33Grid{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:10px!important;margin-top:12px!important}.v33Tile{position:relative!important;min-width:0!important;color:white!important}.v33Thumb{aspect-ratio:1.05!important;border:1px solid #4b2574!important;border-radius:16px!important;background:radial-gradient(circle at center,#25103f,#05030b 72%)!important;position:relative!important;overflow:hidden!important;display:grid!important;place-items:center!important;box-shadow:0 8px 20px #0006!important}.v33Thumb img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}.v33Play{position:relative!important;z-index:2!important;width:46px!important;height:46px!important;border-radius:999px!important;background:#000a!important;border:1px solid #ffffff55!important;display:grid!important;place-items:center!important;color:white!important;font-size:18px!important;box-shadow:0 0 14px #873cff88!important}.v33Duration{position:absolute!important;right:6px!important;bottom:6px!important;border-radius:8px!important;background:#000c!important;color:#fff!important;padding:3px 5px!important;font-size:11px!important;z-index:2!important}.v33Name{font-size:13px!important;color:#fff!important;margin-top:7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.v33Meta{font-size:11px!important;color:#aaa2b7!important;margin-top:2px!important}.v33Tile.selected .v33Thumb{outline:3px solid #a75bff!important;filter:brightness(.78)!important;box-shadow:0 0 18px #873cff99!important}.v33Tick{position:absolute!important;top:7px!important;right:7px!important;width:26px!important;height:26px!important;border-radius:999px!important;background:#a75bff!important;color:#fff!important;display:grid!important;place-items:center!important;font-weight:900!important;z-index:7!important;box-shadow:0 0 12px #873cff!important}.v33PrivateBadge{position:absolute!important;top:7px!important;left:7px!important;z-index:7!important;border-radius:999px!important;padding:4px 7px!important;font-size:10px!important;font-weight:900!important;color:#f1dcff!important;background:#090611cc!important;border:1px solid #873cff99!important;box-shadow:0 0 10px #873cff55!important}
+.v33SelectBar{position:sticky!important;top:0!important;z-index:40!important;background:#090611f2!important;border:1px solid #4b2574!important;border-radius:20px!important;padding:10px!important;margin-bottom:12px!important;display:flex!important;align-items:center!important;gap:8px!important;box-shadow:0 8px 24px #0007!important;backdrop-filter:blur(12px)!important}.v33SelectBar strong{flex:1!important}.v33SelectBar button{border:0!important;background:#171126!important;color:white!important;border-radius:13px!important;padding:10px 12px!important;font-weight:800!important}.v33SelectBar .danger{background:#ff514f!important}.v33Empty{text-align:center!important;padding:36px 16px!important;color:#aaa2b7!important}.v33Empty .bigVideo{font-size:56px!important;margin-bottom:10px!important}
+.v33SheetBack{position:fixed!important;inset:0!important;background:#000c!important;z-index:1200!important;display:grid!important;align-items:end!important;padding:16px!important}.v33Sheet{background:linear-gradient(145deg,#151020,#05030b)!important;border:1px solid #873cff!important;border-radius:24px!important;padding:14px!important;box-shadow:0 0 34px #873cff66,inset 0 0 18px #873cff14!important}.v33Sheet h2{margin:0 42px 4px 0!important;font-size:20px!important;text-shadow:0 0 12px #873cff!important}.v33Sheet p{margin:0 42px 12px 0!important;color:#aaa2b7!important;font-size:13px!important}.v33Sheet button,.v33Sheet label{display:block!important;width:100%!important;background:#11101c!important;border:1px solid #2d174a!important;color:white!important;text-align:left!important;padding:14px 16px!important;font-weight:800!important;border-radius:15px!important;margin:7px 0!important}.v33Sheet .primary{background:linear-gradient(180deg,#a75bff,#6620ed)!important;border:0!important;box-shadow:0 0 15px #873cff66!important;text-align:center!important}.v33Sheet .danger{color:#ff6868!important;border-color:#5a1d34!important}.v33Close{position:absolute!important;right:30px!important;margin-top:-2px!important;width:34px!important;height:34px!important;border-radius:999px!important;padding:0!important;text-align:center!important}
+.v33Player{position:fixed!important;inset:0!important;background:#020204f4!important;z-index:1100!important;padding:18px!important;display:flex!important;flex-direction:column!important}.v33PlayerTop{display:grid!important;grid-template-columns:52px 1fr 52px 52px!important;gap:10px!important;align-items:center!important;margin-bottom:14px!important}.v33PlayerTop button{height:52px!important;border-radius:17px!important;border:1px solid #642ba5!important;background:#100b19!important;color:white!important;font-size:25px!important}.v33PlayerTop strong{text-align:center!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:18px!important}.v33Player video{width:100%!important;max-height:76vh!important;margin:auto 0!important;border-radius:20px!important;background:#000!important;box-shadow:0 0 25px #873cff66!important}
+@media(max-width:390px){.v33Grid{gap:8px!important}.v33Tools{grid-template-columns:1fr 108px!important}.v33Title h2{font-size:27px!important}.v33HeroActions{min-width:88px!important}.v33HeroActions button,.v33HeroActions label{height:43px!important;font-size:13px!important}.v33SelectBar{overflow:auto!important}}
 </style>
 
 </head>
@@ -975,7 +986,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v3.2A.2-video-interaction-fix';
+const GHOST_BUILD='v3.3A-video-vault-rebuild';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2689,208 +2700,56 @@ if(typeof drawAlbumPhotos==='function'){const old=drawAlbumPhotos;drawAlbumPhoto
 ghostB_applyPrivacy();try{save()}catch(e){}setTimeout(ghostB_refreshFavouriteBadges,300);
 
 
-/* Ghost v3.2A — Video Vault Rebuild */
-function ghostV32VideoArray(){if(Array.isArray(state.videos))return state.videos;if(Array.isArray(state.videoItems))return state.videoItems;if(Array.isArray(state.videoFiles))return state.videoFiles;state.videos=[];return state.videos}
-function ghostV32IsPrivate(album){return String(album||'').trim().toLowerCase()==='private'}
-function ghostV32Esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function ghostV32VideoName(v){return String((v&&(v.name||v.fileName||v.title||v.caption))||'Video')}
-function ghostV32VideoDate(v){return Number((v&&(v.created||v.date||v.time||v.added))||0)}
-function ghostV32ApplyVideoPrivacy(){try{ghostV32VideoArray().forEach(v=>{if(v&&ghostV32IsPrivate(v.album)){v.fav=false;v.favorite=false;v.favourite=false}})}catch(e){}}
-function ghostV32VideoSearchTerm(){return String(state.videoSearch||'').toLowerCase().trim()}
-function ghostV32VideoSortMode(){return state.videoSort||'newest'}
-function ghostV32BaseVideoIndexes(album){
-  ghostV32ApplyVideoPrivacy();
-  const vids=ghostV32VideoArray();
-  let indexes=[];
-  if(album==='Library'||album==='All'||album==='All Videos')indexes=vids.map((v,i)=>ghostV32IsPrivate(v&&v.album)?-1:i).filter(i=>i>=0);
-  else if(album==='Favourites')indexes=vids.map((v,i)=>(v&&v.fav&&!ghostV32IsPrivate(v.album))?i:-1).filter(i=>i>=0);
-  else indexes=vids.map((v,i)=>((v&&v.album)||'Family')===album?i:-1).filter(i=>i>=0);
-  const q=ghostV32VideoSearchTerm();
-  if(q)indexes=indexes.filter(i=>ghostV32VideoName(vids[i]).toLowerCase().includes(q));
-  const sort=ghostV32VideoSortMode();
-  indexes.sort((a,b)=>{
-    const A=vids[a]||{},B=vids[b]||{};
-    if(sort==='oldest')return ghostV32VideoDate(A)-ghostV32VideoDate(B);
-    if(sort==='az')return ghostV32VideoName(A).localeCompare(ghostV32VideoName(B));
-    if(sort==='za')return ghostV32VideoName(B).localeCompare(ghostV32VideoName(A));
-    return ghostV32VideoDate(B)-ghostV32VideoDate(A);
-  });
-  return indexes;
-}
-videoAlbumIndexes=function(album){return ghostV32BaseVideoIndexes(album)};
-videoFilteredIndexes=function(){return ghostV32BaseVideoIndexes(state.activeVideoAlbum||state.videoAlbum||'Library')};
-filteredVideoIndexes=function(){return ghostV32BaseVideoIndexes(state.activeVideoAlbum||state.videoAlbum||'Library')};
-
-function ghostV32SetVideoSearch(v){state.videoSearch=String(v||'');save();try{videos()}catch(e){try{drawVideoVault()}catch(e2){}}}
-function ghostV32SetVideoSort(v){state.videoSort=String(v||'newest');save();try{videos()}catch(e){try{drawVideoVault()}catch(e2){}}}
-function ghostV32PatchVideoTools(){
-  try{
-    if(document.querySelector('.videoVaultTools'))return;
-    const anchor=document.querySelector('.videoStats,.videoAlbumGrid,.videoTileGrid');
-    if(!anchor)return;
-    const tools=document.createElement('div');
-    tools.className='videoVaultTools';
-    tools.innerHTML=`<input id="ghostVideoSearchInput" placeholder="Search videos..." value="${ghostV32Esc(state.videoSearch||'')}" oninput="ghostV32SetVideoSearch(this.value)"><select id="ghostVideoSortSelect" onchange="ghostV32SetVideoSort(this.value)"><option value="newest">Newest</option><option value="oldest">Oldest</option><option value="az">A-Z</option><option value="za">Z-A</option></select>`;
-    anchor.parentNode.insertBefore(tools,anchor);
-    const sel=document.querySelector('#ghostVideoSortSelect');if(sel)sel.value=state.videoSort||'newest';
-  }catch(e){}
-}
-function ghostV32PatchVideoButtons(){
-  try{
-    const album=state.activeVideoAlbum||state.videoAlbum||'Library';
-    document.querySelectorAll('.videoSheet button,.ghostPlayerBar button,button').forEach(btn=>{
-      const txt=(btn.textContent||'').trim().toLowerCase();
-      const oc=btn.getAttribute('onclick')||'';
-      if(txt.includes('move')||oc.toLowerCase().includes('movevideo'))btn.classList.add('videoMoveBtn');
-      if(ghostV32IsPrivate(album)&&(txt.includes('favourite')||txt.includes('favorite')||txt==='★'||txt==='⭐'||oc.toLowerCase().includes('videofav')))btn.classList.add('ghostPrivacyHidden');
-    });
-  }catch(e){}
-}
-function ghostV32RefreshVideoUI(){setTimeout(ghostV32PatchVideoTools,80);setTimeout(ghostV32PatchVideoButtons,120)}
-function ghostV32ToggleVideoFav(i){
-  const v=ghostV32VideoArray()[i];if(!v)return;
-  if(ghostV32IsPrivate(v.album)){v.fav=false;v.favorite=false;v.favourite=false;save();flash('Private videos stay private');return}
-  v.fav=!v.fav;v.favorite=v.fav;v.favourite=v.fav;save();flash(v.fav?'Favourite added':'Favourite removed');ghostV32RefreshVideoUI();
-}
-toggleVideoFav=function(i){ghostV32ToggleVideoFav(i);try{videos()}catch(e){}};
-toggleVideoFavourite=function(i){ghostV32ToggleVideoFav(i);try{videos()}catch(e){}};
-toggleVideoFavorite=function(i){ghostV32ToggleVideoFav(i);try{videos()}catch(e){}};
-function ghostV32MoveVideoToAlbum(i,album){
-  const v=ghostV32VideoArray()[i];if(!v)return;
-  if(ghostV32IsPrivate(v.album)&&!ghostV32IsPrivate(album)){ghostV32ConfirmRemovePrivateVideo(i,album);return}
-  if(ghostV32IsPrivate(album)){v.fav=false;v.favorite=false;v.favourite=false}
-  v.album=album;save();flash(ghostV32IsPrivate(album)?'Video moved to Private':'Video moved');try{videos()}catch(e){}
-}
-function ghostV32ConfirmRemovePrivateVideo(i,album){
-  closeAlbumModal();
-  const modal=document.createElement('div');
-  modal.className='albumModal viewerModalFix';
-  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
-  modal.innerHTML=`<div class="albumModalCard videoPrivateWarn" onclick="event.stopPropagation()"><h2>Remove from Private?</h2><p class="ghostModalSub">This video will no longer be hidden once moved out of the Private album.</p><div class="ghostModalRow"><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button><button class="albumChoice primaryChoice" onclick="ghostV32ForceMoveVideoOut(${i},'${String(album).replace(/'/g,"\\'")}')">Move Out</button></div></div>`;
-  document.body.appendChild(modal);
-}
-function ghostV32ForceMoveVideoOut(i,album){
-  const v=ghostV32VideoArray()[i];if(!v)return;
-  v.album=album;v.fav=false;v.favorite=false;v.favourite=false;save();closeAlbumModal();flash('Video is no longer hidden');try{videos()}catch(e){}
-}
-function ghostV32OpenVideoMoveMenu(i){
-  const list=(typeof videoAlbumList==='function'?videoAlbumList():['Library','Family','Private']).filter(a=>a!=='Favourites');
-  closeAlbumModal();
-  const modal=document.createElement('div');
-  modal.className='albumModal viewerModalFix';
-  modal.onclick=e=>{if(e.target===modal)closeAlbumModal()};
-  modal.innerHTML=`<div class="albumModalCard" onclick="event.stopPropagation()"><h2>Move Video</h2><p class="ghostModalSub">Choose where this video should live.</p>${list.map(a=>`<button class="albumChoice videoGhostMoveBtn" onclick="ghostV32MoveVideoToAlbum(${i},'${String(a).replace(/'/g,"\\'")}')">${ghostV32Esc(a)}</button>`).join('')}<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;
-  document.body.appendChild(modal);
-}
-moveVideoToAlbum=function(i,album){ghostV32MoveVideoToAlbum(i,album)};
-openVideoMoveMenu=function(i){ghostV32OpenVideoMoveMenu(i)};
-videoMoveMenu=function(i){ghostV32OpenVideoMoveMenu(i)};
-if(typeof videos==='function'){const old=videos;videos=async function(){ghostV32ApplyVideoPrivacy();const r=await old.apply(this,arguments);ghostV32RefreshVideoUI();return r}}
-if(typeof drawVideoVault==='function'){const old=drawVideoVault;drawVideoVault=async function(){ghostV32ApplyVideoPrivacy();const r=await old.apply(this,arguments);ghostV32RefreshVideoUI();return r}}
-if(typeof drawVideoAlbum==='function'){const old=drawVideoAlbum;drawVideoAlbum=async function(){ghostV32ApplyVideoPrivacy();const r=await old.apply(this,arguments);ghostV32RefreshVideoUI();return r}}
-ghostV32ApplyVideoPrivacy();try{save()}catch(e){}setTimeout(ghostV32RefreshVideoUI,300);
 
 
-/* Ghost v3.2A.1 — Video Vault Hotfix */
-function ghostV321VideoArray(){if(Array.isArray(state.videos))return state.videos;if(Array.isArray(state.videoItems))return state.videoItems;if(Array.isArray(state.videoFiles))return state.videoFiles;state.videos=[];return state.videos}
-function ghostV321IsPrivate(a){return String(a||'').trim().toLowerCase()==='private'}
-function ghostV321Esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function ghostV321Album(){return state.activeVideoAlbum||state.videoAlbum||'Library'}
-function ghostV321EnsureVideoIcon(){try{document.querySelectorAll('.v21Grid .vaultBtn').forEach(btn=>{const t=(btn.textContent||'').toLowerCase(),oc=(btn.getAttribute('onclick')||'').toLowerCase();if(t.includes('videos')||oc.includes('video')){const b=btn.querySelector('.big');if(b&&!b.querySelector('img'))b.innerHTML='<img src="icon-videos.svg" alt="">';}})}catch(e){}}
-function ghostV321HidePrivateFav(){try{if(!ghostV321IsPrivate(ghostV321Album()))return;document.querySelectorAll('button').forEach(btn=>{const t=(btn.textContent||'').trim().toLowerCase(),oc=(btn.getAttribute('onclick')||'').toLowerCase();if(t.includes('favourite')||t.includes('favorite')||t==='☆'||t==='★'||t==='⭐'||oc.includes('fav')){btn.classList.add('videoFavPrivateHidden');btn.style.display='none';}})}catch(e){}}
-function ghostV321Albums(){const a=['Library','Family','Private'];ghostV321VideoArray().forEach(v=>{const x=(v&&v.album)||'Family';if(x!=='Favourites'&&!a.includes(x))a.push(x)});return a}
-function ghostV321MoveVideoToAlbum(i,album){const v=ghostV321VideoArray()[i];if(!v)return;if(ghostV321IsPrivate(v.album)&&!ghostV321IsPrivate(album)){ghostV321WarnMoveOut(i,album);return}if(ghostV321IsPrivate(album)){v.fav=false;v.favorite=false;v.favourite=false}v.album=album;save();closeAlbumModal();flash(ghostV321IsPrivate(album)?'Video moved to Private':'Video moved');try{videos()}catch(e){}}
-function ghostV321WarnMoveOut(i,album){closeAlbumModal();const m=document.createElement('div');m.className='albumModal viewerModalFix';m.onclick=e=>{if(e.target===m)closeAlbumModal()};m.innerHTML=`<div class="albumModalCard videoGhostMoveModal" onclick="event.stopPropagation()"><h2>Remove from Private?</h2><p class="ghostModalSub">This video will no longer be hidden once moved out of the Private album.</p><div class="ghostModalRow"><button class="albumChoice" onclick="closeAlbumModal()">Cancel</button><button class="albumChoice videoGhostMoveBtn" onclick="ghostV321ForceMoveOut(${i},'${String(album).replace(/'/g,"\\'")}')">Move Out</button></div></div>`;document.body.appendChild(m)}
-function ghostV321ForceMoveOut(i,album){const v=ghostV321VideoArray()[i];if(!v)return;v.album=album;v.fav=false;v.favorite=false;v.favourite=false;save();closeAlbumModal();flash('Video is no longer hidden');try{videos()}catch(e){}}
-function ghostV321OpenMoveMenu(i){closeAlbumModal();const m=document.createElement('div');m.className='albumModal viewerModalFix';m.onclick=e=>{if(e.target===m)closeAlbumModal()};m.innerHTML=`<div class="albumModalCard videoGhostMoveModal" onclick="event.stopPropagation()"><h2>Move Video</h2><p class="ghostModalSub">Choose where this video should live.</p>${ghostV321Albums().map(a=>`<button class="albumChoice videoGhostMoveBtn" onclick="ghostV321MoveVideoToAlbum(${i},'${String(a).replace(/'/g,"\\'")}')">${ghostV321Esc(a)}</button>`).join('')}<button class="albumChoice" onclick="closeAlbumModal()">Cancel</button></div>`;document.body.appendChild(m)}
-moveVideoToAlbum=function(i,a){ghostV321MoveVideoToAlbum(i,a)};openVideoMoveMenu=function(i){ghostV321OpenMoveMenu(i)};videoMoveMenu=function(i){ghostV321OpenMoveMenu(i)};moveVideo=function(i){ghostV321OpenMoveMenu(i)};
-function ghostV321GuessIndex(el){try{const tile=el.closest('.videoTile,.videoTileThumb');const all=[...document.querySelectorAll('.videoTile,.videoTileThumb')];const pos=all.indexOf(tile);const vis=typeof filteredVideoIndexes==='function'?filteredVideoIndexes():ghostV321VideoArray().map((_,i)=>i);return vis[pos]??pos??0}catch(e){return 0}}
-function ghostV321PatchMoveButtons(){try{document.querySelectorAll('button').forEach(btn=>{const t=(btn.textContent||'').trim().toLowerCase(),oc=(btn.getAttribute('onclick')||'').toLowerCase();if(t.includes('move')||oc.includes('movevideo')){btn.classList.add('videoMoveBtn');btn.onclick=function(ev){ev.preventDefault();ev.stopPropagation();ghostV321OpenMoveMenu(ghostV321GuessIndex(btn))}}})}catch(e){}}
-if(!Array.isArray(state.selectedVideos))state.selectedVideos=[];
-function ghostV321Select(i,tile){const a=state.selectedVideos;const p=a.indexOf(i);if(p>=0)a.splice(p,1);else a.push(i);if(tile){tile.classList.toggle('selected',a.includes(i));let tick=tile.querySelector('.videoSelectTick');if(a.includes(i)){if(!tick){tick=document.createElement('div');tick.className='videoSelectTick';tick.textContent='✓';tile.appendChild(tick)}}else if(tick)tick.remove()}flash(a.length+' selected')}
-function ghostV321LongPress(){try{const vis=typeof filteredVideoIndexes==='function'?filteredVideoIndexes():ghostV321VideoArray().map((_,i)=>i);document.querySelectorAll('.videoTile,.videoTileThumb').forEach((tile,pos)=>{if(tile.dataset.ghostLongPress==='1')return;tile.dataset.ghostLongPress='1';let timer=null;const start=()=>{timer=setTimeout(()=>{tile.classList.add('ghostLongPressReady');ghostV321Select(vis[pos]??pos,tile);setTimeout(()=>tile.classList.remove('ghostLongPressReady'),350)},520)};const cancel=()=>{if(timer){clearTimeout(timer);timer=null}};tile.addEventListener('touchstart',start,{passive:true});tile.addEventListener('touchmove',cancel,{passive:true});tile.addEventListener('touchend',cancel,{passive:true});tile.addEventListener('mousedown',start);tile.addEventListener('mouseup',cancel);tile.addEventListener('mouseleave',cancel)})}catch(e){}}
-function ghostV321PatchAll(){ghostV321EnsureVideoIcon();ghostV321HidePrivateFav();ghostV321PatchMoveButtons();ghostV321LongPress()}
-if(typeof videos==='function'){const old=videos;videos=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV321PatchAll,80);setTimeout(ghostV321PatchAll,300);return r}}
-if(typeof drawVideoVault==='function'){const old=drawVideoVault;drawVideoVault=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV321PatchAll,80);return r}}
-setTimeout(ghostV321PatchAll,300);
 
 
-/* Ghost v3.2A.2 — Video Interaction Fix */
-function ghostV322VideoArray(){if(Array.isArray(state.videos))return state.videos;if(Array.isArray(state.videoItems))return state.videoItems;if(Array.isArray(state.videoFiles))return state.videoFiles;state.videos=[];return state.videos}
-function ghostV322IsPrivate(a){return String(a||'').trim().toLowerCase()==='private'}
-function ghostV322Album(){return state.activeVideoAlbum||state.videoAlbum||'Library'}
-function ghostV322Name(v){return String((v&&(v.name||v.fileName||v.title||v.caption))||'Video')}
-function ghostV322Date(v){return Number((v&&(v.created||v.date||v.time||v.added))||0)}
-function ghostV322VisibleIndexes(){
- const vids=ghostV322VideoArray(), album=ghostV322Album(); let idx=[];
- if(album==='Library'||album==='All'||album==='All Videos')idx=vids.map((v,i)=>ghostV322IsPrivate(v&&v.album)?-1:i).filter(i=>i>=0);
- else if(album==='Favourites')idx=vids.map((v,i)=>(v&&v.fav&&!ghostV322IsPrivate(v.album))?i:-1).filter(i=>i>=0);
- else idx=vids.map((v,i)=>((v&&v.album)||'Family')===album?i:-1).filter(i=>i>=0);
- const q=String(state.videoSearch||'').toLowerCase().trim(); if(q)idx=idx.filter(i=>ghostV322Name(vids[i]).toLowerCase().includes(q));
- const s=state.videoSort||'newest';
- idx.sort((a,b)=>{const A=vids[a]||{},B=vids[b]||{}; if(s==='oldest')return ghostV322Date(A)-ghostV322Date(B); if(s==='az')return ghostV322Name(A).localeCompare(ghostV322Name(B)); if(s==='za')return ghostV322Name(B).localeCompare(ghostV322Name(A)); return ghostV322Date(B)-ghostV322Date(A)});
- return idx;
-}
-videoAlbumIndexes=function(album){const oa=state.videoAlbum, ob=state.activeVideoAlbum;state.videoAlbum=album;state.activeVideoAlbum=album;const r=ghostV322VisibleIndexes();state.videoAlbum=oa;state.activeVideoAlbum=ob;return r};
-videoFilteredIndexes=function(){return ghostV322VisibleIndexes()};
-filteredVideoIndexes=function(){return ghostV322VisibleIndexes()};
-function ghostV322HidePrivateFavNow(){
- try{
-  const privateMode=ghostV322IsPrivate(ghostV322Album());
-  document.querySelectorAll('button').forEach(btn=>{
-   const txt=(btn.textContent||'').trim().toLowerCase(), oc=(btn.getAttribute('onclick')||'').toLowerCase();
-   const fav=txt.includes('add to favourite')||txt.includes('add to favorite')||txt.includes('favourite')||txt.includes('favorite')||txt==='☆'||txt==='★'||txt==='⭐'||oc.includes('videofav')||oc.includes('videofavourite')||oc.includes('videofavorite');
-   if(fav&&privateMode){btn.classList.add('videoFavPrivateHidden');btn.style.setProperty('display','none','important')}
-   else if(fav&&!privateMode){btn.classList.remove('videoFavPrivateHidden');btn.style.removeProperty('display')}
-  });
- }catch(e){}
-}
-let ghostV322Timer=null;
-function ghostV322RenderInstant(){
- clearTimeout(ghostV322Timer);
- ghostV322Timer=setTimeout(async()=>{
-  const val=state.videoSearch||'', sortVal=state.videoSort||'newest';
-  try{await videos()}catch(e){try{await drawVideoVault()}catch(e2){}}
-  setTimeout(()=>{const s=document.querySelector('#ghostVideoSearchInput,.videoVaultTools input');const sort=document.querySelector('#ghostVideoSortSelect,.videoVaultTools select');if(s){s.value=val;s.focus();try{s.setSelectionRange(s.value.length,s.value.length)}catch(e){}}if(sort)sort.value=sortVal;ghostV322PatchAll()},50);
- },90);
-}
-function ghostV322BindTools(){
- try{
-  const search=document.querySelector('#ghostVideoSearchInput,.videoVaultTools input,input[placeholder*="Search videos"]');
-  const sort=document.querySelector('#ghostVideoSortSelect,.videoVaultTools select');
-  if(search&&search.dataset.ghostV322!=='1'){search.dataset.ghostV322='1';search.oninput=function(){state.videoSearch=this.value||'';try{save()}catch(e){}ghostV322RenderInstant()};}
-  if(sort&&sort.dataset.ghostV322!=='1'){sort.dataset.ghostV322='1';sort.onchange=function(){state.videoSort=this.value||'newest';try{save()}catch(e){}ghostV322RenderInstant()};}
- }catch(e){}
-}
-if(!Array.isArray(state.selectedVideos))state.selectedVideos=[];
-function ghostV322ToggleSelected(i,tile){
- const a=state.selectedVideos; const p=a.indexOf(i); if(p>=0)a.splice(p,1); else a.push(i);
- if(tile){tile.classList.toggle('ghostVideoSelected',a.includes(i));let t=tile.querySelector('.videoSelectTick');if(a.includes(i)){if(!t){t=document.createElement('div');t.className='videoSelectTick';t.textContent='✓';tile.appendChild(t)}}else if(t)t.remove()}
- try{flash(a.length+' selected')}catch(e){}
-}
-function ghostV322PatchLongPress(){
- try{
-  const visible=ghostV322VisibleIndexes();
-  document.querySelectorAll('.videoTile,.videoTileThumb').forEach((tile,pos)=>{
-   if(tile.dataset.ghostV322Long==='1')return; tile.dataset.ghostV322Long='1';
-   let timer=null,did=false;
-   const start=()=>{did=false;timer=setTimeout(()=>{did=true;ghostV322ToggleSelected(visible[pos]??pos,tile)},450)};
-   const cancel=()=>{if(timer){clearTimeout(timer);timer=null}};
-   tile.addEventListener('touchstart',start,{passive:true,capture:true});
-   tile.addEventListener('touchmove',cancel,{passive:true,capture:true});
-   tile.addEventListener('touchend',ev=>{cancel();if(did){ev.preventDefault();ev.stopPropagation()}},{capture:true});
-   tile.addEventListener('click',ev=>{if(did){ev.preventDefault();ev.stopImmediatePropagation();did=false}},true);
-   tile.addEventListener('mousedown',start,true); tile.addEventListener('mouseup',cancel,true); tile.addEventListener('mouseleave',cancel,true);
-  });
- }catch(e){}
-}
-function ghostV322PatchAll(){ghostV322HidePrivateFavNow();ghostV322BindTools();ghostV322PatchLongPress()}
-if(typeof videos==='function'){const old=videos;videos=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV322PatchAll,40);setTimeout(ghostV322PatchAll,180);return r}}
-if(typeof drawVideoVault==='function'){const old=drawVideoVault;drawVideoVault=async function(){const r=await old.apply(this,arguments);setTimeout(ghostV322PatchAll,40);setTimeout(ghostV322PatchAll,180);return r}}
-if(typeof openVideoPlayer==='function'){const old=openVideoPlayer;openVideoPlayer=function(){const r=old.apply(this,arguments);setTimeout(ghostV322HidePrivateFavNow,40);setTimeout(ghostV322HidePrivateFavNow,160);return r}}
-if(typeof openVideoSheet==='function'){const old=openVideoSheet;openVideoSheet=function(){const r=old.apply(this,arguments);setTimeout(ghostV322HidePrivateFavNow,40);setTimeout(ghostV322HidePrivateFavNow,160);return r}}
-setInterval(()=>{try{ghostV322HidePrivateFavNow();ghostV322BindTools()}catch(e){}},700);
-setTimeout(ghostV322PatchAll,250);
+/* Ghost v3.3A — Clean Video Vault Core */
+function v33VideoArray(){if(Array.isArray(state.videos))return state.videos;if(Array.isArray(state.videoItems)){state.videos=state.videoItems;return state.videos}if(Array.isArray(state.videoFiles)){state.videos=state.videoFiles;return state.videos}state.videos=[];return state.videos}
+function v33Esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function v33Private(a){return String(a||'').trim().toLowerCase()==='private'}
+function v33Name(v){return String((v&&(v.name||v.fileName||v.title||v.caption))||'Video')}
+function v33Size(v){return Number((v&&(v.size||v.bytes))||0)}
+function v33Date(v){return Number((v&&(v.created||v.date||v.time||v.added))||0)}
+function v33Url(v){return (v&&(v.url||v.src||v.data||v.dataUrl||v.blobUrl))||''}
+function v33Thumb(v){return (v&&(v.thumb||v.thumbnail||v.poster||v.cover))||''}
+function v33Bytes(n){n=Number(n)||0;if(n<1024)return n+' B';if(n<1048576)return (n/1024).toFixed(1)+' KB';return (n/1048576).toFixed(1)+' MB'}
+function v33Album(){return state.activeVideoAlbum||state.videoAlbum||'Library'}
+function v33BackLibrary(){v33SetAlbum('Library')}
+function v33SetAlbum(a){state.activeVideoAlbum=a;state.videoAlbum=a;state.videoSearch='';state.videoSort=state.videoSort||'newest';state.selectedVideos=[];v33Render()}
+function v33Albums(){const core=['Library','Favourites','Family','Private'];v33VideoArray().forEach(v=>{const a=(v&&v.album)||'Family';if(!core.includes(a))core.push(a)});return core}
+function v33Privacy(){v33VideoArray().forEach(v=>{if(v&&v33Private(v.album)){v.fav=false;v.favorite=false;v.favourite=false}})}
+function v33Indexes(album=v33Album()){v33Privacy();const vids=v33VideoArray();let idx=[];if(album==='Library'||album==='All'||album==='All Videos')idx=vids.map((v,i)=>v33Private(v&&v.album)?-1:i).filter(i=>i>=0);else if(album==='Favourites')idx=vids.map((v,i)=>(v&&v.fav&&!v33Private(v.album))?i:-1).filter(i=>i>=0);else idx=vids.map((v,i)=>((v&&v.album)||'Family')===album?i:-1).filter(i=>i>=0);const q=String(state.videoSearch||'').toLowerCase().trim();if(q)idx=idx.filter(i=>v33Name(vids[i]).toLowerCase().includes(q));const sort=state.videoSort||'newest';idx.sort((a,b)=>{const A=vids[a]||{},B=vids[b]||{};if(sort==='oldest')return v33Date(A)-v33Date(B);if(sort==='az')return v33Name(A).localeCompare(v33Name(B));if(sort==='za')return v33Name(B).localeCompare(v33Name(A));return v33Date(B)-v33Date(A)});return idx}
+function v33Cover(album){if(album==='Private')return 'private-vault-cover.png';const found=v33Indexes(album).find(i=>v33Thumb(v33VideoArray()[i]));return found!==undefined?v33Thumb(v33VideoArray()[found]):''}
+function v33Count(album){return v33Indexes(album).length}
+function v33Save(){v33Privacy();try{save()}catch(e){}}
+function v33Poster(v){const t=v33Thumb(v);return t?`<img src="${v33Esc(t)}" alt="">`:''}
+function v33App(){return document.querySelector('#app')||document.body.querySelector('.phone')||document.body}
+function v33Render(){v33Privacy();const app=v33App(), album=v33Album(), idx=v33Indexes(album);if(!Array.isArray(state.selectedVideos))state.selectedVideos=[];const selected=state.selectedVideos;app.innerHTML=`<div class="screen v33VideoPage"><div class="status"><span>9:41</span><span class="icons">▮▮▮⌁▭</span></div><div class="v33VideoHead"><button class="v33Btn" onclick="${album==='Library'?'vault()':'v33BackLibrary()'}">←</button><div class="v33Title"><h2>${v33Esc(album)}</h2><p>${idx.length} video${idx.length===1?'':'s'}</p></div><button class="v33Btn" onclick="${album==='Library'?'v33CreateAlbum()':'v33AlbumOptions()'}">•••</button></div>${selected.length?`<div class="v33SelectBar"><strong>${selected.length} selected</strong><button onclick="v33MoveMenu([...state.selectedVideos])">Move</button>${album==='Private'?'':`<button onclick="v33MultiFav()">Favourite</button>`}<button class="danger" onclick="v33Delete([...state.selectedVideos])">Delete</button><button onclick="v33ClearSelect()">Cancel</button></div>`:''}<div class="v33Tools"><input id="v33Search" placeholder="Search videos..." value="${v33Esc(state.videoSearch||'')}" oninput="state.videoSearch=this.value;v33RenderFocus('v33Search')"><select id="v33Sort" onchange="state.videoSort=this.value;v33RenderFocus('v33Sort')"><option value="newest"${(state.videoSort||'newest')==='newest'?' selected':''}>Newest</option><option value="oldest"${state.videoSort==='oldest'?' selected':''}>Oldest</option><option value="az"${state.videoSort==='az'?' selected':''}>A-Z</option><option value="za"${state.videoSort==='za'?' selected':''}>Z-A</option></select></div>${album==='Library'?v33Home():v33Grid(idx)}${v33Nav()}</div>`}
+function v33RenderFocus(id){const el=document.getElementById(id),pos=el&&el.selectionStart;v33Render();setTimeout(()=>{const x=document.getElementById(id);if(x){x.focus();try{x.setSelectionRange(pos,pos)}catch(e){}}},20)}
+function v33Home(){return `<div class="v33Hero"><div class="v33HeroIcon"><img src="video-ghost-icon.png" alt=""></div><div><h3>Video Vault</h3><p>Private clips, albums and favourites.</p></div><div class="v33HeroActions"><label>Upload<input type="file" accept="video/*" multiple hidden onchange="v33Upload(this.files)"></label><button onclick="v33CreateAlbum()">+ Album</button></div></div><div class="v33Albums">${v33Albums().map(a=>`<button class="v33Album" onclick="v33SetAlbum('${String(a).replace(/'/g,"\\'")}')"><div class="v33Cover">${v33Cover(a)?`<img src="${v33Esc(v33Cover(a))}" alt="">`:`<span>${a==='Favourites'?'☆':a==='Private'?'🔒':'▶'}</span>`}</div><div class="v33AlbumMeta"><h3>${v33Esc(a)}</h3><p>${v33Count(a)} video${v33Count(a)===1?'':'s'}</p></div></button>`).join('')}</div>`}
+function v33Grid(indexes){if(!indexes.length)return `<div class="v33Empty"><div class="bigVideo">🎬</div><h3>No videos found</h3><p>Upload or move videos into this album.</p></div>`;return `<div class="v33Grid">${indexes.map(i=>v33Tile(i)).join('')}</div>`}
+function v33Tile(i){const v=v33VideoArray()[i]||{},selected=Array.isArray(state.selectedVideos)&&state.selectedVideos.includes(i);return `<div class="v33Tile${selected?' selected':''}" data-video-index="${i}" onpointerdown="v33HoldStart(event,${i})" onpointerup="v33HoldEnd(event,${i})" onpointercancel="v33HoldCancel()" onpointermove="v33HoldCancel()" onclick="v33Tap(event,${i})"><div class="v33Thumb">${v33Poster(v)}<div class="v33Play">▶</div><div class="v33Duration">--:--</div>${selected?'<div class="v33Tick">✓</div>':''}${v33Private(v.album)?'<div class="v33PrivateBadge">PRIVATE</div>':''}</div><div class="v33Name">${v33Esc(v33Name(v))}</div><div class="v33Meta">${v33Bytes(v33Size(v))}</div></div>`}
+function v33Nav(){return `<div class="nav v21Nav"><button onclick="vault()"><span class="nI"><img src="icon-home.svg"></span>Home</button><button onclick="hideApp()"><span class="nI"><img src="icon-hide.svg"></span>Hide</button></div>`}
+let v33HoldTimer=null,v33HoldDid=false;function v33HoldStart(ev,i){v33HoldDid=false;v33HoldCancel();v33HoldTimer=setTimeout(()=>{v33HoldDid=true;v33ToggleSelect(i)},430)}function v33HoldCancel(){if(v33HoldTimer){clearTimeout(v33HoldTimer);v33HoldTimer=null}}function v33HoldEnd(ev,i){v33HoldCancel();if(v33HoldDid){ev.preventDefault();ev.stopPropagation();setTimeout(()=>v33HoldDid=false,40)}}function v33Tap(ev,i){if(v33HoldDid){ev.preventDefault();ev.stopPropagation();return}if(state.selectedVideos&&state.selectedVideos.length)v33ToggleSelect(i);else v33Player(i)}
+function v33ToggleSelect(i){if(!Array.isArray(state.selectedVideos))state.selectedVideos=[];const p=state.selectedVideos.indexOf(i);if(p>=0)state.selectedVideos.splice(p,1);else state.selectedVideos.push(i);v33Render()}
+function v33ClearSelect(){state.selectedVideos=[];v33Render()}
+function v33Player(i){const v=v33VideoArray()[i]||{},favAllowed=!v33Private(v.album),url=v33Url(v);const modal=document.createElement('div');modal.className='v33Player';modal.id='v33Player';modal.innerHTML=`<div class="v33PlayerTop"><button onclick="v33ClosePlayer()">←</button><strong>${v33Esc(v33Name(v))}</strong>${favAllowed?`<button onclick="v33Fav(${i});v33ClosePlayer();v33Player(${i})">${v.fav?'★':'☆'}</button>`:'<span></span>'}<button onclick="v33Sheet(${i})">•••</button></div><video src="${v33Esc(url)}" poster="${v33Esc(v33Thumb(v))}" controls playsinline></video>`;document.body.appendChild(modal)}
+function v33ClosePlayer(){const p=document.getElementById('v33Player');if(p)p.remove()}
+function v33Sheet(i){const v=v33VideoArray()[i]||{},favAllowed=!v33Private(v.album);const back=document.createElement('div');back.className='v33SheetBack';back.onclick=e=>{if(e.target===back)back.remove()};back.innerHTML=`<div class="v33Sheet" onclick="event.stopPropagation()"><button class="v33Close" onclick="this.closest('.v33SheetBack').remove()">×</button><h2>${v33Esc(v33Name(v))}</h2><p>${v33Esc(v.album||'Family')} • ${v33Bytes(v33Size(v))}</p><button onclick="this.closest('.v33SheetBack').remove();v33Player(${i})">▶ Play</button><button onclick="v33Rename(${i})">✎ Rename</button><button class="primary" onclick="v33MoveMenu([${i}])">📁 Move</button>${favAllowed?`<button onclick="v33Fav(${i});this.closest('.v33SheetBack').remove()">${v.fav?'★ Remove Favourite':'☆ Add to Favourites'}</button>`:''}<button class="danger" onclick="v33Delete([${i}])">🗑 Delete</button></div>`;document.body.appendChild(back)}
+function v33Fav(i){const v=v33VideoArray()[i];if(!v)return;if(v33Private(v.album)){v.fav=false;return flash('Private videos stay private')}v.fav=!v.fav;v33Save();flash(v.fav?'Favourite added':'Favourite removed');v33Render()}
+function v33Rename(i){const v=v33VideoArray()[i];if(!v)return;const n=prompt('Video name',v33Name(v));if(n&&n.trim()){v.name=n.trim();v33Save();document.querySelectorAll('.v33SheetBack').forEach(x=>x.remove());v33Render()}}
+function v33MoveMenu(indexes){document.querySelectorAll('.v33SheetBack').forEach(x=>x.remove());const back=document.createElement('div');back.className='v33SheetBack';back.onclick=e=>{if(e.target===back)back.remove()};const albums=v33Albums().filter(a=>a!=='Favourites');back.innerHTML=`<div class="v33Sheet" onclick="event.stopPropagation()"><button class="v33Close" onclick="this.closest('.v33SheetBack').remove()">×</button><h2>Move Video${indexes.length>1?'s':''}</h2><p>Choose where the selected video${indexes.length>1?'s':''} should live.</p>${albums.map(a=>`<button class="primary" onclick="v33Move([${indexes.join(',')}],'${String(a).replace(/'/g,"\\'")}')">${v33Esc(a)}</button>`).join('')}</div>`;document.body.appendChild(back)}
+function v33Move(indexes,album){const anyPrivate=indexes.some(i=>v33Private((v33VideoArray()[i]||{}).album));if(anyPrivate&&!v33Private(album))return v33MoveWarn(indexes,album);indexes.forEach(i=>{const v=v33VideoArray()[i];if(v){v.album=album;if(v33Private(album)){v.fav=false;v.favorite=false;v.favourite=false}}});state.selectedVideos=[];v33Save();document.querySelectorAll('.v33SheetBack').forEach(x=>x.remove());flash(v33Private(album)?'Moved to Private':'Video moved');v33Render()}
+function v33MoveWarn(indexes,album){document.querySelectorAll('.v33SheetBack').forEach(x=>x.remove());const back=document.createElement('div');back.className='v33SheetBack';back.onclick=e=>{if(e.target===back)back.remove()};back.innerHTML=`<div class="v33Sheet" onclick="event.stopPropagation()"><button class="v33Close" onclick="this.closest('.v33SheetBack').remove()">×</button><h2>Remove from Private?</h2><p>The selected video${indexes.length>1?'s':''} will no longer be hidden once moved out of the Private album.</p><button onclick="this.closest('.v33SheetBack').remove()">Cancel</button><button class="primary" onclick="v33ForceMove([${indexes.join(',')}],'${String(album).replace(/'/g,"\\'")}')">Move Out</button></div>`;document.body.appendChild(back)}
+function v33ForceMove(indexes,album){indexes.forEach(i=>{const v=v33VideoArray()[i];if(v){v.album=album;v.fav=false;v.favorite=false;v.favourite=false}});state.selectedVideos=[];v33Save();document.querySelectorAll('.v33SheetBack').forEach(x=>x.remove());flash('Video is no longer hidden');v33Render()}
+function v33Delete(indexes){if(!confirm('Delete selected video'+(indexes.length>1?'s':'')+'?'))return;state.videos=v33VideoArray().filter((_,i)=>!indexes.includes(i));state.selectedVideos=[];v33Save();document.querySelectorAll('.v33SheetBack').forEach(x=>x.remove());flash('Deleted');v33Render()}
+function v33MultiFav(){(state.selectedVideos||[]).forEach(i=>{const v=v33VideoArray()[i];if(v&&!v33Private(v.album))v.fav=true});state.selectedVideos=[];v33Save();flash('Favourites added');v33Render()}
+function v33CreateAlbum(){const n=prompt('New video album name');if(n&&n.trim())v33SetAlbum(n.trim())}
+function v33AlbumOptions(){v33CreateAlbum()}
+function v33Upload(files){const arr=[...files||[]];if(!arr.length)return;arr.forEach(file=>{const url=URL.createObjectURL(file);v33VideoArray().push({name:file.name,album:v33Album()==='Library'?'Family':v33Album(),url:url,src:url,size:file.size,created:Date.now(),fav:false})});v33Save();v33Render()}
+/* Replace old Video Vault entry points */
+function videos(){v33Render()}function drawVideoVault(){v33Render()}function drawVideoAlbum(){v33Render()}function videoAlbumIndexes(album){return v33Indexes(album)}function videoFilteredIndexes(){return v33Indexes()}function filteredVideoIndexes(){return v33Indexes()}function toggleVideoFav(i){v33Fav(i)}function toggleVideoFavourite(i){v33Fav(i)}function toggleVideoFavorite(i){v33Fav(i)}function openVideoMoveMenu(i){v33MoveMenu([i])}function videoMoveMenu(i){v33MoveMenu([i])}function moveVideoToAlbum(i,a){v33Move([i],a)}function moveVideo(i){v33MoveMenu([i])}
 
 </script>
 </body>

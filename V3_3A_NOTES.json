@@ -1,0 +1,7 @@
+{
+  "build": "v3.3A-video-vault-rebuild",
+  "source": "index (2).html",
+  "removed_old_v32_video_patch_blocks": 3,
+  "syntax_check": "JavaScript syntax check passed.",
+  "missing_assets": []
+}
