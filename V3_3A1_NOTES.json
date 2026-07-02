@@ -1,0 +1,6 @@
+{
+  "build": "v3.3A.1-video-entry-fix",
+  "source": "index (3).html",
+  "syntax_check": "JavaScript syntax check passed.",
+  "missing_assets": []
+}

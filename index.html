@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#10051f">
-<title>Ghost v3.3A Video Vault Rebuild</title>
+<title>Ghost v3.3A.1 Video Entry Fix</title>
 <link rel="manifest" href="manifest.json">
 <style>
 
@@ -986,7 +986,7 @@ button,input,textarea{font:inherit}
 <div id="app" class="phone"></div>
 <div id="viewer" class="hidden"></div>
 <script>
-const GHOST_BUILD='v3.3A-video-vault-rebuild';
+const GHOST_BUILD='v3.3A.1-video-entry-fix';
 
 const ghostSVG='data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f0d8ff"/><stop offset="1" stop-color="#6525ff"/></linearGradient></defs><path d="M50 165V82c0-39 23-62 50-62s50 23 50 62v83c-10 0-15-12-25-12s-15 16-25 16-15-16-25-16-15 12-25 12z" fill="url(#g)"/><ellipse cx="80" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="120" cy="84" rx="12" ry="20" fill="#080514"/><ellipse cx="100" cy="121" rx="8" ry="6" fill="#080514"/></svg>`);
 const app=document.querySelector('#app'), viewer=document.querySelector('#viewer');
@@ -2750,6 +2750,45 @@ function v33AlbumOptions(){v33CreateAlbum()}
 function v33Upload(files){const arr=[...files||[]];if(!arr.length)return;arr.forEach(file=>{const url=URL.createObjectURL(file);v33VideoArray().push({name:file.name,album:v33Album()==='Library'?'Family':v33Album(),url:url,src:url,size:file.size,created:Date.now(),fav:false})});v33Save();v33Render()}
 /* Replace old Video Vault entry points */
 function videos(){v33Render()}function drawVideoVault(){v33Render()}function drawVideoAlbum(){v33Render()}function videoAlbumIndexes(album){return v33Indexes(album)}function videoFilteredIndexes(){return v33Indexes()}function filteredVideoIndexes(){return v33Indexes()}function toggleVideoFav(i){v33Fav(i)}function toggleVideoFavourite(i){v33Fav(i)}function toggleVideoFavorite(i){v33Fav(i)}function openVideoMoveMenu(i){v33MoveMenu([i])}function videoMoveMenu(i){v33MoveMenu([i])}function moveVideoToAlbum(i,a){v33Move([i],a)}function moveVideo(i){v33MoveMenu([i])}
+
+
+/* Ghost v3.3A.1 — Video Entry Point Fix */
+function ghost331HasV33(){return typeof v33Render==='function'&&typeof v33SetAlbum==='function'}
+function ghost331OpenVideos(){if(!ghost331HasV33()){try{flash('Video module not ready')}catch(e){}return}try{state.activeVideoAlbum='Library';state.videoAlbum='Library';state.videoSearch='';state.selectedVideos=[]}catch(e){}v33Render()}
+function ghost331PatchDashboardVideoButtons(){
+ try{
+  document.querySelectorAll('button,.vaultBtn,[onclick]').forEach(el=>{
+   const txt=(el.textContent||'').toLowerCase(), oc=(el.getAttribute('onclick')||'').toLowerCase();
+   const looksVideo=txt.includes('video')||oc.includes('videos')||oc.includes('video');
+   const isPhoto=txt.includes('photo')||oc.includes('photos');
+   if(looksVideo&&!isPhoto){
+    el.setAttribute('onclick','ghost331OpenVideos()');
+    el.onclick=function(ev){if(ev){ev.preventDefault();ev.stopPropagation()}ghost331OpenVideos();return false};
+   }
+  });
+ }catch(e){}
+}
+videos=function(){ghost331OpenVideos()};
+videoVault=function(){ghost331OpenVideos()};
+openVideos=function(){ghost331OpenVideos()};
+openVideoVault=function(){ghost331OpenVideos()};
+drawVideoVault=function(){ghost331OpenVideos()};
+renderVideoVault=function(){ghost331OpenVideos()};
+videoHome=function(){ghost331OpenVideos()};
+videoAlbumIndexes=function(album){return ghost331HasV33()?v33Indexes(album):[]};
+videoFilteredIndexes=function(){return ghost331HasV33()?v33Indexes():[]};
+filteredVideoIndexes=function(){return ghost331HasV33()?v33Indexes():[]};
+toggleVideoFav=function(i){if(ghost331HasV33())v33Fav(i)};
+toggleVideoFavourite=function(i){if(ghost331HasV33())v33Fav(i)};
+toggleVideoFavorite=function(i){if(ghost331HasV33())v33Fav(i)};
+openVideoMoveMenu=function(i){if(ghost331HasV33())v33MoveMenu([i])};
+videoMoveMenu=function(i){if(ghost331HasV33())v33MoveMenu([i])};
+moveVideoToAlbum=function(i,a){if(ghost331HasV33())v33Move([i],a)};
+moveVideo=function(i){if(ghost331HasV33())v33MoveMenu([i])};
+if(typeof vault==='function'){const oldVault=vault;vault=function(){const r=oldVault.apply(this,arguments);setTimeout(ghost331PatchDashboardVideoButtons,50);setTimeout(ghost331PatchDashboardVideoButtons,250);return r}}
+if(typeof dashboard==='function'){const oldDash=dashboard;dashboard=function(){const r=oldDash.apply(this,arguments);setTimeout(ghost331PatchDashboardVideoButtons,50);setTimeout(ghost331PatchDashboardVideoButtons,250);return r}}
+setTimeout(ghost331PatchDashboardVideoButtons,250);
+setInterval(ghost331PatchDashboardVideoButtons,1500);
 
 </script>
 </body>
